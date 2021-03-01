@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { BooksState, BooksTypes } from './types'
 
 const INITIAL_STATE: BooksState = {
-  data: [ {id: 1, title: 'Paulo'}],
+  data: [],
   error: false,
   loading: false
 };
