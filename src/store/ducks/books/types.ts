@@ -1,3 +1,5 @@
+import { PageableFilter } from "../../../components/utils/PageableFilter";
+
 /**
 * Action types 
 */
@@ -25,6 +27,13 @@ export interface Book {
   publishDate?: Date,
   rating?: Number,
   length?: Number,
+}
+
+export interface BookFilter extends PageableFilter{  
+  title: String,
+  author?: String,  
+  publisher?: String,
+  subject?: String 
 }
 
 export enum EBookFormat {

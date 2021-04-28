@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
@@ -17,28 +17,25 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-class BookList extends Component<Props> {
-  componentDidMount() {
-    const { loadRequest } = this.props;
-
+const BookList : React.FC<Props> = (props) =>{
+  
+  const { books,  loadRequest, } = props;
+  
+  useEffect(() => {
     loadRequest();
-  }
+  }, []);
 
-  addBook(){
+  function addBook(){
     console.log("Adicionar livro")
   }
 
-  editBook(id: number) {
+  function editBook(id: number) {
     console.log("Editar livro id "+ id)
   }
 
-  eraseBook(id: number, name: String) {
+  function eraseBook(id: number, name: String) {
     console.log("Editar livro: " + name + " id " + id )
   }
-
-
-  render() {
-    const { books } = this.props;
    
     return (
       <div className="container">
@@ -73,21 +70,21 @@ class BookList extends Component<Props> {
                                       <td>{book.subtitle}</td>
                                       <td>{book.publishDate}</td>
                                       <td>{book.rating}</td>
-                                      <td><button className="btn btn-success" onClick={() => this.editBook(book.id)}>Editar</button></td>
-                                      <td><button className="btn btn-warning" onClick={() => {if (window.confirm(`Você tem certeza que deseja excluir ${book.title}?`)) {this.eraseBook(book.id, book.title)}}}>Excluir</button></td>
+                                      <td><button className="btn btn-success" onClick={() => editBook(book.id)}>Editar</button></td>
+                                      <td><button className="btn btn-warning" onClick={() => {if (window.confirm(`Você tem certeza que deseja excluir ${book.title}?`)) {eraseBook(book.id, book.title)}}}>Excluir</button></td>
                                   </tr>
                           )
                       }
                   </tbody>
               </table>
               <div className="row">
-                  <button className="btn btn-success" onClick={this.addBook}>Adicionar</button>
+                  <button className="btn btn-success" onClick={addBook}>Adicionar</button>
               </div>
           </div>
       </div>
   )
-  }
-}
+  };
+
 
 const mapStateToProps = (state: ApplicationState) => ({
   books: state.books.data,
