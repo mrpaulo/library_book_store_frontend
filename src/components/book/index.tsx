@@ -6,24 +6,44 @@ import FilterBook from './filterBook'
 import BookList from './bookList'
 import EditBook from './editBook'
 import { ApplicationState } from '../../store';
+import * as booksActions from '../../store/ducks/books/actions';
 
+interface StateProps {
+  flagEditing: Boolean,
+  flagDetail: Boolean
+}
 
-const PageBook = React.memo(function PageBook(props) {
+interface DispatchProps {
+  
+}
+
+type Props = StateProps & DispatchProps
+
+const PageBook : React.FC<Props> = (props) =>{
+
+  const {flagEditing, flagDetail} = props;
   return (
     <>
-    <FilterBook />
-    <BookList />
-    <EditBook />
+    {flagEditing || flagDetail ? (
+        <EditBook />
+      ) : (
+        <> 
+        <FilterBook />
+        <BookList />
+      </>     
+    )}
     </>
   );
-});
+}
 
 PageBook.displayName = 'PageBook';
 
+EditBook.displayName = 'EditBook';
+
 const mapStateToProps = (state: ApplicationState) => ({
-  // listResult: selectors.getListResult(state),
-  
+  flagEditing: state.books.flagEditing,  
+  flagDetail: state.books.flagDetail,  
 });
-const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(booksActions, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageBook);

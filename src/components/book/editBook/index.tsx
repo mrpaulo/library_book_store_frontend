@@ -18,6 +18,7 @@ interface DispatchProps {
   loadRequest(): void,
   changeFlagEditing(): void,
   changeFlagDetail(): void,
+  cleanBookEdit(): void,
   findByIdRequest(id: number):void
 }
 
@@ -45,7 +46,7 @@ const EditBook : React.FC<Props> = (props) =>{
 //const EditBook = React.memo(function EditBook(props) {
   
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
-   const {book} = props;
+   const {book, changeFlagEditing, cleanBookEdit} = props;
 
   useEffect(() => {
     if(book){
@@ -59,8 +60,11 @@ const EditBook : React.FC<Props> = (props) =>{
   console.log(values);
   actions.setSubmitting(false);
  }
- console.log('initialValues: ');
- console.log(initialValues);
+function handleCancel() {
+  console.log('cancel button');
+  changeFlagEditing();
+  cleanBookEdit();
+}
   return (
     <div>
       <Formik
@@ -173,6 +177,13 @@ const EditBook : React.FC<Props> = (props) =>{
             />
             </Grid>
             </Grid>
+            <button
+              type="reset"
+              onClick={handleCancel}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </button>
             <button
               type="submit"
               disabled={isSubmitting}

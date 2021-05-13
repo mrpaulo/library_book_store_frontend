@@ -27,3 +27,4 @@ export const createFailure = () => action(BooksTypes.CREATE_FAILURE);
 
 export const changeFlagEditing = () => action(BooksTypes.CHANGE_FLAG_EDITING);
 export const changeFlagDetail = () => action(BooksTypes.CHANGE_FLAG_DETAIL);
+export const cleanBookEdit = () => action(BooksTypes.CLEAN_BOOK_EDIT);

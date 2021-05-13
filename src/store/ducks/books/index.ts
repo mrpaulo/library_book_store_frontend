@@ -53,6 +53,8 @@ const reducer: Reducer<BooksState> = (state = INITIAL_STATE, action) => {
       return { ...state, flagEditing: !state.flagEditing};
     case BooksTypes.CHANGE_FLAG_DETAIL:
       return { ...state, flagDetail: !state.flagDetail };
+    case BooksTypes.CLEAN_BOOK_EDIT:
+      return { ...state, bookData: undefined };
     default:
       return state;
   }

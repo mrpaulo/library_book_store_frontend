@@ -30,6 +30,7 @@ const BookList : React.FC<Props> = (props) =>{
 
   function addBook(){
     console.log("Adicionar livro")
+    changeFlagEditing();
   }
 
   function editBook(id: number) {

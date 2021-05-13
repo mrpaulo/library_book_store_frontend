@@ -29,7 +29,8 @@ export enum BooksTypes {
   UPDATE_FAILURE = '@books/UPDATE_FAILURE',
 
   CHANGE_FLAG_EDITING = '@books/CHANGE_FLAG_EDITING',
-  CHANGE_FLAG_DETAIL = '@books/CHANGE_FLAG_DETAIL'
+  CHANGE_FLAG_DETAIL = '@books/CHANGE_FLAG_DETAIL',
+  CLEAN_BOOK_EDIT = '@books/CLEAN_BOOK_EDIT'
 };
 /**
  * Data types
