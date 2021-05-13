@@ -6,7 +6,30 @@ import { PageableFilter } from "../../../components/utils/PageableFilter";
 export enum BooksTypes {
   LOAD_REQUEST = '@books/LOAD_REQUEST',
   LOAD_SUCCESS = '@books/LOAD_SUCCESS',
-  LOAD_FAILURE = '@books/LOAD_FAILURE'
+  LOAD_FAILURE = '@books/LOAD_FAILURE',
+
+  SEARCH_REQUEST = '@books/SEARCH_REQUEST',
+  SEARCH_SUCCESS = '@books/SEARCH_SUCCESS',
+  SEARCH_FAILURE = '@books/SEARCH_FAILURE',
+
+  FIND_BY_ID_REQUEST = '@books/FIND_BY_ID_REQUEST',
+  FIND_BY_ID_SUCCESS = '@books/FIND_BY_ID_SUCCESS',
+  FIND_BY_ID_FAILURE = '@books/FIND_BY_ID_FAILURE',
+
+  DELETE_BY_ID_REQUEST = '@books/DELETE_BY_ID_REQUEST',
+  DELETE_BY_ID_SUCCESS = '@books/DELETE_BY_ID_SUCCESS',
+  DELETE_BY_ID_FAILURE = '@books/DELETE_BY_ID_FAILURE',
+
+  CREATE_REQUEST = '@books/CREATE_REQUEST',
+  CREATE_SUCCESS = '@books/CREATE_SUCCESS',
+  CREATE_FAILURE = '@books/CREATE_FAILURE',
+
+  UPDATE_REQUEST = '@books/UPDATE_REQUEST',
+  UPDATE_SUCCESS = '@books/UPDATE_SUCCESS',
+  UPDATE_FAILURE = '@books/UPDATE_FAILURE',
+
+  CHANGE_FLAG_EDITING = '@books/CHANGE_FLAG_EDITING',
+  CHANGE_FLAG_DETAIL = '@books/CHANGE_FLAG_DETAIL'
 };
 /**
  * Data types
@@ -14,10 +37,11 @@ export enum BooksTypes {
 export interface Book {
   id: number,
   title: String,
-  authors: PersonDTO[],
+  // authors: PersonDTO[],
   language?: String,
-  publisher: CompanyDTO,
-  subject?: String,
+  // publisher: CompanyDTO,
+  subject?: BookSubject,
+  subjectName?: String,
   subtitle?: String,
   review?: String,
   link?: String,
@@ -56,12 +80,19 @@ export interface PersonDTO {
 export interface CompanyDTO {
 
 }
+export interface BookSubject {
+  id: number,
+  name: String,
+  description: String
+}
 /**
  *  State type
  */
 export interface BooksState {
-  readonly data: Book[]
+  readonly booksData: Book[]
+  readonly bookData?: Book
   readonly loading: boolean
   readonly error: boolean
-
+  readonly flagEditing: boolean
+  readonly flagDetail: boolean
 }

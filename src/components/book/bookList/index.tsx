@@ -12,14 +12,17 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  loadRequest(): void
+  loadRequest(): void,
+  changeFlagEditing(): void,
+  changeFlagDetail(): void,
+  findByIdRequest(id: number):void
 }
 
 type Props = StateProps & DispatchProps
 
 const BookList : React.FC<Props> = (props) =>{
   
-  const { books,  loadRequest, } = props;
+  const { books,  loadRequest, changeFlagEditing, changeFlagDetail, findByIdRequest} = props;
   
   useEffect(() => {
     loadRequest();
@@ -30,6 +33,9 @@ const BookList : React.FC<Props> = (props) =>{
   }
 
   function editBook(id: number) {
+    findByIdRequest(id);
+    changeFlagEditing();
+    
     console.log("Editar livro id "+ id)
   }
 
@@ -87,7 +93,7 @@ const BookList : React.FC<Props> = (props) =>{
 
 
 const mapStateToProps = (state: ApplicationState) => ({
-  books: state.books.data,
+  books: state.books.booksData,  
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(booksActions, dispatch);

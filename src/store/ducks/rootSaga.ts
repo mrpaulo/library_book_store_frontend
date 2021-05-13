@@ -1,10 +1,12 @@
-import { all, takeLatest } from 'redux-saga/effects';
+import { all, fork } from 'redux-saga/effects';
 
-import { BooksTypes} from './books/types';
-import { load as loadBooks } from './books/sagas';
+import  BookSaga  from './books/sagas';
 
-export default function* rootSaga() {
-  return yield all([
-    takeLatest(BooksTypes.LOAD_REQUEST, loadBooks)
+//export default function* rootSaga() {
+  const root = function* run() {
+   yield all([
+    fork(BookSaga)    
   ])
-}
+};
+
+export default root;
