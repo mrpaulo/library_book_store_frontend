@@ -15,7 +15,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  loadRequest(): void,
+  updateRequest(book: Book): void,
+  createRequest(book: Book): void,
   changeFlagEditing(): void,
   changeFlagDetail(): void,
   cleanBookEdit(): void,
@@ -27,15 +28,26 @@ type Props = StateProps & DispatchProps
 const INITIAL_VALUES: Book = {    
   id: 0,
   title: '',
-  // authors: undefined,
+   authors: [{
+    id: 1, 
+    name: "teste",
+   birthdate:new Date('2010-12-01'),
+   cpf: "00788975056",
+   sex: "M",
+   email: "sdsd@ffd.com.br",
+   birthCity: "Florianopolis",
+   birthCountry: "Brasil",
+   address : {
+       id: 1
+   }}],
   language: undefined,
-  // publisher: undefined,
+   publisher: { id: 3, name: 'teste company 2', cnpj: '55650490000163', description: '', createDate: new Date()},
   subjectName: undefined,
   subtitle: '',
   review: '',
   link: '',
-  format: EBookFormat.HARDCOVER,
-  condition: EBookCondition.NEW,
+  //format: EBookFormat.HARDCOVER,
+  //condition: EBookCondition.NEW,
   edition: 1,
   publishDate: undefined,
   rating: 0,
@@ -46,19 +58,29 @@ const EditBook : React.FC<Props> = (props) =>{
 //const EditBook = React.memo(function EditBook(props) {
   
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
-   const {book, changeFlagEditing, cleanBookEdit} = props;
-
+   const {book, changeFlagEditing, cleanBookEdit, createRequest, updateRequest} = props;
+   const [flagEditing, setFlagEditing] = useState(false);
   useEffect(() => {
     if(book){
       book.subjectName = book.subject ? book.subject.name : "";
-    setInitialValues(book)}
+      setInitialValues(book);
+      setFlagEditing(true);
+    }
   }, [book]);
 
 
  function handleSubmit (values: Book, actions: any) {
+  
+  actions.setSubmitting(false);
+  //values.format = EBookFormat.HARDCOVER;
+  
   console.log('Form submitted!');
   console.log(values);
-  actions.setSubmitting(false);
+  if(flagEditing){
+    updateRequest(values);
+  } else {
+    createRequest(values);
+  }
  }
 function handleCancel() {
   console.log('cancel button');

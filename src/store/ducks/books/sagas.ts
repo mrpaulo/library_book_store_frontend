@@ -28,7 +28,7 @@ function* load() {
 function* search(action: any) {
   const filter:BookFilter = action.payload.filter;
   try {
-    const reponse = yield call(api.get, BOOKS_V1);
+    const reponse = yield call(api.post, `${BOOKS_V1}/fetch`, filter);
 
     yield put(searchSuccess(reponse.data));
   } catch (error) {

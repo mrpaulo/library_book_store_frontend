@@ -10,7 +10,18 @@ import { Grid, TextField, Button, makeStyles, createStyles, Theme, } from '@mate
 import { Formik, Form, FormikProps } from 'formik';
 import { ApplicationState } from '../../../store';
 
-const FilterBook = React.memo(function FilterBook(props) {
+interface StateProps {
+  books?: Book[]
+}
+
+interface DispatchProps {
+  searchRequest(filter: BookFilter):void
+}
+
+type Props = StateProps & DispatchProps
+
+const FilterBook : React.FC<Props> = (props) =>{
+  const { searchRequest } = props;
   const [perfilGestorFiscalSup, setPerfilGestorFiscalSup] = useState(true);
   const [consultado, setConsultado] = useState(false);
   
@@ -21,7 +32,7 @@ const FilterBook = React.memo(function FilterBook(props) {
     title: '',
     author: '',
     publisher: '',
-    subject:'',
+    subject:undefined,
     startDate:undefined,
     finalDate:undefined
   };
@@ -35,7 +46,9 @@ const FilterBook = React.memo(function FilterBook(props) {
  function handleSubmit (values: BookFilter, actions: any) {
   console.log('Form submitted!');
   console.log(values);
+  
   actions.setSubmitting(false);
+  searchRequest(values);
  }
 
   return (
@@ -107,7 +120,7 @@ const FilterBook = React.memo(function FilterBook(props) {
             </Formik>
         </div>
   );
-});
+}
 
 FilterBook.displayName = 'FilterBook';
 

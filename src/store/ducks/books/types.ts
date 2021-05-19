@@ -38,9 +38,9 @@ export enum BooksTypes {
 export interface Book {
   id: number,
   title: String,
-  // authors: PersonDTO[],
+  authors: PersonDTO[],
   language?: String,
-  // publisher: CompanyDTO,
+  publisher: CompanyDTO,
   subject?: BookSubject,
   subjectName?: String,
   subtitle?: String,
@@ -75,16 +75,27 @@ export enum EBookCondition {
 }
 
 export interface PersonDTO {
-  
+  id: Number,
+  name: String,
+   birthdate: Date,
+   cpf: String,
+   sex: String,
+   email: String,
+   birthCity: String,
+   birthCountry: String,
+   address :  AddressDTO 
 }
 
 export interface CompanyDTO {
-
+  id: number, name: String, cnpj: String, description: String, createDate:Date
 }
 export interface BookSubject {
   id: number,
   name: String,
   description: String
+}
+export interface AddressDTO {
+  id: number  
 }
 /**
  *  State type
