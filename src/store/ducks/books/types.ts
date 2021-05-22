@@ -39,7 +39,7 @@ export interface Book {
   id: number,
   title: String,
   authors: PersonDTO[],
-  language?: String,
+  languageName?: String,
   publisher: CompanyDTO,
   subject?: BookSubject,
   subjectName?: String,

@@ -40,7 +40,7 @@ const INITIAL_VALUES: Book = {
    address : {
        id: 1
    }}],
-  language: undefined,
+  languageName: undefined,
    publisher: { id: 3, name: 'teste company 2', cnpj: '55650490000163', description: '', createDate: new Date()},
   subjectName: undefined,
   subtitle: '',
@@ -78,7 +78,9 @@ const EditBook : React.FC<Props> = (props) =>{
   console.log(values);
   if(flagEditing){
     updateRequest(values);
+    console.log('Created!');
   } else {
+    console.log('Update!');
     createRequest(values);
   }
  }
