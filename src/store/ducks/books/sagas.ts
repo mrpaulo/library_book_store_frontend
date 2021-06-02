@@ -8,16 +8,18 @@ import {
   createSuccess, createFailure,
   findByIdSuccess, findByIdFailure,
   deleteByIdSuccess, deleteByIdFailure,
-  searchSuccess, searchFailure
+  searchSuccess, searchFailure, 
+  bookConditionFailure, bookConditionSuccess, 
+  bookFormatFailure, bookFormatSuccess
  } from './actions'
 import { Book, BookFilter, BooksTypes as types } from './types';
 
 const takeEvery: any = Eff.takeEvery;
 const BOOKS_V1 =  'v1/books';
 
-function* load() {
+function* load(): Generator<any, any, any> {
   try {
-    const reponse = yield call(api.get, `${BOOKS_V1}/all`) // '/api/v1/books' users/diego3g/repos
+    const reponse = yield call(api.get, `${BOOKS_V1}/all`) ;
 
     yield put(loadSuccess(reponse.data));
   } catch (error) {
@@ -25,7 +27,7 @@ function* load() {
   }
 }
 
-function* search(action: any) {
+function* search(action: any): Generator<any, any, any> {
   const filter:BookFilter = action.payload.filter;
   try {
     const reponse = yield call(api.post, `${BOOKS_V1}/fetch`, filter);
@@ -36,7 +38,7 @@ function* search(action: any) {
   }
 }
 
-function* findById(action: any) {
+function* findById(action: any): Generator<any, any, any> {
  const id:number = action.payload.id;
   try {
     const reponse = yield call(api.get, `${BOOKS_V1}/${id}`);
@@ -47,7 +49,7 @@ function* findById(action: any) {
   }
 }
 
-function* deleteById (action: any) {
+function* deleteById (action: any): Generator<any, any, any>{
   const id:number = action.payload.id;
   try {
     const reponse = yield call(api.delete, `${BOOKS_V1}/${id}`);
@@ -58,7 +60,7 @@ function* deleteById (action: any) {
   }
 }
 
-function* create(action: any) {
+function* create(action: any): Generator<any, any, any> {
   const book: Book = action.payload.book;
   try {
     const reponse = yield call(api.post, BOOKS_V1, book);
@@ -69,7 +71,7 @@ function* create(action: any) {
   }
 }
 
-function* update(action: any) {
+function* update(action: any): Generator<any, any, any>  {
   const book: Book = action.payload.book;
   try {
     const reponse = yield call(api.put, `${BOOKS_V1}/${book.id}`, book);
@@ -80,6 +82,26 @@ function* update(action: any) {
   }
 }
 
+function* getBookFormats(): Generator<any> {  
+  try {
+    const reponse:any = yield call(api.get, `${BOOKS_V1}/formats`);
+    
+    yield put(bookFormatSuccess(reponse.data));
+  } catch (error) {
+    yield put(bookFormatFailure())
+  }
+}
+
+function* getBookConditions(): Generator<any> {  
+  try {
+    const reponse:any = yield call(api.get, `${BOOKS_V1}/conditions`);
+
+    yield put(bookConditionSuccess(reponse.data));
+  } catch (error) {
+    yield put(bookConditionFailure())
+  }
+}
+
 export default function* root() {
   yield all([takeEvery(types.LOAD_REQUEST, load)]);
   yield all([takeEvery(types.SEARCH_REQUEST, search)]);
@@ -87,4 +109,6 @@ export default function* root() {
   yield all([takeEvery(types.DELETE_BY_ID_REQUEST, deleteById)]);
   yield all([takeEvery(types.CREATE_REQUEST, create)]);
   yield all([takeEvery(types.UPDATE_REQUEST, update)]);
+  yield all([takeEvery(types.BOOK_FORMAT_REQUEST, getBookFormats)]);
+  yield all([takeEvery(types.BOOK_CONDITION_REQUEST, getBookConditions)]);
 }

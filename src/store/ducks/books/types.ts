@@ -28,9 +28,18 @@ export enum BooksTypes {
   UPDATE_SUCCESS = '@books/UPDATE_SUCCESS',
   UPDATE_FAILURE = '@books/UPDATE_FAILURE',
 
+  BOOK_FORMAT_REQUEST = '@books/BOOK_FORMAT_REQUEST',
+  BOOK_FORMAT_SUCCESS = '@books/BOOK_FORMAT_SUCCESS',
+  BOOK_FORMAT_FAILURE = '@books/BOOK_FORMAT_FAILURE',
+
+  BOOK_CONDITION_REQUEST = '@books/BOOK_CONDITION_REQUEST',
+  BOOK_CONDITION_SUCCESS = '@books/BOOK_CONDITION_SUCCESS',
+  BOOK_CONDITION_FAILURE = '@books/BOOK_CONDITION_FAILURE',
+
   CHANGE_FLAG_EDITING = '@books/CHANGE_FLAG_EDITING',
   CHANGE_FLAG_DETAIL = '@books/CHANGE_FLAG_DETAIL',
   CLEAN_BOOK_EDIT = '@books/CLEAN_BOOK_EDIT'
+  
 };
 /**
  * Data types
@@ -46,8 +55,8 @@ export interface Book {
   subtitle?: String,
   review?: String,
   link?: String,
-  format?: EBookFormat,
-  condition?: EBookCondition,
+  format?: CustomEnum,
+  condition?: CustomEnum,
   edition?: Number,
   publishDate?: Date,
   rating?: Number,
@@ -61,17 +70,9 @@ export interface BookFilter extends PageableFilter{
   subject?: String 
 }
 
-export enum EBookFormat {
-  PRINTED_BOOK = "Livro impresso",
-  HARDCOVER = "Livro capa dura",
-  KINDLE_EDITION = "Kindle",
-  AUDIO_BOOK = "Audio livro"
-}
-
-export enum EBookCondition {
-  USED = "Usado",
-  NEW = "Novo",
-  COLLECTABLE = "Colecionável"
+export interface CustomEnum {
+  label: String,
+  value: String
 }
 
 export interface PersonDTO {
@@ -107,4 +108,6 @@ export interface BooksState {
   readonly error: boolean
   readonly flagEditing: boolean
   readonly flagDetail: boolean
+  readonly booksFormatData: CustomEnum[],
+  readonly booksConditionData: CustomEnum[]
 }

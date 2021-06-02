@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions';
-import { BooksTypes, Book, BookFilter} from './types';
+import { BooksTypes, Book, BookFilter, CustomEnum} from './types';
 
 export const loadRequest = () => action(BooksTypes.LOAD_REQUEST);
 export const loadSuccess = (booksData: Book[]) => action(BooksTypes.LOAD_SUCCESS,  { booksData });
@@ -28,3 +28,11 @@ export const createFailure = () => action(BooksTypes.CREATE_FAILURE);
 export const changeFlagEditing = () => action(BooksTypes.CHANGE_FLAG_EDITING);
 export const changeFlagDetail = () => action(BooksTypes.CHANGE_FLAG_DETAIL);
 export const cleanBookEdit = () => action(BooksTypes.CLEAN_BOOK_EDIT);
+
+export const bookFormatRequest = () => action(BooksTypes.BOOK_FORMAT_REQUEST,  { });
+export const bookFormatSuccess = (bookFormatData: CustomEnum) => action(BooksTypes.BOOK_FORMAT_SUCCESS,  { bookFormatData });
+export const bookFormatFailure = () => action(BooksTypes.BOOK_FORMAT_FAILURE);
+
+export const bookConditionRequest = () => action(BooksTypes.BOOK_CONDITION_REQUEST,  { });
+export const bookConditionSuccess = (bookConditionData: CustomEnum) => action(BooksTypes.BOOK_CONDITION_SUCCESS,  { bookConditionData });
+export const bookConditionFailure = () => action(BooksTypes.BOOK_CONDITION_FAILURE);

@@ -3,15 +3,18 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import * as booksActions from '../../../store/ducks/books/actions';
-import { Book, BookFilter, EBookCondition, EBookFormat } from '../../../store/ducks/books/types';
+import { Book, BookFilter, CustomEnum } from '../../../store/ducks/books/types';
 
 
-import { Grid, TextField, Button, makeStyles, createStyles, Theme, } from '@material-ui/core';
-import { Formik, Form, FormikProps } from 'formik';
+import { Grid, TextField, Button, makeStyles, createStyles, Theme, MenuItem, } from '@material-ui/core';
+import { Formik, Form, FormikProps, Field } from 'formik';
 import { ApplicationState } from '../../../store';
-
+import Select from '@material-ui/core/Select'
+import CustomSelect from '../../utils/CustomSelect';
 interface StateProps {
-  book?: Book
+  book?: Book,
+  booksFormat: CustomEnum[],
+  booksCondition?: CustomEnum[]
 }
 
 interface DispatchProps {
@@ -21,6 +24,7 @@ interface DispatchProps {
   changeFlagDetail(): void,
   cleanBookEdit(): void,
   findByIdRequest(id: number):void
+  bookFormatRequest():void
 }
 
 type Props = StateProps & DispatchProps
@@ -46,8 +50,8 @@ const INITIAL_VALUES: Book = {
   subtitle: '',
   review: '',
   link: '',
-  //format: EBookFormat.HARDCOVER,
-  //condition: EBookCondition.NEW,
+  format: undefined,
+  condition: undefined,
   edition: 1,
   publishDate: undefined,
   rating: 0,
@@ -58,8 +62,9 @@ const EditBook : React.FC<Props> = (props) =>{
 //const EditBook = React.memo(function EditBook(props) {
   
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
-   const {book, changeFlagEditing, cleanBookEdit, createRequest, updateRequest} = props;
+   const {book, booksFormat, booksCondition, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest} = props;
    const [flagEditing, setFlagEditing] = useState(false);
+   
   useEffect(() => {
     if(book){
       book.subjectName = book.subject ? book.subject.name : "";
@@ -68,6 +73,12 @@ const EditBook : React.FC<Props> = (props) =>{
     }
   }, [book]);
 
+  useEffect(() => {
+    
+    bookFormatRequest(); 
+    console.log("bookFormat")   
+    console.log(booksFormat)   
+  }, []);
 
  function handleSubmit (values: Book, actions: any) {
   
@@ -155,6 +166,16 @@ function handleCancel() {
               onChange={handleChange}
             />
             </Grid>
+            <Grid item lg={10} md={10} sm={10} xs={10}>                                                
+           <Field
+        className="custom-select"
+        name="bookFormat"
+        options={booksFormat}
+        component={CustomSelect}
+        placeholder="Select a book format.."
+        isMulti={false}
+      />
+            </Grid>
             <Grid item lg={10} md={10} sm={10} xs={10}>                                    
                 <TextField
               name="link"
@@ -191,6 +212,7 @@ function handleCancel() {
               onChange={handleChange}
             />
             </Grid>
+            {/* aqui vai ser um campo com autocomplete pegando do que tem no banco */}
             <Grid item lg={10} md={10} sm={10} xs={10}>                                    
                 <TextField
               name="subject"
@@ -227,6 +249,7 @@ EditBook.displayName = 'EditBook';
 
 const mapStateToProps = (state: ApplicationState) => ({
   book: state.books.bookData,  
+  booksFormat: state.books.booksFormatData,  
 });
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(booksActions, dispatch);
 
