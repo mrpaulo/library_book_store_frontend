@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions';
-import { BooksTypes, Book, BookFilter, CustomEnum} from './types';
+import { BooksTypes, Book, BookFilter, CustomEnum, BookSubject} from './types';
 
 export const loadRequest = () => action(BooksTypes.LOAD_REQUEST);
 export const loadSuccess = (booksData: Book[]) => action(BooksTypes.LOAD_SUCCESS,  { booksData });
@@ -30,9 +30,13 @@ export const changeFlagDetail = () => action(BooksTypes.CHANGE_FLAG_DETAIL);
 export const cleanBookEdit = () => action(BooksTypes.CLEAN_BOOK_EDIT);
 
 export const bookFormatRequest = () => action(BooksTypes.BOOK_FORMAT_REQUEST,  { });
-export const bookFormatSuccess = (bookFormatData: CustomEnum) => action(BooksTypes.BOOK_FORMAT_SUCCESS,  { bookFormatData });
+export const bookFormatSuccess = (bookFormatData: CustomEnum[]) => action(BooksTypes.BOOK_FORMAT_SUCCESS,  { bookFormatData });
 export const bookFormatFailure = () => action(BooksTypes.BOOK_FORMAT_FAILURE);
 
 export const bookConditionRequest = () => action(BooksTypes.BOOK_CONDITION_REQUEST,  { });
-export const bookConditionSuccess = (bookConditionData: CustomEnum) => action(BooksTypes.BOOK_CONDITION_SUCCESS,  { bookConditionData });
+export const bookConditionSuccess = (bookConditionData: CustomEnum[]) => action(BooksTypes.BOOK_CONDITION_SUCCESS,  { bookConditionData });
 export const bookConditionFailure = () => action(BooksTypes.BOOK_CONDITION_FAILURE);
+
+export const bookSubjectRequest = () => action(BooksTypes.BOOK_SUBJECT_REQUEST,  { });
+export const bookSubjectSuccess = (bookSubjectListData: BookSubject[]) => action(BooksTypes.BOOK_SUBJECT_SUCCESS,  { bookSubjectListData });
+export const bookSubjectFailure = () => action(BooksTypes.BOOK_SUBJECT_FAILURE);

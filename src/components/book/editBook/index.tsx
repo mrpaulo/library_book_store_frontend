@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import * as booksActions from '../../../store/ducks/books/actions';
-import { Book, BookFilter, CustomEnum } from '../../../store/ducks/books/types';
+import { Book, BookFilter, BookSubject, CustomEnum } from '../../../store/ducks/books/types';
 
 
 import { Grid, TextField, Button, makeStyles, createStyles, Theme, MenuItem, } from '@material-ui/core';
@@ -14,7 +14,8 @@ import CustomSelect from '../../utils/CustomSelect';
 interface StateProps {
   book?: Book,
   booksFormat: CustomEnum[],
-  booksCondition?: CustomEnum[]
+  booksCondition?: CustomEnum[],
+  bookSubjectList: BookSubject[]
 }
 
 interface DispatchProps {
@@ -25,6 +26,8 @@ interface DispatchProps {
   cleanBookEdit(): void,
   findByIdRequest(id: number):void
   bookFormatRequest():void
+  bookConditionRequest():void
+  bookSubjectRequest():void
 }
 
 type Props = StateProps & DispatchProps
@@ -62,7 +65,7 @@ const EditBook : React.FC<Props> = (props) =>{
 //const EditBook = React.memo(function EditBook(props) {
   
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
-   const {book, booksFormat, booksCondition, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest} = props;
+   const {book, booksFormat, booksCondition, bookSubjectList, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest, bookConditionRequest, bookSubjectRequest} = props;
    const [flagEditing, setFlagEditing] = useState(false);
    
   useEffect(() => {
@@ -74,10 +77,11 @@ const EditBook : React.FC<Props> = (props) =>{
   }, [book]);
 
   useEffect(() => {
-    
+    bookConditionRequest(); 
     bookFormatRequest(); 
-    console.log("bookFormat")   
-    console.log(booksFormat)   
+    bookSubjectRequest(); 
+    console.log("bookSubjectList")   
+    console.log(bookSubjectList)   
   }, []);
 
  function handleSubmit (values: Book, actions: any) {
@@ -168,13 +172,23 @@ function handleCancel() {
             </Grid>
             <Grid item lg={10} md={10} sm={10} xs={10}>                                                
            <Field
-        className="custom-select"
-        name="bookFormat"
-        options={booksFormat}
-        component={CustomSelect}
-        placeholder="Select a book format.."
-        isMulti={false}
-      />
+              className="custom-select"
+              name="format"
+              options={booksFormat}
+              component={CustomSelect}
+              placeholder="Select a book format.."
+              isMulti={false}
+            />
+            </Grid>
+            <Grid item lg={10} md={10} sm={10} xs={10}>                                                
+           <Field
+              className="custom-select"
+              name="condition"
+              options={booksCondition}
+              component={CustomSelect}
+              placeholder="Select a book condition..."
+              isMulti={false}
+            />
             </Grid>
             <Grid item lg={10} md={10} sm={10} xs={10}>                                    
                 <TextField
@@ -213,7 +227,16 @@ function handleCancel() {
             />
             </Grid>
             {/* aqui vai ser um campo com autocomplete pegando do que tem no banco */}
-            <Grid item lg={10} md={10} sm={10} xs={10}>                                    
+            <Grid item lg={10} md={10} sm={10} xs={10}>      
+            <Field
+              className="custom-select"
+              name="subject"
+              options={bookSubjectList}
+              component={CustomSelect}
+              placeholder="Select a book subject..."
+              isMulti={false}
+              isObject={true}
+            />                              
                 <TextField
               name="subject"
               type="text"              
@@ -250,6 +273,8 @@ EditBook.displayName = 'EditBook';
 const mapStateToProps = (state: ApplicationState) => ({
   book: state.books.bookData,  
   booksFormat: state.books.booksFormatData,  
+  booksCondition: state.books.booksConditionData,  
+  bookSubjectList: state.books.bookSubjectListData
 });
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(booksActions, dispatch);
 

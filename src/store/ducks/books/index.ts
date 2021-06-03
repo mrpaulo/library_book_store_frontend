@@ -8,6 +8,7 @@ const INITIAL_STATE: BooksState = {
   loading: false,
   flagEditing: false,
   flagDetail: false,
+  bookSubjectListData: [],
   booksFormatData: [],
   booksConditionData: []
 };
@@ -59,17 +60,23 @@ const reducer: Reducer<BooksState> = (state = INITIAL_STATE, action) => {
       return { ...state, bookData: undefined };
       case BooksTypes.BOOK_FORMAT_REQUEST:
         return { ...state, loading: true };
-      case BooksTypes.BOOK_FORMAT_SUCCESS:
-        console.log("action.payload.booksFormatData")
-        console.log(action.payload)
+      case BooksTypes.BOOK_FORMAT_SUCCESS:        
         return { ...state, booksFormatData: action.payload.bookFormatData };
       case BooksTypes.BOOK_FORMAT_FAILURE:
         return { ...state, loading: false, booksFormatData: [] };
         case BooksTypes.BOOK_CONDITION_REQUEST:
         return { ...state, loading: true };
-      case BooksTypes.BOOK_CONDITION_SUCCESS:
-        return { ...state, booksConditionData: action.payload.booksConditionData };
+      case BooksTypes.BOOK_CONDITION_SUCCESS:        
+        return { ...state, booksConditionData: action.payload.bookConditionData };
       case BooksTypes.BOOK_CONDITION_FAILURE:
+        return { ...state, loading: false, booksConditionData: [] };
+        case BooksTypes.BOOK_SUBJECT_REQUEST:
+        return { ...state, loading: true };
+      case BooksTypes.BOOK_SUBJECT_SUCCESS:     
+      console.log("bookSubjectList")   
+      console.log(action.payload)   
+        return { ...state, bookSubjectListData: action.payload.bookSubjectListData };
+      case BooksTypes.BOOK_SUBJECT_FAILURE:
         return { ...state, loading: false, booksConditionData: [] };
     default:
       return state;

@@ -11,6 +11,7 @@ interface Option {
 interface CustomSelectProps extends FieldProps {
   options: OptionsType<Option>;
   isMulti?: boolean;
+  isObject?: boolean;
   className?: string;
   placeholder?: string;
 }

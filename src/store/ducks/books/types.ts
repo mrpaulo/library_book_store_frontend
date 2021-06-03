@@ -36,6 +36,10 @@ export enum BooksTypes {
   BOOK_CONDITION_SUCCESS = '@books/BOOK_CONDITION_SUCCESS',
   BOOK_CONDITION_FAILURE = '@books/BOOK_CONDITION_FAILURE',
 
+  BOOK_SUBJECT_REQUEST = '@books/BOOK_SUBJECT_REQUEST',
+  BOOK_SUBJECT_SUCCESS = '@books/BOOK_SUBJECT_SUCCESS',
+  BOOK_SUBJECT_FAILURE = '@books/BOOK_SUBJECT_FAILURE',
+
   CHANGE_FLAG_EDITING = '@books/CHANGE_FLAG_EDITING',
   CHANGE_FLAG_DETAIL = '@books/CHANGE_FLAG_DETAIL',
   CLEAN_BOOK_EDIT = '@books/CLEAN_BOOK_EDIT'
@@ -109,5 +113,6 @@ export interface BooksState {
   readonly flagEditing: boolean
   readonly flagDetail: boolean
   readonly booksFormatData: CustomEnum[],
-  readonly booksConditionData: CustomEnum[]
+  readonly booksConditionData: CustomEnum[],
+  readonly bookSubjectListData: BookSubject[]
 }
