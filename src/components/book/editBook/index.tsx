@@ -11,6 +11,7 @@ import { Formik, Form, FormikProps, Field } from 'formik';
 import { ApplicationState } from '../../../store';
 import Select from '@material-ui/core/Select'
 import CustomSelect from '../../utils/CustomSelect';
+import CustomObjSelect from '../../utils/CustomObjSelect';
 interface StateProps {
   book?: Book,
   booksFormat: CustomEnum[],
@@ -230,19 +231,12 @@ function handleCancel() {
             <Grid item lg={10} md={10} sm={10} xs={10}>      
             <Field
               className="custom-select"
-              name="subject"
+              name="subjectName"
               options={bookSubjectList}
-              component={CustomSelect}
+              component={CustomObjSelect}
               placeholder="Select a book subject..."
               isMulti={false}
               isObject={true}
-            />                              
-                <TextField
-              name="subject"
-              type="text"              
-              placeholder="Subject"
-              value={values.subjectName}
-              onChange={handleChange}
             />
             </Grid>
             </Grid>

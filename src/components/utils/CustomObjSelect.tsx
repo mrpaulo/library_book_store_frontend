@@ -4,39 +4,40 @@ import Select from "react-select";
 import { OptionsType, ValueType } from "react-select";
 
 interface Option {
-  label: string;
-  value: string;
+  name: string;
+  id: number;
 }
 
-interface CustomSelectProps extends FieldProps {
+interface CustomObjSelectProps extends FieldProps {
   options: OptionsType<Option>;
-  isMulti?: boolean;  
+  isMulti?: boolean;
+  isObject?: boolean;
   className?: string;
   placeholder?: string;
 }
 
-export const CustomSelect = ({
+export const CustomObjSelect = ({
   className,
   placeholder,
   field,
   form,
   options,
   isMulti = false
-}: CustomSelectProps) => {
+}: CustomObjSelectProps) => {
   const onChange = (option: ValueType<Option | Option[],  boolean>) => {
     form.setFieldValue(
       field.name,
       isMulti
-        ? (option as Option[]).map((item: Option) => item.value)
-        : (option as Option).value
+        ? (option as Option[]).map((item: Option) => item.name)
+        : (option as Option).name
     );
   };
 
   const getValue = () => {
     if (options) {
       return isMulti
-        ? options.filter(option => field.value.indexOf(option.value) >= 0)
-        : options.find(option => option.value === field.value);
+        ? options.filter(option => field.value.indexOf(option.name) >= 0)
+        : options.find(option => option.name === field.value);
     } else {
       return isMulti ? [] : ("" as any);
     }
@@ -51,8 +52,9 @@ export const CustomSelect = ({
       placeholder={placeholder}
       options={options}
       isMulti={isMulti}
+      getOptionLabel ={(option)=>option.name}
     />
   );
 };
 
-export default CustomSelect;
+export default CustomObjSelect;
