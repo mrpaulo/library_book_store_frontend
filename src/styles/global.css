@@ -3,12 +3,9 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-body {
-  color: #FFF;
-  background:  #ebf2f5;  
-}
-
-body, input, button, textarea {
-  font: 600 18px Nunito, sans-serif;
+.form-select-field{
+  font-weight: 500;
+  width: 90%;
+  margin-bottom: 2%;
+  font: icon;
 }

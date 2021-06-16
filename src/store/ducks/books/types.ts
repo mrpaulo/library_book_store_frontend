@@ -116,3 +116,21 @@ export interface BooksState {
   readonly booksConditionData: CustomEnum[],
   readonly bookSubjectListData: BookSubject[]
 }
+
+export const bookFormLabel: any = {
+  title: "Title",
+  author: "Author",
+  authors: "Authors",
+  languageName: "LanguageName",
+  publisher: "Publisher",
+  subject: "Subject",
+  subtitle: "Subtitle",
+  review: "Review",
+  link: "Link",
+  format: "Format",
+  condition: "Condition",
+  edition: "Edition",
+  publishDate: "Publish Date",
+  rating: "Rating",
+  length: "Length",
+}

@@ -21,8 +21,9 @@ export const CustomSelect = ({
   field,
   form,
   options,
-  isMulti = false
+  isMulti = false,
 }: CustomSelectProps) => {
+  
   const onChange = (option: ValueType<Option | Option[],  boolean>) => {
     form.setFieldValue(
       field.name,
@@ -51,7 +52,7 @@ export const CustomSelect = ({
       placeholder={placeholder}
       options={options}
       isMulti={isMulti}
-    />
+    />   
   );
 };
 
