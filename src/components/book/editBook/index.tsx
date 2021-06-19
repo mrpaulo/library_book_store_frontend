@@ -87,9 +87,7 @@ const EditBook: React.FC<Props> = (props) => {
   useEffect(() => {
     bookConditionRequest();
     bookFormatRequest();
-    bookSubjectRequest();
-    console.log("bookSubjectList")
-    console.log(bookSubjectList)
+    bookSubjectRequest();    
   }, []);
 
   function handleSubmit(values: Book, actions: any) {
@@ -148,8 +146,8 @@ const EditBook: React.FC<Props> = (props) => {
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
-                      }}
-                      variant="outlined"
+                        }}
+                        variant="outlined"
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -163,8 +161,8 @@ const EditBook: React.FC<Props> = (props) => {
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
-                      }}
-                      variant="outlined"
+                        }}
+                        variant="outlined"
                       />
                     </Grid>
                     {/* <Grid item lg={10} md={10} sm={10} xs={10}>                                    
@@ -197,7 +195,7 @@ const EditBook: React.FC<Props> = (props) => {
             </Grid> */}
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{bookFormLabel.review}</InputLabel>
-                      <TextField                        
+                      <TextField
                         name="review"
                         type="text"
                         placeholder=""
@@ -206,8 +204,8 @@ const EditBook: React.FC<Props> = (props) => {
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
-                      }}
-                      variant="outlined"
+                        }}
+                        variant="outlined"
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -234,7 +232,7 @@ const EditBook: React.FC<Props> = (props) => {
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{bookFormLabel.link}</InputLabel>
-                      <TextField                        
+                      <TextField
                         name="link"
                         type="text"
                         placeholder=""
@@ -243,13 +241,13 @@ const EditBook: React.FC<Props> = (props) => {
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
-                      }}
-                      variant="outlined"
+                        }}
+                        variant="outlined"
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{bookFormLabel.edition}</InputLabel>
-                      <TextField                        
+                      <TextField
                         name="edition"
                         type="number"
                         placeholder=""
@@ -258,13 +256,13 @@ const EditBook: React.FC<Props> = (props) => {
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
-                      }}
-                      variant="outlined"
+                        }}
+                        variant="outlined"
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{bookFormLabel.length}</InputLabel>
-                      <TextField                        
+                      <TextField
                         name="length"
                         type="number"
                         value={values.length}
@@ -272,13 +270,13 @@ const EditBook: React.FC<Props> = (props) => {
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
-                      }}
-                      variant="outlined"
+                        }}
+                        variant="outlined"
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{bookFormLabel.publishDate}</InputLabel>
-                      <TextField                        
+                      <TextField
                         name="publishDate"
                         type="date"
                         value={values.publishDate}
@@ -286,8 +284,8 @@ const EditBook: React.FC<Props> = (props) => {
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
-                      }}
-                      variant="outlined"
+                        }}
+                        variant="outlined"
                       />
                     </Grid>
 
@@ -305,29 +303,31 @@ const EditBook: React.FC<Props> = (props) => {
                     </Grid>
                   </Grid>
                 </CardContent>
-                <CardActions>
-                  <Button
-                    className="form-reset-button"
-                    type="reset"
-                    onClick={handleCancel}
-                    disabled={isSubmitting}
-                    color="secondary"
-                    variant="outlined"
-                    startIcon={<ClearIcon />}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="form-submit-button"
-                    type="submit"
-                    disabled={isSubmitting}
-                    color="primary"
-                    variant="outlined"
-                    startIcon={<SaveIcon />}                    
-                  >
-                    Submit
-                  </Button>
-                </CardActions>
+                <Grid item lg={10} md={10} sm={10} xs={10}>
+                  <Grid container justify="flex-end" alignItems="flex-end" >
+                    <Button
+                      className={classes.resetButton}
+                      type="reset"
+                      onClick={handleCancel}
+                      disabled={isSubmitting}
+                      color="secondary"
+                      variant="outlined"
+                      startIcon={<ClearIcon />}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className={classes.submitButton}
+                      type="submit"
+                      disabled={isSubmitting}
+                      color="primary"
+                      variant="outlined"
+                      startIcon={<SaveIcon />}
+                    >
+                      Submit
+                    </Button>
+                  </Grid>
+                </Grid>
               </Form>
             </Card>
           )

@@ -9,3 +9,9 @@
   margin-bottom: 2%;
   font: icon;
 }
+
+.MuiTableContainer-root {  
+  display: flex;
+  justify-content: space-around;
+  overflow-x: auto;
+}

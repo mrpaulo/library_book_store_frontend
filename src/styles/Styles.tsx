@@ -1,5 +1,31 @@
 import { createStyles, makeStyles, TableCell, Theme, withStyles } from '@material-ui/core';
 
+const drawerWidth = 240
+
+export const pageMenuStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+  },
+  drawerPaper: {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+    background: '#535454',
+    color: '#fff',
+  },
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+}))
+
 export const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -18,37 +44,45 @@ export const useStyles = makeStyles({
   textField: {
     width: '90%',
     marginLeft: 'auto',
-    marginRight: 'auto',            
+    marginRight: 'auto',
     paddingBottom: 0,
     marginTop: 0,
     fontWeight: 300
-},
-input: {
-   marginBottom: '2%',   
-   height: '2.5em'
-},
-table: {    
-  width: '80%',
-  margin: '3%',
-},
-submitButton: {
-  display:'inline-block',
- padding:'0.7em 1.4em',
- margin:'0 0.3em 0.3em 0',
- borderRadius:'0.15em',
- boxSizing: 'border-box',
- textDecoration:'none',
- fontFamily:'Roboto ,sans-serif',
- textTransform:'uppercase',
-
- color:'#FFFFFF',
- backgroundColor:'#3369ff',
- boxShadow:'inset 0 -0.6em 0 -0.35em rgba(0,0,0,0.17)',
- textAlign:'center',
- position:'relative',
-}
+  },
+  input: {
+    marginBottom: '2%',
+    height: '2.5em'
+  },
+  table: {
+    width: '82%',    
+  },
+  submitButton: {
+    marginLeft: '10px',
+    marginBottom: '20px'
+  },
+  resetButton: {
+    marginLeft: '10px',
+    marginBottom: '20px'
+  }
 });
 
+
+export const menuStyles = makeStyles(theme =>
+  createStyles({
+    appMenu: {
+      width: '100%',
+    },
+    navList: {
+      width: drawerWidth,
+    },
+    menuItem: {
+      width: drawerWidth,
+    },
+    menuItemIcon: {
+      color: '#97c05c',
+    },
+  }),
+)
 export const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     head: {
