@@ -10,11 +10,12 @@ const INITIAL_STATE: BooksState = {
   flagDetail: false,
   bookSubjectListData: [],
   booksFormatData: [],
-  booksConditionData: []
+  booksConditionData: [],
+  languageListData: []
 };
 
 const reducer: Reducer<BooksState> = (state = INITIAL_STATE, action) => {
-  
+
   switch (action.type) {
     case BooksTypes.LOAD_REQUEST:
       return { ...state, loading: true };
@@ -52,36 +53,39 @@ const reducer: Reducer<BooksState> = (state = INITIAL_STATE, action) => {
       return { ...state, loading: false, error: false, bookData: action.payload.bookData };
     case BooksTypes.DELETE_BY_ID_FAILURE:
       return { ...state, loading: false, error: true, bookData: undefined };
-    case BooksTypes.CHANGE_FLAG_EDITING:      
-      return { ...state, flagEditing: !state.flagEditing};
+    case BooksTypes.CHANGE_FLAG_EDITING:
+      return { ...state, flagEditing: !state.flagEditing };
     case BooksTypes.CHANGE_FLAG_DETAIL:
       return { ...state, flagDetail: !state.flagDetail };
     case BooksTypes.CLEAN_BOOK_EDIT:
       return { ...state, bookData: undefined };
-      case BooksTypes.BOOK_FORMAT_REQUEST:
-        return { ...state, loading: true };
-      case BooksTypes.BOOK_FORMAT_SUCCESS:        
-        return { ...state, booksFormatData: action.payload.bookFormatData };
-      case BooksTypes.BOOK_FORMAT_FAILURE:
-        return { ...state, loading: false, booksFormatData: [] };
-        case BooksTypes.BOOK_CONDITION_REQUEST:
-        return { ...state, loading: true };
-      case BooksTypes.BOOK_CONDITION_SUCCESS:        
-        return { ...state, booksConditionData: action.payload.bookConditionData };
-      case BooksTypes.BOOK_CONDITION_FAILURE:
-        return { ...state, loading: false, booksConditionData: [] };
-        case BooksTypes.BOOK_SUBJECT_REQUEST:
-        return { ...state, loading: true };
-      case BooksTypes.BOOK_SUBJECT_SUCCESS:     
-      console.log("bookSubjectList")   
-      console.log(action.payload)   
-        return { ...state, bookSubjectListData: action.payload.bookSubjectListData };
-      case BooksTypes.BOOK_SUBJECT_FAILURE:
-        return { ...state, loading: false, booksConditionData: [] };
+    case BooksTypes.BOOK_FORMAT_REQUEST:
+      return { ...state, loading: true };
+    case BooksTypes.BOOK_FORMAT_SUCCESS:
+      return { ...state, booksFormatData: action.payload.bookFormatData };
+    case BooksTypes.BOOK_FORMAT_FAILURE:
+      return { ...state, loading: false, booksFormatData: [] };
+    case BooksTypes.BOOK_CONDITION_REQUEST:
+      return { ...state, loading: true };
+    case BooksTypes.BOOK_CONDITION_SUCCESS:
+      return { ...state, booksConditionData: action.payload.bookConditionData };
+    case BooksTypes.BOOK_CONDITION_FAILURE:
+      return { ...state, loading: false, booksConditionData: [] };
+    case BooksTypes.BOOK_SUBJECT_REQUEST:
+      return { ...state, loading: true };
+    case BooksTypes.BOOK_SUBJECT_SUCCESS:
+      return { ...state, bookSubjectListData: action.payload.bookSubjectListData };
+    case BooksTypes.BOOK_SUBJECT_FAILURE:
+      return { ...state, loading: false, booksConditionData: [] };
+    case BooksTypes.BOOK_LANGUAGE_REQUEST:
+      return { ...state, loading: true };
+    case BooksTypes.BOOK_LANGUAGE_SUCCESS:
+      return { ...state, languageListData: action.payload.languageListData };
+    case BooksTypes.BOOK_LANGUAGE_FAILURE:
+      return { ...state, loading: false, languageListData: [] };
     default:
       return state;
   }
 }
-
 
 export default reducer;

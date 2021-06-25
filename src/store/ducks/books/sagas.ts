@@ -10,7 +10,7 @@ import {
   deleteByIdSuccess, deleteByIdFailure,
   searchSuccess, searchFailure, 
   bookConditionFailure, bookConditionSuccess, 
-  bookFormatFailure, bookFormatSuccess, bookSubjectSuccess, bookSubjectFailure
+  bookFormatFailure, bookFormatSuccess, bookSubjectSuccess, bookSubjectFailure, bookLanguageSuccess, bookLanguageFailure
  } from './actions'
 import { Book, BookFilter, BooksTypes as types } from './types';
 
@@ -112,6 +112,16 @@ function* getBookSubjectList(): Generator<any> {
   }
 }
 
+function* getBookLanguageList(): Generator<any> {  
+  try {
+    const reponse:any = yield call(api.get, `${BOOKS_V1}/languages`);
+
+    yield put(bookLanguageSuccess(reponse.data));
+  } catch (error) {
+    yield put(bookLanguageFailure())
+  }
+}
+
 export default function* root() {
   yield all([takeEvery(types.LOAD_REQUEST, load)]);
   yield all([takeEvery(types.SEARCH_REQUEST, search)]);
@@ -122,4 +132,5 @@ export default function* root() {
   yield all([takeEvery(types.BOOK_FORMAT_REQUEST, getBookFormats)]);
   yield all([takeEvery(types.BOOK_CONDITION_REQUEST, getBookConditions)]);
   yield all([takeEvery(types.BOOK_SUBJECT_REQUEST, getBookSubjectList)]);
+  yield all([takeEvery(types.BOOK_LANGUAGE_REQUEST, getBookLanguageList)]);
 }

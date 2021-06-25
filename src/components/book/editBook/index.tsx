@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import * as booksActions from '../../../store/ducks/books/actions';
-import { Book, bookFormLabel, BookSubject, CustomEnum } from '../../../store/ducks/books/types';
+import { Book, bookFormLabel, BookLanguage, BookSubject, CustomEnum } from '../../../store/ducks/books/types';
 
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import { Formik, Form, FormikProps, Field } from 'formik';
@@ -21,7 +21,8 @@ interface StateProps {
   book?: Book,
   booksFormat: CustomEnum[],
   booksCondition?: CustomEnum[],
-  bookSubjectList: BookSubject[]
+  bookSubjectList: BookSubject[],
+  languageList: BookLanguage[]
 }
 
 interface DispatchProps {
@@ -34,6 +35,7 @@ interface DispatchProps {
   bookFormatRequest(): void,
   bookConditionRequest(): void,
   bookSubjectRequest(): void
+  bookLanguageRequest(): void
 }
 
 type Props = StateProps & DispatchProps
@@ -72,7 +74,7 @@ const EditBook: React.FC<Props> = (props) => {
   //const EditBook = React.memo(function EditBook(props) {
   const classes = useStyles();
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
-  const { book, booksFormat, booksCondition, bookSubjectList, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest, bookConditionRequest, bookSubjectRequest } = props;
+  const { book, booksFormat, booksCondition, bookSubjectList, languageList, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest, bookConditionRequest, bookSubjectRequest, bookLanguageRequest } = props;
   const [flagEditing, setFlagEditing] = useState(false);
   const [subtitle, setSubtitle] = useState("Registrar Livro");
   const [publisher, setPublisher] = useState<CompanyDTO | null>(null);
@@ -90,6 +92,7 @@ const EditBook: React.FC<Props> = (props) => {
     bookConditionRequest();
     bookFormatRequest();
     bookSubjectRequest();
+    bookLanguageRequest();
   }, []);
 
   const getPublisherSelected = (company: CompanyDTO) => {
@@ -107,13 +110,13 @@ const EditBook: React.FC<Props> = (props) => {
     console.log('Form submitted!');
     console.log(values);
 
-    // if (flagEditing) {
-    //   updateRequest(values);
-    //   console.log('Created!');
-    // } else {
-    //   console.log('Update!');
-    //   createRequest(values);
-    // }
+    if (flagEditing) {
+      updateRequest(values);
+      console.log('Created!');
+    } else {
+      console.log('Update!');
+      createRequest(values);
+    }
   }
   function handleCancel() {
     console.log('cancel button');
@@ -179,8 +182,7 @@ const EditBook: React.FC<Props> = (props) => {
                       <InputLabel className="form-label" >{bookFormLabel.publisher}</InputLabel>
                       <Field
                         className="form-select-field"
-                        name="publisher"                        
-                        onChange={handleChange}
+                        name="publisher" 
                         component={AutoCompleteCompany}
                         publisherSelected={getPublisherSelected}
                       />
@@ -198,6 +200,18 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
+                      />
+                    </Grid>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{bookFormLabel.languageName}</InputLabel>
+                      <Field
+                        className="form-select-field"
+                        name="languageName"
+                        options={languageList}
+                        component={CustomObjSelect}
+                        placeholder="Select a language..."
+                        isMulti={false}
+                        isObject={true}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -335,7 +349,8 @@ const mapStateToProps = (state: ApplicationState) => ({
   book: state.books.bookData,
   booksFormat: state.books.booksFormatData,
   booksCondition: state.books.booksConditionData,
-  bookSubjectList: state.books.bookSubjectListData
+  bookSubjectList: state.books.bookSubjectListData,
+  languageList: state.books.languageListData
 });
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(booksActions, dispatch);
 

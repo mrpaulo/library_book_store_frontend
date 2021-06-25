@@ -41,6 +41,10 @@ export enum BooksTypes {
   BOOK_SUBJECT_SUCCESS = '@books/BOOK_SUBJECT_SUCCESS',
   BOOK_SUBJECT_FAILURE = '@books/BOOK_SUBJECT_FAILURE',
 
+  BOOK_LANGUAGE_REQUEST = '@books/BOOK_LANGUAGE_REQUEST',
+  BOOK_LANGUAGE_SUCCESS = '@books/BOOK_LANGUAGE_SUCCESS',
+  BOOK_LANGUAGE_FAILURE = '@books/BOOK_LANGUAGE_FAILURE',
+
   CHANGE_FLAG_EDITING = '@books/CHANGE_FLAG_EDITING',
   CHANGE_FLAG_DETAIL = '@books/CHANGE_FLAG_DETAIL',
   CLEAN_BOOK_EDIT = '@books/CLEAN_BOOK_EDIT'
@@ -97,15 +101,21 @@ export interface BookSubject {
   name: String,
   description: String
 }
+
 export interface AddressDTO {
   id: number  
+}
+export interface BookLanguage {
+  id: number,
+  name: String,
+  description: String
 }
 
 export const bookFormLabel: any = {
   title: "Title",
   author: "Author",
   authors: "Authors",
-  languageName: "LanguageName",
+  languageName: "Language",
   publisher: "Publisher",
   subject: "Subject",
   subtitle: "Subtitle",
@@ -131,5 +141,6 @@ export interface BooksState {
   readonly flagDetail: boolean
   readonly booksFormatData: CustomEnum[],
   readonly booksConditionData: CustomEnum[],
-  readonly bookSubjectListData: BookSubject[]
+  readonly bookSubjectListData: BookSubject[],
+  readonly languageListData: BookLanguage[],
 }

@@ -67,7 +67,7 @@ export const companyFormLabel: any = {
   title: "Title",
   author: "Author",
   authors: "Authors",
-  languageName: "LanguageName",
+  languageName: "Language",
   publisher: "Publisher",
   subject: "Subject",
   subtitle: "Subtitle",
