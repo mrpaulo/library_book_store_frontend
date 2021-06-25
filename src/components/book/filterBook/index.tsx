@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import * as booksActions from '../../../store/ducks/books/actions';
 import { Book, BookFilter, bookFormLabel, BookSubject } from '../../../store/ducks/books/types';
 
-
-import { Grid, TextField, Button, InputLabel, CardContent, CardActions, Card, CardHeader, } from '@material-ui/core';
+import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import { Formik, Form, FormikProps, Field } from 'formik';
 import { ApplicationState } from '../../../store';
 import { useStyles } from '../../../styles/Styles';
@@ -26,14 +25,9 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-
-
 const FilterBook: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { searchRequest, bookSubjectRequest, bookSubjectList } = props;
-  const [perfilGestorFiscalSup, setPerfilGestorFiscalSup] = useState(true);
-  const [consultado, setConsultado] = useState(false);
-
 
   const initialValues: BookFilter = {
     rowsPerPage: 10,
@@ -46,8 +40,8 @@ const FilterBook: React.FC<Props> = (props) => {
     finalDate: undefined
   };
 
-  useEffect(() => {    
-    bookSubjectRequest();    
+  useEffect(() => {
+    bookSubjectRequest();
   }, []);
 
   function handleSubmit(values: BookFilter, actions: any) {
@@ -59,8 +53,8 @@ const FilterBook: React.FC<Props> = (props) => {
   }
   function handleClear() {
     console.log('clear button');
-    
   }
+  
   return (
     <>
       <Formik
@@ -144,10 +138,10 @@ const FilterBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                   </Grid>
-                </CardContent>                
-                <Grid item lg={10} md={10} sm={10} xs={10}>
+                </CardContent>
+                <Grid item lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>
                   <Grid container justify="flex-end" alignItems="flex-end" >
-                  <Button
+                    <Button
                       className={classes.resetButton}
                       type="reset"
                       onClick={handleClear}
@@ -159,7 +153,7 @@ const FilterBook: React.FC<Props> = (props) => {
                       Clear
                     </Button>
                     <Button
-                    className={classes.submitButton}
+                      className={classes.submitButton}
                       type="submit"
                       disabled={isSubmitting}
                       color="primary"
@@ -169,7 +163,7 @@ const FilterBook: React.FC<Props> = (props) => {
                       Search
                     </Button>
                   </Grid>
-                  </Grid>
+                </Grid>
               </Form>
             </Card>
           )

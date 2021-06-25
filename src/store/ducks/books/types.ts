@@ -1,4 +1,5 @@
 import { PageableFilter } from "../../../components/utils/PageableFilter";
+import { CompanyDTO } from "../companies/types";
 
 /**
 * Action types 
@@ -91,9 +92,6 @@ export interface PersonDTO {
    address :  AddressDTO 
 }
 
-export interface CompanyDTO {
-  id: number, name: String, cnpj: String, description: String, createDate:Date
-}
 export interface BookSubject {
   id: number,
   name: String,
@@ -101,20 +99,6 @@ export interface BookSubject {
 }
 export interface AddressDTO {
   id: number  
-}
-/**
- *  State type
- */
-export interface BooksState {
-  readonly booksData: Book[]
-  readonly bookData?: Book
-  readonly loading: boolean
-  readonly error: boolean
-  readonly flagEditing: boolean
-  readonly flagDetail: boolean
-  readonly booksFormatData: CustomEnum[],
-  readonly booksConditionData: CustomEnum[],
-  readonly bookSubjectListData: BookSubject[]
 }
 
 export const bookFormLabel: any = {
@@ -133,4 +117,19 @@ export const bookFormLabel: any = {
   publishDate: "Publish Date",
   rating: "Rating",
   length: "Length",
+}
+
+/**
+ *  State type
+ */
+export interface BooksState {
+  readonly booksData: Book[]
+  readonly bookData?: Book
+  readonly loading: boolean
+  readonly error: boolean
+  readonly flagEditing: boolean
+  readonly flagDetail: boolean
+  readonly booksFormatData: CustomEnum[],
+  readonly booksConditionData: CustomEnum[],
+  readonly bookSubjectListData: BookSubject[]
 }

@@ -26,6 +26,23 @@ export const pageMenuStyles = makeStyles(theme => ({
   },
 }))
 
+export const menuStyles = makeStyles(theme =>
+  createStyles({
+    appMenu: {
+      width: '100%',
+    },
+    navList: {
+      width: drawerWidth,
+    },
+    menuItem: {
+      width: drawerWidth,
+    },
+    menuItemIcon: {
+      color: '#97c05c',
+    },
+  }),
+)
+
 export const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -66,23 +83,6 @@ export const useStyles = makeStyles({
   }
 });
 
-
-export const menuStyles = makeStyles(theme =>
-  createStyles({
-    appMenu: {
-      width: '100%',
-    },
-    navList: {
-      width: drawerWidth,
-    },
-    menuItem: {
-      width: drawerWidth,
-    },
-    menuItemIcon: {
-      color: '#97c05c',
-    },
-  }),
-)
 export const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     head: {

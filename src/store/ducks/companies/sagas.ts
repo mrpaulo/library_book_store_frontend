@@ -9,17 +9,16 @@ import {
   findByIdSuccess, findByIdFailure,
   deleteByIdSuccess, deleteByIdFailure,
   searchSuccess, searchFailure, 
-  bookConditionFailure, bookConditionSuccess, 
-  bookFormatFailure, bookFormatSuccess, bookSubjectSuccess, bookSubjectFailure
+  findByNameSuccess, findByNameFailure
  } from './actions'
-import { Book, BookFilter, BooksTypes as types } from './types';
+import { Company, CompanyFilter, CompaniesTypes as types } from './types';
 
 const takeEvery: any = Eff.takeEvery;
-const BOOKS_V1 =  'v1/books';
+const COMPANIES_V1 =  'v1/companies';
 
 function* load(): Generator<any, any, any> {
   try {
-    const reponse = yield call(api.get, `${BOOKS_V1}/all`) ;
+    const reponse = yield call(api.get, `${COMPANIES_V1}/all`) ;
 
     yield put(loadSuccess(reponse.data));
   } catch (error) {
@@ -28,9 +27,9 @@ function* load(): Generator<any, any, any> {
 }
 
 function* search(action: any): Generator<any, any, any> {
-  const filter:BookFilter = action.payload.filter;
+  const filter:CompanyFilter = action.payload.filter;
   try {
-    const reponse = yield call(api.post, `${BOOKS_V1}/fetch`, filter);
+    const reponse = yield call(api.post, `${COMPANIES_V1}/fetch`, filter);
 
     yield put(searchSuccess(reponse.data));
   } catch (error) {
@@ -41,7 +40,7 @@ function* search(action: any): Generator<any, any, any> {
 function* findById(action: any): Generator<any, any, any> {
  const id:number = action.payload.id;
   try {
-    const reponse = yield call(api.get, `${BOOKS_V1}/${id}`);
+    const reponse = yield call(api.get, `${COMPANIES_V1}/${id}`);
 
     yield put(findByIdSuccess(reponse.data));    
   } catch (error) {
@@ -49,10 +48,21 @@ function* findById(action: any): Generator<any, any, any> {
   }
 }
 
+function* findByName(action: any): Generator<any, any, any> {
+ const name:string = action.payload.name;
+  try {
+    const reponse = yield call(api.get, `${COMPANIES_V1}/fetch/${name}`);
+
+    yield put(findByNameSuccess(reponse.data));    
+  } catch (error) {
+    yield put(findByNameFailure())
+  }
+}
+
 function* deleteById (action: any): Generator<any, any, any>{
   const id:number = action.payload.id;
   try {
-    const reponse = yield call(api.delete, `${BOOKS_V1}/${id}`);
+    const reponse = yield call(api.delete, `${COMPANIES_V1}/${id}`);
 
     yield put(deleteByIdSuccess(reponse.data));
   } catch (error) {
@@ -61,9 +71,9 @@ function* deleteById (action: any): Generator<any, any, any>{
 }
 
 function* create(action: any): Generator<any, any, any> {
-  const book: Book = action.payload.book;
+  const company: Company = action.payload.company;
   try {
-    const reponse = yield call(api.post, BOOKS_V1, book);
+    const reponse = yield call(api.post, COMPANIES_V1, company);
 
     yield put(createSuccess(reponse.data));
   } catch (error) {
@@ -72,9 +82,9 @@ function* create(action: any): Generator<any, any, any> {
 }
 
 function* update(action: any): Generator<any, any, any>  {
-  const book: Book = action.payload.book;
+  const company: Company = action.payload.company;
   try {
-    const reponse = yield call(api.put, `${BOOKS_V1}/${book.id}`, book);
+    const reponse = yield call(api.put, `${COMPANIES_V1}/${company.id}`, company);
 
     yield put(updateSuccess(reponse.data));
   } catch (error) {
@@ -82,44 +92,18 @@ function* update(action: any): Generator<any, any, any>  {
   }
 }
 
-function* getBookFormats(): Generator<any> {  
-  try {
-    const reponse:any = yield call(api.get, `${BOOKS_V1}/formats`);
-    
-    yield put(bookFormatSuccess(reponse.data));
-  } catch (error) {
-    yield put(bookFormatFailure())
-  }
-}
 
-function* getBookConditions(): Generator<any> {  
-  try {
-    const reponse:any = yield call(api.get, `${BOOKS_V1}/conditions`);
 
-    yield put(bookConditionSuccess(reponse.data));
-  } catch (error) {
-    yield put(bookConditionFailure())
-  }
-}
 
-function* getBookSubjectList(): Generator<any> {  
-  try {
-    const reponse:any = yield call(api.get, `${BOOKS_V1}/subjects`);
 
-    yield put(bookSubjectSuccess(reponse.data));
-  } catch (error) {
-    yield put(bookSubjectFailure())
-  }
-}
+
 
 export default function* root() {
   yield all([takeEvery(types.LOAD_REQUEST, load)]);
   yield all([takeEvery(types.SEARCH_REQUEST, search)]);
   yield all([takeEvery(types.FIND_BY_ID_REQUEST, findById)]);
+  yield all([takeEvery(types.FIND_BY_NAME_REQUEST, findByName)]);
   yield all([takeEvery(types.DELETE_BY_ID_REQUEST, deleteById)]);
   yield all([takeEvery(types.CREATE_REQUEST, create)]);
-  yield all([takeEvery(types.UPDATE_REQUEST, update)]);
-  yield all([takeEvery(types.BOOK_FORMAT_REQUEST, getBookFormats)]);
-  yield all([takeEvery(types.BOOK_CONDITION_REQUEST, getBookConditions)]);
-  yield all([takeEvery(types.BOOK_SUBJECT_REQUEST, getBookSubjectList)]);
+  yield all([takeEvery(types.UPDATE_REQUEST, update)]); 
 }

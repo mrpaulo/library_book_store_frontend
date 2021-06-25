@@ -8,10 +8,14 @@
   width: 90%;
   margin-bottom: 2%;
   font: icon;
+  
 }
-
+.css-2613qy-menu{  
+  position: fixed;
+}
 .MuiTableContainer-root {  
   display: flex;
   justify-content: space-around;
   overflow-x: auto;
+  padding-bottom: 60px;
 }

@@ -3,18 +3,19 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import * as booksActions from '../../../store/ducks/books/actions';
-import { Book, BookFilter, bookFormLabel, BookSubject, CustomEnum } from '../../../store/ducks/books/types';
+import { Book, bookFormLabel, BookSubject, CustomEnum } from '../../../store/ducks/books/types';
 
-import { Grid, TextField, Button, InputLabel, CardContent, CardActions, Card, CardHeader, } from '@material-ui/core';
+import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import { Formik, Form, FormikProps, Field } from 'formik';
 import { ApplicationState } from '../../../store';
-import Select from '@material-ui/core/Select'
 import CustomSelect from '../../utils/CustomSelect';
 import CustomObjSelect from '../../utils/CustomObjSelect';
 import '../../../styles/global.css';
 import { useStyles } from '../../../styles/Styles';
 import SaveIcon from '@material-ui/icons/Save';
 import ClearIcon from '@material-ui/icons/Clear';
+import AutoCompleteCompany from '../../utils/AutoCompleteCompany';
+import { CompanyDTO } from '../../../store/ducks/companies/types';
 
 interface StateProps {
   book?: Book,
@@ -29,9 +30,9 @@ interface DispatchProps {
   changeFlagEditing(): void,
   changeFlagDetail(): void,
   cleanBookEdit(): void,
-  findByIdRequest(id: number): void
-  bookFormatRequest(): void
-  bookConditionRequest(): void
+  findByIdRequest(id: number): void,
+  bookFormatRequest(): void,
+  bookConditionRequest(): void,
   bookSubjectRequest(): void
 }
 
@@ -74,6 +75,7 @@ const EditBook: React.FC<Props> = (props) => {
   const { book, booksFormat, booksCondition, bookSubjectList, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest, bookConditionRequest, bookSubjectRequest } = props;
   const [flagEditing, setFlagEditing] = useState(false);
   const [subtitle, setSubtitle] = useState("Registrar Livro");
+  const [publisher, setPublisher] = useState<CompanyDTO | null>(null);
 
   useEffect(() => {
     if (book) {
@@ -87,23 +89,31 @@ const EditBook: React.FC<Props> = (props) => {
   useEffect(() => {
     bookConditionRequest();
     bookFormatRequest();
-    bookSubjectRequest();    
+    bookSubjectRequest();
   }, []);
+
+  const getPublisherSelected = (company: CompanyDTO) => {
+    setPublisher(company as CompanyDTO);
+}
 
   function handleSubmit(values: Book, actions: any) {
 
     actions.setSubmitting(false);
-    //values.format = EBookFormat.HARDCOVER;
+
+    if(publisher){
+      values.publisher = publisher;
+    }
 
     console.log('Form submitted!');
     console.log(values);
-    if (flagEditing) {
-      updateRequest(values);
-      console.log('Created!');
-    } else {
-      console.log('Update!');
-      createRequest(values);
-    }
+
+    // if (flagEditing) {
+    //   updateRequest(values);
+    //   console.log('Created!');
+    // } else {
+    //   console.log('Update!');
+    //   createRequest(values);
+    // }
   }
   function handleCancel() {
     console.log('cancel button');
@@ -165,34 +175,16 @@ const EditBook: React.FC<Props> = (props) => {
                         variant="outlined"
                       />
                     </Grid>
-                    {/* <Grid item lg={10} md={10} sm={10} xs={10}>                                    
-                <TextField
-              name="author"
-              type="text"
-              placeholder="Author"
-              value={values.author}
-              onChange={handleChange}
-              className={classes.textField}
-                        InputProps={{
-                          className: classes.input,
-                      }}
-                      variant="outlined"
-            />
-            </Grid>
-            <Grid item lg={10} md={10} sm={10} xs={10}>                                    
-                <TextField
-              name="publisher"
-              type="text"              
-              placeholder="Publisher"
-              value={values.publisher}
-              onChange={handleChange}
-              className={classes.textField}
-                        InputProps={{
-                          className: classes.input,
-                      }}
-                      variant="outlined"
-            />
-            </Grid> */}
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{bookFormLabel.publisher}</InputLabel>
+                      <Field
+                        className="form-select-field"
+                        name="publisher"                        
+                        onChange={handleChange}
+                        component={AutoCompleteCompany}
+                        publisherSelected={getPublisherSelected}
+                      />
+                    </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{bookFormLabel.review}</InputLabel>
                       <TextField
@@ -206,6 +198,18 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
+                      />
+                    </Grid>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{bookFormLabel.subject}</InputLabel>
+                      <Field
+                        className="form-select-field"
+                        name="subjectName"
+                        options={bookSubjectList}
+                        component={CustomObjSelect}
+                        placeholder="Select a book subject..."
+                        isMulti={false}
+                        isObject={true}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -286,19 +290,6 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                      />
-                    </Grid>
-
-                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.subject}</InputLabel>
-                      <Field
-                        className="form-select-field"
-                        name="subjectName"
-                        options={bookSubjectList}
-                        component={CustomObjSelect}
-                        placeholder="Select a book subject..."
-                        isMulti={false}
-                        isObject={true}
                       />
                     </Grid>
                   </Grid>
