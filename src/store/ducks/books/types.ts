@@ -58,6 +58,7 @@ export interface Book {
   title: String,
   authors: PersonDTO[],
   languageName?: String,
+  language?: BookLanguage,
   publisher: CompanyDTO,
   subject?: BookSubject,
   subjectName?: String,
@@ -107,8 +108,7 @@ export interface AddressDTO {
 }
 export interface BookLanguage {
   id: number,
-  name: String,
-  description: String
+  name: String  
 }
 
 export const bookFormLabel: any = {

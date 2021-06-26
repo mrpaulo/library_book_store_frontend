@@ -15,7 +15,7 @@ import '../../styles/global.css';
 
 interface StateProps {
   companies?: CompanyDTO[]
-
+  valueSelected?: CompanyDTO
 }
 
 interface DispatchProps {
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const AutoCompleteCompany: React.FC<Props> = (props) => {
 
   const classes = useStyles();
-  const { companies, findByNameRequest, publisherSelected } = props;
+  const { companies, valueSelected, findByNameRequest, publisherSelected } = props;
   const [value, setValue] = useState<CompanyDTO | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState<CompanyDTO[]>([]);
@@ -45,6 +45,9 @@ const AutoCompleteCompany: React.FC<Props> = (props) => {
   const [open, setOpen] = useState(false);
   const loading = open && options && options.length === 0;
 
+useEffect(() => {
+  setValue(valueSelected as CompanyDTO);
+}, [valueSelected])
 
   useEffect(() => {
     let active = true;

@@ -82,6 +82,8 @@ const EditBook: React.FC<Props> = (props) => {
   useEffect(() => {
     if (book) {
       book.subjectName = book.subject ? book.subject.name : "";
+      book.languageName = book.language ? book.language.name : "";
+      setPublisher(book.publisher);
       setInitialValues(book);
       setFlagEditing(true);
       setSubtitle("Editar Livro")
@@ -97,13 +99,13 @@ const EditBook: React.FC<Props> = (props) => {
 
   const getPublisherSelected = (company: CompanyDTO) => {
     setPublisher(company as CompanyDTO);
-}
+  }
 
   function handleSubmit(values: Book, actions: any) {
 
     actions.setSubmitting(false);
 
-    if(publisher){
+    if (publisher) {
       values.publisher = publisher;
     }
 
@@ -182,7 +184,8 @@ const EditBook: React.FC<Props> = (props) => {
                       <InputLabel className="form-label" >{bookFormLabel.publisher}</InputLabel>
                       <Field
                         className="form-select-field"
-                        name="publisher" 
+                        name="publisher"
+                        valueSelected={publisher}
                         component={AutoCompleteCompany}
                         publisherSelected={getPublisherSelected}
                       />
