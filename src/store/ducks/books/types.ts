@@ -1,5 +1,6 @@
 import { PageableFilter } from "../../../components/utils/PageableFilter";
 import { CompanyDTO } from "../companies/types";
+import { PersonDTO } from "../people/types";
 
 /**
 * Action types 
@@ -83,18 +84,6 @@ export interface BookFilter extends PageableFilter{
 export interface CustomEnum {
   label: String,
   value: String
-}
-
-export interface PersonDTO {
-  id: Number,
-  name: String,
-   birthdate: Date,
-   cpf: String,
-   sex: String,
-   email: String,
-   birthCity: String,
-   birthCountry: String,
-   address :  AddressDTO 
 }
 
 export interface BookSubject {

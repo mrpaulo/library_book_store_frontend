@@ -16,6 +16,8 @@ import SaveIcon from '@material-ui/icons/Save';
 import ClearIcon from '@material-ui/icons/Clear';
 import AutoCompleteCompany from '../../utils/AutoCompleteCompany';
 import { CompanyDTO } from '../../../store/ducks/companies/types';
+import AutoCompleteAuthor from '../../utils/AutoCompleteAuthor';
+import { PersonDTO } from '../../../store/ducks/people/types';
 
 interface StateProps {
   book?: Book,
@@ -78,11 +80,13 @@ const EditBook: React.FC<Props> = (props) => {
   const [flagEditing, setFlagEditing] = useState(false);
   const [subtitle, setSubtitle] = useState("Registrar Livro");
   const [publisher, setPublisher] = useState<CompanyDTO | null>(null);
+  const [authors, setAuthors] = useState<PersonDTO[]>([]);
 
   useEffect(() => {
     if (book) {
       book.subjectName = book.subject ? book.subject.name : "";
       book.languageName = book.language ? book.language.name : "";
+      setAuthors(book.authors);
       setPublisher(book.publisher);
       setInitialValues(book);
       setFlagEditing(true);
@@ -101,6 +105,12 @@ const EditBook: React.FC<Props> = (props) => {
     setPublisher(company as CompanyDTO);
   }
 
+  const getAuthorsSelected = (authors: PersonDTO[]) => {
+    console.log("Autores")
+    console.log(authors)
+    setAuthors(authors);
+  }
+
   function handleSubmit(values: Book, actions: any) {
 
     actions.setSubmitting(false);
@@ -108,16 +118,18 @@ const EditBook: React.FC<Props> = (props) => {
     if (publisher) {
       values.publisher = publisher;
     }
-
+    if(authors.length > 0){
+      values.authors = authors;
+    }
     console.log('Form submitted!');
     console.log(values);
 
     if (flagEditing) {
       updateRequest(values);
-      console.log('Created!');
-    } else {
       console.log('Update!');
+    } else {
       createRequest(values);
+      console.log('Created!');
     }
   }
   function handleCancel() {
@@ -178,6 +190,16 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
+                      />
+                    </Grid>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{bookFormLabel.authors}</InputLabel>
+                      <Field
+                        className="form-select-field"
+                        name="authors"
+                        valueSelected={authors}
+                        component={AutoCompleteAuthor}
+                        authorsSelected={getAuthorsSelected}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
