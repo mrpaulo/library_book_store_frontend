@@ -15,7 +15,9 @@ import '../../styles/global.css';
 
 interface StateProps {
   companies?: CompanyDTO[]
-  valueSelected?: CompanyDTO
+  valueSelected?: CompanyDTO,
+  helperText?: String,
+  error?: boolean
 }
 
 interface DispatchProps {
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const AutoCompleteCompany: React.FC<Props> = (props) => {
 
   const classes = useStyles();
-  const { companies, valueSelected, findByNameRequest, publisherSelected } = props;
+  const { companies, valueSelected, helperText, error, findByNameRequest, publisherSelected } = props;
   const [value, setValue] = useState<CompanyDTO | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState<CompanyDTO[]>([]);
@@ -50,9 +52,7 @@ useEffect(() => {
 }, [valueSelected])
 
   useEffect(() => {
-    let active = true;
-    console.log("inputValue")
-    console.log(inputValue)
+    let active = true;    
     if (!loading) {
       return undefined;
     }
@@ -68,12 +68,6 @@ useEffect(() => {
       active = false;
     };
   }, [loading, inputValue]);
-
-  useEffect(() => {
-    console.log("value")
-    console.log(value)
-    publisherSelected(value as CompanyDTO);
-  }, [value]);
 
   return (
     <Autocomplete
@@ -96,6 +90,7 @@ useEffect(() => {
       onChange={(event: any, newValue: CompanyDTO | null) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
+        publisherSelected(newValue as CompanyDTO);
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
@@ -113,6 +108,8 @@ useEffect(() => {
               </React.Fragment>
             ),
           }}
+          helperText={helperText}
+          error={error}
         />
       )}
     />

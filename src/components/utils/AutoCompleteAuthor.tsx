@@ -15,7 +15,9 @@ import '../../styles/global.css';
 
 interface StateProps {
   people?: PersonDTO[]
-  valueSelected: PersonDTO[]
+  valueSelected: PersonDTO[],
+  helperText?: String,
+  error?: boolean
 }
 
 interface DispatchProps {
@@ -27,7 +29,7 @@ type Props = StateProps & DispatchProps
 
 const AutoCompletePerson: React.FC<Props> = (props) => {
 
-  const { people, valueSelected, findByNameRequest, authorsSelected } = props;
+  const { people, valueSelected, helperText, error, findByNameRequest, authorsSelected } = props;
   const [value, setValue] = useState<PersonDTO[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState<PersonDTO[]>([]);
@@ -40,8 +42,7 @@ const AutoCompletePerson: React.FC<Props> = (props) => {
 
   useEffect(() => {
     let active = true;
-    console.log("inputValue")
-    console.log(inputValue)
+
     if (!loading) {
       return undefined;
     }
@@ -57,12 +58,6 @@ const AutoCompletePerson: React.FC<Props> = (props) => {
       active = false;
     };
   }, [loading, inputValue]);
-
-  // useEffect(() => {
-  //   console.log("value")
-  //   console.log(value)
-  //   authorsSelected(value);
-  // }, [value]);
 
   return (
     <Autocomplete
@@ -105,6 +100,8 @@ const AutoCompletePerson: React.FC<Props> = (props) => {
               </React.Fragment>
             ),
           }}
+          helperText={helperText}
+          error={error}
         />
       )}
     />

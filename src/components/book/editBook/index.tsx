@@ -4,7 +4,6 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import * as booksActions from '../../../store/ducks/books/actions';
 import { Book, bookFormLabel, BookLanguage, BookSubject, CustomEnum } from '../../../store/ducks/books/types';
-
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import { Formik, Form, FormikProps, Field } from 'formik';
 import { ApplicationState } from '../../../store';
@@ -18,6 +17,7 @@ import AutoCompleteCompany from '../../utils/AutoCompleteCompany';
 import { CompanyDTO } from '../../../store/ducks/companies/types';
 import AutoCompleteAuthor from '../../utils/AutoCompleteAuthor';
 import { PersonDTO } from '../../../store/ducks/people/types';
+import * as Yup from 'yup';
 
 interface StateProps {
   book?: Book,
@@ -45,21 +45,9 @@ type Props = StateProps & DispatchProps
 const INITIAL_VALUES: Book = {
   id: 0,
   title: '',
-  authors: [{
-    id: 1,
-    name: "teste",
-    birthdate: new Date('2010-12-01'),
-    cpf: "00788975056",
-    sex: "M",
-    email: "sdsd@ffd.com.br",
-    birthCity: "Florianopolis",
-    birthCountry: "Brasil",
-    address: {
-      id: 1
-    }
-  }],
+  authors: [],
   languageName: undefined,
-  publisher: { id: 3, name: 'teste company 2', cnpj: '55650490000163', description: '', createDate: new Date() },
+  publisher: undefined,
   subjectName: undefined,
   subtitle: '',
   review: '',
@@ -72,8 +60,23 @@ const INITIAL_VALUES: Book = {
   length: 0,
 };
 
-const EditBook: React.FC<Props> = (props) => {
-  //const EditBook = React.memo(function EditBook(props) {
+const validationSchema = Yup.object().shape({
+  title: Yup.string()
+    .max(100, "Too Long!")
+    .required("Title is required!"),
+  authors: Yup.array()
+    .min(1, "At least one")
+    .required(),
+  publisher: Yup.object().required(),
+  subtitle: Yup.string()
+    .max(100, "Too Long!"),
+  review: Yup.string()
+    .max(500, "Too Long!"),
+  link: Yup.string()
+    .max(100, "Too Long!")
+});
+
+const EditBook: React.FC<Props> = (props) => {  
   const classes = useStyles();
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const { book, booksFormat, booksCondition, bookSubjectList, languageList, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest, bookConditionRequest, bookSubjectRequest, bookLanguageRequest } = props;
@@ -86,8 +89,8 @@ const EditBook: React.FC<Props> = (props) => {
     if (book) {
       book.subjectName = book.subject ? book.subject.name : "";
       book.languageName = book.language ? book.language.name : "";
-      setAuthors(book.authors);
-      setPublisher(book.publisher);
+      setAuthors(book.authors as PersonDTO[]);
+      setPublisher(book.publisher as CompanyDTO);
       setInitialValues(book);
       setFlagEditing(true);
       setSubtitle("Editar Livro")
@@ -101,15 +104,7 @@ const EditBook: React.FC<Props> = (props) => {
     bookLanguageRequest();
   }, []);
 
-  const getPublisherSelected = (company: CompanyDTO) => {
-    setPublisher(company as CompanyDTO);
-  }
-
-  const getAuthorsSelected = (authors: PersonDTO[]) => {
-    console.log("Autores")
-    console.log(authors)
-    setAuthors(authors);
-  }
+  
 
   function handleSubmit(values: Book, actions: any) {
 
@@ -118,7 +113,7 @@ const EditBook: React.FC<Props> = (props) => {
     if (publisher) {
       values.publisher = publisher;
     }
-    if(authors.length > 0){
+    if (authors.length > 0) {
       values.authors = authors;
     }
     console.log('Form submitted!');
@@ -143,6 +138,7 @@ const EditBook: React.FC<Props> = (props) => {
         enableReinitialize
         onSubmit={handleSubmit}
         initialValues={initialValues}
+        validationSchema={validationSchema}
       >
         {(props: FormikProps<Book>) => {
           const {
@@ -153,6 +149,17 @@ const EditBook: React.FC<Props> = (props) => {
             handleChange,
             isSubmitting,
           } = props
+         
+          const getPublisherSelected = (company: CompanyDTO) => {            
+            values.publisher = company;   
+            setPublisher(company);
+          }
+        
+          const getAuthorsSelected = (authors: PersonDTO[]) => {
+            values.authors = authors;       
+            setAuthors(authors) ;
+          }          
+
           return (
             <Card className={classes.root}>
               <Form>
@@ -175,6 +182,12 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
+                        helperText={errors.title}
+                        error={
+                          errors.title && touched.title
+                            ? true
+                            : false
+                        }
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -190,6 +203,12 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
+                        helperText={errors.subtitle}
+                        error={
+                          errors.subtitle && touched.subtitle
+                            ? true
+                            : false
+                        }
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -199,7 +218,14 @@ const EditBook: React.FC<Props> = (props) => {
                         name="authors"
                         valueSelected={authors}
                         component={AutoCompleteAuthor}
+                        onChange={handleChange}
                         authorsSelected={getAuthorsSelected}
+                        helperText={errors.authors}
+                        error={
+                          errors.authors && touched.authors
+                            ? true
+                            : false
+                        }
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -209,7 +235,14 @@ const EditBook: React.FC<Props> = (props) => {
                         name="publisher"
                         valueSelected={publisher}
                         component={AutoCompleteCompany}
+                        onChange={handleChange}
                         publisherSelected={getPublisherSelected}
+                        helperText={errors.publisher}
+                        error={
+                          errors.publisher && touched.publisher
+                            ? true
+                            : false
+                        }
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -225,6 +258,12 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
+                        helperText={errors.review}
+                        error={
+                          errors.review && touched.review
+                            ? true
+                            : false
+                        }
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -286,6 +325,12 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
+                        helperText={errors.link}
+                        error={
+                          errors.link && touched.link
+                            ? true
+                            : false
+                        }
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -325,8 +370,12 @@ const EditBook: React.FC<Props> = (props) => {
                         value={values.publishDate}
                         onChange={handleChange}
                         className={classes.textField}
+                        defaultValue=""
                         InputProps={{
                           className: classes.input,
+                        }}
+                        InputLabelProps={{
+                          shrink: true,
                         }}
                         variant="outlined"
                       />

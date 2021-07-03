@@ -57,10 +57,10 @@ export enum BooksTypes {
 export interface Book {
   id: number,
   title: String,
-  authors: PersonDTO[],
+  authors?: PersonDTO[],
   languageName?: String,
   language?: BookLanguage,
-  publisher: CompanyDTO,
+  publisher?: CompanyDTO,
   subject?: BookSubject,
   subjectName?: String,
   subtitle?: String,
@@ -92,9 +92,6 @@ export interface BookSubject {
   description: String
 }
 
-export interface AddressDTO {
-  id: number  
-}
 export interface BookLanguage {
   id: number,
   name: String  

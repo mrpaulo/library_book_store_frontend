@@ -1,5 +1,5 @@
 import { PageableFilter } from "../../../components/utils/PageableFilter";
-import { AddressDTO } from "../books/types";
+import { AddressDTO } from "../addresses/types";
 
 /**
 * Action types 
