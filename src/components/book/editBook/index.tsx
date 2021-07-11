@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import * as booksActions from '../../../store/ducks/books/actions';
-import { Book, bookFormLabel, BookLanguage, BookSubject, CustomEnum } from '../../../store/ducks/books/types';
+import { Book, BookLanguage, BookSubject, CustomEnum } from '../../../store/ducks/books/types';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import { Formik, Form, FormikProps, Field } from 'formik';
 import { ApplicationState } from '../../../store';
@@ -17,6 +17,8 @@ import AutoCompleteCompany from '../../utils/AutoCompleteCompany';
 import { CompanyDTO } from '../../../store/ducks/companies/types';
 import AutoCompleteAuthor from '../../utils/AutoCompleteAuthor';
 import { PersonDTO } from '../../../store/ducks/people/types';
+import { useTranslation } from "react-i18next";
+import "../../../services/i18n/i18n";
 import * as Yup from 'yup';
 
 interface StateProps {
@@ -78,6 +80,7 @@ const validationSchema = Yup.object().shape({
 
 const EditBook: React.FC<Props> = (props) => {  
   const classes = useStyles();
+  const { t } = useTranslation();  
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const { book, booksFormat, booksCondition, bookSubjectList, languageList, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest, bookConditionRequest, bookSubjectRequest, bookLanguageRequest } = props;
   const [flagEditing, setFlagEditing] = useState(false);
@@ -170,7 +173,7 @@ const EditBook: React.FC<Props> = (props) => {
                 <CardContent>
                   <Grid className="form-containner" container justify="space-around" direction="row">
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.title}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.title")}</InputLabel>
                       <TextField
                         name="title"
                         type="text"
@@ -191,7 +194,7 @@ const EditBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.subtitle}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.subtitle")}</InputLabel>
                       <TextField
                         name="subtitle"
                         type="text"
@@ -212,7 +215,7 @@ const EditBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.authors}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.authors")}</InputLabel>
                       <Field
                         className="form-select-field"
                         name="authors"
@@ -229,7 +232,7 @@ const EditBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.publisher}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.publisher")}</InputLabel>
                       <Field
                         className="form-select-field"
                         name="publisher"
@@ -246,7 +249,7 @@ const EditBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.review}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.review")}</InputLabel>
                       <TextField
                         name="review"
                         type="text"
@@ -267,53 +270,53 @@ const EditBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.languageName}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.language_name")}</InputLabel>
                       <Field
                         className="form-select-field"
                         name="languageName"
                         options={languageList}
                         component={CustomObjSelect}
-                        placeholder="Select a language..."
+                        placeholder={t("placeholder.select_language")}
                         isMulti={false}
                         isObject={true}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.subject}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.subject")}</InputLabel>
                       <Field
                         className="form-select-field"
                         name="subjectName"
                         options={bookSubjectList}
                         component={CustomObjSelect}
-                        placeholder="Select a book subject..."
+                        placeholder={t("placeholder.select_book_subject")}
                         isMulti={false}
                         isObject={true}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.format}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.format")}</InputLabel>
                       <Field
                         className="form-select-field"
                         name="format"
                         options={booksFormat}
                         component={CustomSelect}
-                        placeholder="Select a book format.."
+                        placeholder={t("placeholder.select_book_format")}
                         isMulti={false}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.condition}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.condition")}</InputLabel>
                       <Field
                         className="form-select-field"
                         name="condition"
                         options={booksCondition}
                         component={CustomSelect}
-                        placeholder="Select a book condition..."
+                        placeholder={t("placeholder.select_book_condition")}
                         isMulti={false}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.link}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.link")}</InputLabel>
                       <TextField
                         name="link"
                         type="text"
@@ -334,7 +337,7 @@ const EditBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.edition}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.edition")}</InputLabel>
                       <TextField
                         name="edition"
                         type="number"
@@ -349,7 +352,7 @@ const EditBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.length}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.length")}</InputLabel>
                       <TextField
                         name="length"
                         type="number"
@@ -363,7 +366,7 @@ const EditBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.publishDate}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.publish_date")}</InputLabel>
                       <TextField
                         name="publishDate"
                         type="date"
@@ -393,7 +396,7 @@ const EditBook: React.FC<Props> = (props) => {
                       variant="outlined"
                       startIcon={<ClearIcon />}
                     >
-                      Cancel
+                      {t("buttons.cancel")}
                     </Button>
                     <Button
                       className={classes.submitButton}
@@ -403,7 +406,7 @@ const EditBook: React.FC<Props> = (props) => {
                       variant="outlined"
                       startIcon={<SaveIcon />}
                     >
-                      Submit
+                      {t("buttons.submit")}
                     </Button>
                   </Grid>
                 </Grid>

@@ -97,24 +97,6 @@ export interface BookLanguage {
   name: String  
 }
 
-export const bookFormLabel: any = {
-  title: "Title",
-  author: "Author",
-  authors: "Authors",
-  languageName: "Language",
-  publisher: "Publisher",
-  subject: "Subject",
-  subtitle: "Subtitle",
-  review: "Review",
-  link: "Link",
-  format: "Format",
-  condition: "Condition",
-  edition: "Edition",
-  publishDate: "Publish Date",
-  rating: "Rating",
-  length: "Length",
-}
-
 /**
  *  State type
  */

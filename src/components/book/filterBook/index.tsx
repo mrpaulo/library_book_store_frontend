@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import * as booksActions from '../../../store/ducks/books/actions';
-import { Book, BookFilter, bookFormLabel, BookSubject } from '../../../store/ducks/books/types';
+import { Book, BookFilter, BookSubject } from '../../../store/ducks/books/types';
 
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import { Formik, Form, FormikProps, Field } from 'formik';
@@ -12,6 +12,8 @@ import { useStyles } from '../../../styles/Styles';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
 import CustomObjSelect from '../../utils/CustomObjSelect';
+import { useTranslation } from "react-i18next";
+import "../../../services/i18n/i18n";
 
 interface StateProps {
   books?: Book[],
@@ -27,6 +29,7 @@ type Props = StateProps & DispatchProps
 
 const FilterBook: React.FC<Props> = (props) => {
   const classes = useStyles();
+  const { t } = useTranslation();  
   const { searchRequest, bookSubjectRequest, bookSubjectList } = props;
 
   const initialValues: BookFilter = {
@@ -75,13 +78,13 @@ const FilterBook: React.FC<Props> = (props) => {
             <Card className={classes.root}>
               <Form>
                 <CardHeader
-                  title=" Consulta Livros"
+                  title={t("titles.search_books")}
                   subheader=""
                 />
                 <CardContent>
                   <Grid container justify="space-around" direction="row">
                     <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.title}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.title")}</InputLabel>
                       <TextField
                         name="title"
                         type="text"
@@ -96,7 +99,7 @@ const FilterBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.author}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.author")}</InputLabel>
                       <TextField
                         name="author"
                         type="text"
@@ -111,7 +114,7 @@ const FilterBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.publisher}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.publisher")}</InputLabel>
                       <TextField
                         name="publisher"
                         type="text"
@@ -126,13 +129,13 @@ const FilterBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{bookFormLabel.subject}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.subject")}</InputLabel>
                       <Field
                         className="form-select-field"
                         name="subjectName"
                         options={bookSubjectList}
                         component={CustomObjSelect}
-                        placeholder="Select a book subject..."
+                        placeholder={t("placeholder.select_book_subject")}
                         isMulti={false}
                         isObject={true}
                       />
@@ -150,7 +153,7 @@ const FilterBook: React.FC<Props> = (props) => {
                       variant="outlined"
                       startIcon={<ClearIcon />}
                     >
-                      Clear
+                      {t("buttons.clear")}
                     </Button>
                     <Button
                       className={classes.submitButton}
@@ -160,7 +163,7 @@ const FilterBook: React.FC<Props> = (props) => {
                       variant="outlined"
                       startIcon={<SearchIcon />}
                     >
-                      Search
+                      {t("buttons.search")}
                     </Button>
                   </Grid>
                 </Grid>

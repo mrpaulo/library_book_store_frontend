@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, MouseEvent, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
@@ -11,6 +11,8 @@ import AddIcon from '@material-ui/icons/Add';
 import * as booksActions from '../../../store/ducks/books/actions';
 import { StyledTableCell, useStyles } from '../../../styles/Styles';
 import { Typography } from '@material-ui/core';
+import { useTranslation } from "react-i18next";
+import "../../../services/i18n/i18n";
 
 interface StateProps {
   books: Book[]
@@ -28,6 +30,7 @@ type Props = StateProps & DispatchProps
 const BookList: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { books, loadRequest, changeFlagEditing, findByIdRequest } = props;
+  const { t } = useTranslation();
 
   useEffect(() => {
     loadRequest();
@@ -49,17 +52,17 @@ const BookList: React.FC<Props> = (props) => {
     console.log("Editar livro: " + name + " id " + id)
   }
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, books.length - page * rowsPerPage);
 
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+  const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -70,7 +73,7 @@ const BookList: React.FC<Props> = (props) => {
       <Card className={classes.root}>
 
         <CardHeader
-          title=" Resultado pesquisa"
+          title={t("titles.search_result")}
           subheader=""
         />
         <CardContent>
@@ -80,14 +83,14 @@ const BookList: React.FC<Props> = (props) => {
               <Table className={classes.table} aria-label="custom pagination table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>Título</StyledTableCell>
-                    <StyledTableCell align="right">Subtítulo</StyledTableCell>
-                    <StyledTableCell align="right">Data Publicação</StyledTableCell>
-                    <StyledTableCell align="right">Qtd paginas</StyledTableCell>
+                    <StyledTableCell>{t("labels.title")}</StyledTableCell>
+                    <StyledTableCell align="right">{t("labels.subtitle")}</StyledTableCell>
+                    <StyledTableCell align="right">{t("labels.publish_date")}</StyledTableCell>
+                    <StyledTableCell align="right">{t("labels.length")}</StyledTableCell>
                     <StyledTableCell align="right"></StyledTableCell>
                     <StyledTableCell align="right">
                       <Tooltip title="Adicionar Livro">
-                        <IconButton aria-label="Adicionar" onClick={addBook}>
+                        <IconButton aria-label={t("buttons.add")} onClick={addBook}>
                           <AddIcon color="primary" />
                         </IconButton>
                       </Tooltip>
@@ -137,8 +140,9 @@ const BookList: React.FC<Props> = (props) => {
                       colSpan={6}
                       count={books.length}
                       rowsPerPage={rowsPerPage}
-                      labelRowsPerPage='Rows Per Page'
-                      labelDisplayedRows={({ from, to, count }) => `Displaying pages ${from}-${to} of total ${count} pages`}
+                      labelRowsPerPage={t("messages.table_rows_per_page")}
+                      // labelDisplayedRows={({ from, to, count }) => `Displaying pages ${from}-${to} of total ${count} pages`}
+                      labelDisplayedRows={({ from, to, count }) => t("messages.table_displaying_pagers", { from, to, count })}
                       page={page}
                       nextIconButtonText='Next Page'
                       backIconButtonText='Previous Page'
@@ -163,7 +167,6 @@ const BookList: React.FC<Props> = (props) => {
       </Card>
     </>)
 };
-
 
 const mapStateToProps = (state: ApplicationState) => ({
   books: state.books.booksData,
