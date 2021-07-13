@@ -1,3 +1,4 @@
+import { CustomEnum } from "../../../components/utils/constants";
 import { PageableFilter } from "../../../components/utils/PageableFilter";
 import { CompanyDTO } from "../companies/types";
 import { PersonDTO } from "../people/types";
@@ -79,11 +80,6 @@ export interface BookFilter extends PageableFilter{
   author?: String,  
   publisher?: String,
   subject?: String 
-}
-
-export interface CustomEnum {
-  label: String,
-  value: String
 }
 
 export interface BookSubject {

@@ -2,15 +2,13 @@ import { FieldProps } from "formik";
 import React from "react";
 import Select from "react-select";
 import { OptionsType, ValueType } from "react-select";
-
-interface Option {
-  label: string;
-  value: string;
-}
+import { CustomEnum } from "./constants";
+import { useTranslation } from "react-i18next";
+import "../../services/i18n/i18n";
 
 interface CustomSelectProps extends FieldProps {
-  options: OptionsType<Option>;
-  isMulti?: boolean;  
+  options: OptionsType<CustomEnum>;
+  isMulti?: boolean;
   className?: string;
   placeholder?: string;
 }
@@ -23,13 +21,15 @@ export const CustomSelect = ({
   options,
   isMulti = false,
 }: CustomSelectProps) => {
-  
-  const onChange = (option: ValueType<Option | Option[],  boolean>) => {
+
+  const { t } = useTranslation();
+
+  const onChange = (option: ValueType<CustomEnum | CustomEnum[], boolean>) => {
     form.setFieldValue(
       field.name,
       isMulti
-        ? (option as Option[]).map((item: Option) => item.value)
-        : (option as Option).value
+        ? (option as CustomEnum[]).map((item: CustomEnum) => item.value)
+        : (option as CustomEnum).value
     );
   };
 
@@ -45,6 +45,7 @@ export const CustomSelect = ({
 
   return (
     <Select
+      getOptionLabel={list => t(list.label)}
       className={className}
       name={field.name}
       value={getValue()}
@@ -52,7 +53,7 @@ export const CustomSelect = ({
       placeholder={placeholder}
       options={options}
       isMulti={isMulti}
-    />   
+    />
   );
 };
 

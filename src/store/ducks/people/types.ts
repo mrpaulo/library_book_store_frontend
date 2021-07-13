@@ -49,11 +49,9 @@ export interface Person {
   createDate: Date
 }
 
-export interface PersonFilter extends PageableFilter {
-  title: String,
-  author?: String,
-  publisher?: String,
-  subject?: String
+export interface PersonFilter extends PageableFilter {  
+  cpf?: String,
+  sex?: String  
 }
 
 export interface PersonDTO {

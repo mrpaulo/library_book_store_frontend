@@ -1,5 +1,5 @@
 import { PageableFilter } from "../../../components/utils/PageableFilter";
-import { CustomEnum } from "../books/types";
+import { CustomEnum } from "../../../components/utils/constants";
 
 /**
 * Action types 

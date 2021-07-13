@@ -24,12 +24,12 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 const appMenuItems = [
   {
-    name: 'Books',
+    name: 'menu.books',
     link: BOOKS_URL,
     Icon: MenuBookIcon,
   },    
   {
-    name: 'Add book',
+    name: 'menu.add_book',
     link: '/add-book',
     Icon: AddIcon,
   }, 

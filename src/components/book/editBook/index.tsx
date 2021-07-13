@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import * as booksActions from '../../../store/ducks/books/actions';
-import { Book, BookLanguage, BookSubject, CustomEnum } from '../../../store/ducks/books/types';
+import { Book, BookLanguage, BookSubject } from '../../../store/ducks/books/types';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import { Formik, Form, FormikProps, Field } from 'formik';
 import { ApplicationState } from '../../../store';
@@ -20,6 +20,7 @@ import { PersonDTO } from '../../../store/ducks/people/types';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 import * as Yup from 'yup';
+import { CustomEnum } from '../../utils/constants';
 
 interface StateProps {
   book?: Book,
@@ -84,7 +85,7 @@ const EditBook: React.FC<Props> = (props) => {
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const { book, booksFormat, booksCondition, bookSubjectList, languageList, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest, bookConditionRequest, bookSubjectRequest, bookLanguageRequest } = props;
   const [flagEditing, setFlagEditing] = useState(false);
-  const [subtitle, setSubtitle] = useState("Registrar Livro");
+  const [subtitle, setSubtitle] = useState(t("titles.submit_book"));
   const [publisher, setPublisher] = useState<CompanyDTO | null>(null);
   const [authors, setAuthors] = useState<PersonDTO[]>([]);
 
@@ -96,7 +97,7 @@ const EditBook: React.FC<Props> = (props) => {
       setPublisher(book.publisher as CompanyDTO);
       setInitialValues(book);
       setFlagEditing(true);
-      setSubtitle("Editar Livro")
+      setSubtitle(t("titles.edit_book"))
     }
   }, [book]);
 

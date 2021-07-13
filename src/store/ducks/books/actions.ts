@@ -1,5 +1,6 @@
 import { action } from 'typesafe-actions';
-import { BooksTypes, Book, BookFilter, CustomEnum, BookSubject, BookLanguage} from './types';
+import { CustomEnum } from '../../../components/utils/constants';
+import { BooksTypes, Book, BookFilter, BookSubject, BookLanguage} from './types';
 
 export const loadRequest = () => action(BooksTypes.LOAD_REQUEST);
 export const loadSuccess = (booksData: Book[]) => action(BooksTypes.LOAD_SUCCESS,  { booksData });
