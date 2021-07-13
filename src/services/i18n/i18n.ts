@@ -4,6 +4,7 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { languages } from "./constants";
 import { pt, en } from "./translations";
+import moment from 'moment';
 
 const createI18n = (language: string): i18nInstance => {
   const i18n = i18next.createInstance().use(initReactI18next);
@@ -22,6 +23,13 @@ const createI18n = (language: string): i18nInstance => {
           translation: pt
         }
       },
+      interpolation: {
+        format: function (value, format, lng) {
+          if (value instanceof Date) return moment(value).format(format);
+          if (typeof value === "number") return new Intl.NumberFormat().format(value);
+          return value;
+        }
+      }
     });
 
   return i18n;

@@ -34,16 +34,16 @@ const appMenuItems = [
     Icon: AddIcon,
   }, 
   {
-    name: 'Books',
+    name: 'menu.books',
     Icon: IconLibraryBooks,
     items: [
       {
-        name: 'Search books',
+        name: 'menu.search_books',
         link:BOOKS_URL,
         Icon: SearchIcon,
       },
       {
-        name: 'Add book',
+        name: 'menu.add_book',
         link: ADD_BOOK_URL,
         Icon: AddIcon,
       },
@@ -61,31 +61,31 @@ const appMenuItems = [
     ],
   },
   {
-    name: 'Companies',
+    name: 'menu.companies',
     Icon: BusinessIcon,
     items: [
       {
-        name: 'Search companies',
+        name: 'menu.search_companies',
         link: COMPANIES_URL,
         Icon: SearchIcon,
       },
       {
-        name: 'Add company',
+        name: 'menu.add_company',
         link: ADD_COMPANY_URL,
         Icon: AddIcon,
       }],
   },
   {
-    name: 'People',
+    name: 'menu.people',
     Icon: PersonIcon,
     items: [
       {
-        name: 'Search people',
+        name: 'menu.search_people',
         link: PEOPLE_URL,
         Icon: GroupIcon,
       },
       {
-        name: 'Add person',
+        name: 'menu.add_person',
         link: ADD_PERSON_URL,
         Icon: PersonAddIcon,
       }],

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
@@ -25,13 +25,72 @@ import Drawer from '@material-ui/core/Drawer'
 import Container from '@material-ui/core/Container'
 import { pageMenuStyles } from './styles/Styles';
 
-//const App = () => <Provider store={store}><PageBook /></Provider> ;
+import { i18n } from './services/i18n/i18n';
+import { languages } from './services/i18n/constants';
+import { IconButton, Toolbar, Typography } from '@material-ui/core';
+import { AppBar } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import LanguageIcon from '@material-ui/icons/Language';
 const App: React.FC = () => {
-  const classes = pageMenuStyles()
+  const classes = pageMenuStyles()  
+  const [languageSelected, setLanguageSelect] = useState(languages.en);
+
+  const changeLaguage = (e: any) => {
+    e.preventDefault();
+    if(languageSelected == languages.en){
+      setLanguageSelect(languages.pt)
+      i18n.changeLanguage(languages.pt)
+    } else {
+      setLanguageSelect(languages.en)
+      i18n.changeLanguage(languages.en)
+    }    
+  }
 
   return (
+    <>
+    <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="open drawer"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography className={classes.title} variant="h6" noWrap>
+              Library Book Store
+            </Typography>
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls='ds'
+              aria-haspopup="true"
+              onClick={changeLaguage}
+              color="inherit"
+            >
+              <LanguageIcon />
+              {languageSelected}
+            </IconButton>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls='ds'
+              aria-haspopup="true"
+              onClick={() => alert("ola")}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            </div>
+          </Toolbar>
+        </AppBar>
     <BrowserRouter>
       <div className={clsx('App', classes.root)}>
+        
         <CssBaseline />
         <Drawer
           variant="permanent"
@@ -56,8 +115,9 @@ const App: React.FC = () => {
             </Provider>
           </Container>
         </main>
+
       </div>
     </BrowserRouter>
-  )
+ </> )
 }
 export default App;

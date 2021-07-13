@@ -6,6 +6,15 @@ export const pageMenuStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
   },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
@@ -23,6 +32,15 @@ export const pageMenuStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+  grow: {
+    flexGrow: 1,
   },
 }))
 

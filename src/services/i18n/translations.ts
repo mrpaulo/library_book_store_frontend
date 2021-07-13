@@ -3,9 +3,16 @@ export const en = {
     add: "Add",
     cancel: "Cancel",
     clear: "Clear",
+    delete: "Delete",
+    edit: "Edit",
     ok: "Ok",
     search: "Search",
     submit: "Submit",
+    table_next_page: "Next page",
+    table_previous_page: "Previous page",
+  },
+  formats: {
+    date_format: "{{date, YYY-MM-DD}}"
   },
   labels: {
     title: "Title",
@@ -37,7 +44,10 @@ export const en = {
   },
   messages: {
     table_rows_per_page: "Rows per page",
-    table_displaying_pagers: "Displaying pages {{from}}-{{to}} of total {{count}} pages"
+    table_displaying_pagers: "Displaying pages {{from}}-{{to}} of total {{count}} pages",
+    table_confrm_delete: "Are you sure about delete the book {{title}}?",
+    table_all_itens: "All",
+    table_no_results: "No results"
   },  
   placeholder: {
     select_book_condition: "Select a book condition",
@@ -60,9 +70,16 @@ export const pt = {
     add: "Adicionar",
     cancel: "Cancelar",
     clear: "Limpar",
+    delete: "Excluir",
+    edit: "Editar",
     ok: "Ok",
     search: "Pesquisar",
     submit: "Salvar",
+    table_next_page: "Próxima página",
+    table_previous_page: "Página anterior",
+  },
+  formats: {
+    date_format: "{{date, DD-MM-YYYY}}"
   },
   labels: {
     title: "Título",
@@ -94,7 +111,10 @@ export const pt = {
   },
   messages: {
     table_rows_per_page: "Linhas por página",
-    table_displaying_pagers: "Mostrando página{{from}}-{{to}} do total de {{count}} página"
+    table_displaying_pagers: "Mostrando página{{from}}-{{to}} do total de {{count}} página",
+    table_confrm_delete: "Você tem certeza que deseja excluir {{title}}?",
+    table_all_itens: "Todas",
+    table_no_results: "Sem resultados"
   },  
   placeholder: {
     select_book_condition: "Selecione a condição do livro",

@@ -14,6 +14,8 @@ import IconExpandLess from '@material-ui/icons/ExpandLess'
 import IconExpandMore from '@material-ui/icons/ExpandMore'
 
 import AppMenuItemComponent from './AppMenuItemComponent'
+import { useTranslation } from "react-i18next";
+import "../../services/i18n/i18n";
 
 // React runtime PropTypes
 export const AppMenuItemPropTypes = {
@@ -38,6 +40,7 @@ const AppMenuItem: React.FC<AppMenuItemProps> = props => {
   const classes = useStyles()
   const isExpandable = items && items.length > 0
   const [open, setOpen] = React.useState(false)
+  const { t } = useTranslation();
 
   function handleClick() {
     setOpen(!open)
@@ -51,7 +54,7 @@ const AppMenuItem: React.FC<AppMenuItemProps> = props => {
           <Icon />
         </ListItemIcon>
       )}
-      <ListItemText primary={name} inset={!Icon} />
+      <ListItemText primary={t(name)} inset={!Icon} />
       {/* Display the expand menu if the item has children */}
       {isExpandable && !open && <IconExpandMore />}
       {isExpandable && open && <IconExpandLess />}
