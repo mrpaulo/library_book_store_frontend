@@ -71,9 +71,9 @@ function* deleteById (action: any): Generator<any, any, any>{
 }
 
 function* create(action: any): Generator<any, any, any> {
-  const company: Person = action.payload.company;
+  const person: Person = action.payload.person;
   try {
-    const reponse = yield call(api.post, PEOPLE_V1, company);
+    const reponse = yield call(api.post, PEOPLE_V1, person);
 
     yield put(createSuccess(reponse.data));
   } catch (error) {
@@ -82,9 +82,9 @@ function* create(action: any): Generator<any, any, any> {
 }
 
 function* update(action: any): Generator<any, any, any>  {
-  const company: Person = action.payload.company;
+  const person: Person = action.payload.person;
   try {
-    const reponse = yield call(api.put, `${PEOPLE_V1}/${company.id}`, company);
+    const reponse = yield call(api.put, `${PEOPLE_V1}/${person.id}`, person);
 
     yield put(updateSuccess(reponse.data));
   } catch (error) {

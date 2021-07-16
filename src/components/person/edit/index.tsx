@@ -46,8 +46,8 @@ const INITIAL_VALUES: Person = {
   sex: '',
   email: '',  
   birthdate: undefined,  
-  birthCity: "",
-  birthCountry: "",
+  birthCity: undefined,
+  birthCountry: undefined,
   address: undefined
 };
 
@@ -61,19 +61,14 @@ const EditPerson: React.FC<Props> = (props) => {
   const [subtitle, setSubtitle] = useState(t("titles.submit_person"));
   
   const validationSchema = Yup.object().shape({
-    title: Yup.string()
+    name: Yup.string()
       .max(100, t("errors.too_long"))
-      .required(t("errors.title_required")),
-    authors: Yup.array()
-      .min(1, t("errors.too_long"))
-      .required(),
-    publisher: Yup.object().required(),
-    subtitle: Yup.string()
-      .max(100, t("errors.too_long")),
-    review: Yup.string()
-      .max(500, t("errors.too_long")),
-    link: Yup.string()
-      .max(100, t("errors.too_long"))
+      .required(t("errors.name_required")),
+    cpf: Yup.string()
+    .max(100, t("errors.too_long"))
+    .required(t("errors.cpf_required")),
+    birthdate: Yup.date()
+    .required(t("errors.birthdate_required"))
   });
 
   useEffect(() => {

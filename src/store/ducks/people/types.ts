@@ -1,5 +1,5 @@
 import { PageableFilter } from "../../../components/utils/PageableFilter";
-import { AddressDTO } from "../addresses/types";
+import { AddressDTO, City, Country } from "../addresses/types";
 
 /**
 * Action types 
@@ -48,8 +48,8 @@ export interface Person {
   cpf: String,
   sex: String,
   email: String,
-  birthCity: String,
-  birthCountry: String,
+  birthCity?: City,
+  birthCountry?: Country,
   address?: AddressDTO
 }
 
