@@ -64,6 +64,7 @@ export const menuStyles = makeStyles(theme =>
 export const useStyles = makeStyles({
   root: {
     minWidth: 275,
+    margin: '10px',
   },
   bullet: {
     display: 'inline-block',

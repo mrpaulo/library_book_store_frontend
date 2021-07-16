@@ -43,10 +43,14 @@ export enum PeopleTypes {
  */
 export interface Person {
   id: number,
-  name: String,
-  cnpj: String,
-  description: String,
-  createDate: Date
+  name: string,
+  birthdate?: Date,
+  cpf: String,
+  sex: String,
+  email: String,
+  birthCity: String,
+  birthCountry: String,
+  address?: AddressDTO
 }
 
 export interface PersonFilter extends PageableFilter {  
@@ -55,7 +59,7 @@ export interface PersonFilter extends PageableFilter {
 }
 
 export interface PersonDTO {
-  id: Number,
+  id: number,
   name: string,
   birthdate: Date,
   cpf: String,
@@ -66,29 +70,11 @@ export interface PersonDTO {
   address: AddressDTO
 }
 
-export const companyFormLabel: any = {
-  title: "Title",
-  author: "Author",
-  authors: "Authors",
-  languageName: "Language",
-  publisher: "Publisher",
-  subject: "Subject",
-  subtitle: "Subtitle",
-  review: "Review",
-  link: "Link",
-  format: "Format",
-  condition: "Condition",
-  edition: "Edition",
-  publishDate: "Publish Date",
-  rating: "Rating",
-  length: "Length",
-}
-
 /**
  *  State type
  */
 export interface PeopleState {
-  readonly companyData?: Person
+  readonly personData?: Person
   readonly peopleData: PersonDTO[]
   readonly peopleAutoComplete?: PersonDTO[]
   readonly loading: boolean

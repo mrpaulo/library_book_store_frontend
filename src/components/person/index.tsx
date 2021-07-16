@@ -4,7 +4,9 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import { ApplicationState } from '../../store';
 import * as peopleActions from '../../store/ducks/people/actions';
-import FilterPerson from './filterPerson';
+import PersonFilter from './filter';
+import PeopleList from './list';
+import PersonEdit from './edit';
 
 interface StateProps {
   flagEditing: Boolean,
@@ -22,7 +24,14 @@ const PagePerson : React.FC<Props> = (props) =>{
   const {flagEditing, flagDetail} = props;
   return (
     <>
-   <FilterPerson/>
+   {flagEditing || flagDetail ? (
+        <PersonEdit />
+      ) : (
+        <> 
+        <PersonFilter />
+        <PeopleList />
+      </>     
+    )}
     </>
   );
 }

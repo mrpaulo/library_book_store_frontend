@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { PeopleState, PeopleTypes } from './types'
 
 const INITIAL_STATE: PeopleState = {
-  companyData: undefined,
+  personData: undefined,
   peopleData: [],
   peopleAutoComplete: [],
   error: false,
@@ -29,9 +29,9 @@ const reducer: Reducer<PeopleState> = (state = INITIAL_STATE, action) => {
     case PeopleTypes.FIND_BY_ID_REQUEST:
       return { ...state, loading: true };
     case PeopleTypes.FIND_BY_ID_SUCCESS:
-      return { ...state, loading: false, error: false, companyData: action.payload.companyData };
+      return { ...state, loading: false, error: false, personData: action.payload.personData };
     case PeopleTypes.FIND_BY_ID_FAILURE:
-      return { ...state, loading: false, error: true, companyData: undefined };
+      return { ...state, loading: false, error: true, personData: undefined };
     case PeopleTypes.FIND_BY_NAME_REQUEST:
       return { ...state, loading: true };
     case PeopleTypes.FIND_BY_NAME_SUCCESS:
@@ -41,27 +41,27 @@ const reducer: Reducer<PeopleState> = (state = INITIAL_STATE, action) => {
     case PeopleTypes.UPDATE_REQUEST:
       return { ...state, loading: true };
     case PeopleTypes.UPDATE_SUCCESS:
-      return { ...state, loading: false, error: false, companyData: action.payload.companyData };
+      return { ...state, loading: false, error: false, personData: action.payload.personData };
     case PeopleTypes.UPDATE_FAILURE:
-      return { ...state, loading: false, error: true, companyData: undefined };
+      return { ...state, loading: false, error: true, personData: undefined };
     case PeopleTypes.CREATE_REQUEST:
       return { ...state, loading: true };
     case PeopleTypes.CREATE_SUCCESS:
-      return { ...state, loading: false, error: false, companyData: action.payload.companyData };
+      return { ...state, loading: false, error: false, personData: action.payload.personData };
     case PeopleTypes.CREATE_FAILURE:
-      return { ...state, loading: false, error: true, companyData: undefined };
+      return { ...state, loading: false, error: true, personData: undefined };
     case PeopleTypes.DELETE_BY_ID_REQUEST:
       return { ...state, loading: true };
     case PeopleTypes.DELETE_BY_ID_SUCCESS:
-      return { ...state, loading: false, error: false, companyData: action.payload.companyData };
+      return { ...state, loading: false, error: false, personData: action.payload.personData };
     case PeopleTypes.DELETE_BY_ID_FAILURE:
-      return { ...state, loading: false, error: true, companyData: undefined };
+      return { ...state, loading: false, error: true, personData: undefined };
     case PeopleTypes.CHANGE_FLAG_EDITING:
       return { ...state, flagEditing: !state.flagEditing };
     case PeopleTypes.CHANGE_FLAG_DETAIL:
       return { ...state, flagDetail: !state.flagDetail };
     case PeopleTypes.CLEAN_BOOK_EDIT:
-      return { ...state, companyData: undefined };    
+      return { ...state, personData: undefined };    
     default:
       return state;
   }

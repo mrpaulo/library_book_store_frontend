@@ -1,21 +1,22 @@
 import React, { useEffect, useState, MouseEvent, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-
-import { Book } from '../../../store/ducks/books/types';
 import { ApplicationState } from '../../../store';
-import { Card, CardContent, CardHeader, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Tooltip } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
-import * as booksActions from '../../../store/ducks/books/actions';
-import { StyledTableCell, useStyles } from '../../../styles/Styles';
-import { Typography } from '@material-ui/core';
+
+import * as peopleActions from '../../../store/ducks/people/actions';
+import { Person, PersonDTO } from '../../../store/ducks/people/types';
+
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 
+import { StyledTableCell, useStyles } from '../../../styles/Styles';
+import { Card, CardContent, CardHeader, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography, Tooltip } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+
 interface StateProps {
-  books: Book[]
+  people: PersonDTO[]
 }
 
 interface DispatchProps {
@@ -27,42 +28,42 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-const BookList: React.FC<Props> = (props) => {
+const PeopleList: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { books, loadRequest, changeFlagEditing, findByIdRequest } = props;
+  const { people, loadRequest, changeFlagEditing, findByIdRequest } = props;
   const { t } = useTranslation();
-  const tooltipTitle = t("tooltip.add_book");
+  const tooltipTitle = t("tooltip.person");
 
   useEffect(() => {
     loadRequest();
   }, []);
 
-  function addBook() {
+  function addPerson() {
     console.log("Adicionar livro")
     changeFlagEditing();
   }
 
-  function editBook(id: number) {
+  function editPerson(id: number) {
     findByIdRequest(id);
     changeFlagEditing();
 
     console.log("Editar livro id " + id)
   }
 
-  function confirmEraseBook(id: number, title: String) {
+  function confirmErasePerson(id: number, title: String) {
     if (window.confirm(t("messages.table_confrm_delete", { title }))) {
-      eraseBook(id, title)
+      erasePerson(id, title)
     }
   }
 
-  function eraseBook(id: number, name: String) {
+  function erasePerson(id: number, name: String) {
     console.log("Editar livro: " + name + " id " + id)
   }
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, books.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, people.length - page * rowsPerPage);
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -78,26 +79,25 @@ const BookList: React.FC<Props> = (props) => {
   return (
     <>
       <Card className={classes.root}>
-
         <CardHeader
           title={t("titles.search_result")}
           subheader=""
         />
         <CardContent>
-          {(books.length > 0 ? (
+          {(people.length > 0 ? (
             <Grid container justify="space-around" direction="row">
-              <TableContainer component={Paper}>
+              <TableContainer >
                 <Table className={classes.table} aria-label="custom pagination table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell>{t("labels.title")}</StyledTableCell>
-                      <StyledTableCell align="right">{t("labels.subtitle")}</StyledTableCell>
-                      <StyledTableCell align="right">{t("labels.publish_date")}</StyledTableCell>
-                      <StyledTableCell align="right">{t("labels.length")}</StyledTableCell>
+                      <StyledTableCell>{t("labels.name")}</StyledTableCell>
+                      <StyledTableCell align="right">{t("labels.cpf")}</StyledTableCell>
+                      <StyledTableCell align="right">{t("labels.birthdate")}</StyledTableCell>
+                      <StyledTableCell align="right">{t("labels.email")}</StyledTableCell>
                       <StyledTableCell align="right"></StyledTableCell>
                       <StyledTableCell align="right">
                         <Tooltip title={tooltipTitle}>
-                          <IconButton aria-label={t("buttons.add")} onClick={addBook}>
+                          <IconButton aria-label={t("buttons.add")} onClick={addPerson}>
                             <AddIcon color="primary" />
                           </IconButton>
                         </Tooltip>
@@ -106,30 +106,30 @@ const BookList: React.FC<Props> = (props) => {
                   </TableHead>
                   <TableBody>
                     {(rowsPerPage > 0
-                      ? books.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      : books
-                    ).map((book) => (
-                      <TableRow key={book.id}>
+                      ? people.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      : people
+                    ).map((person) => (
+                      <TableRow key={person.id}>
                         <TableCell style={{ width: 300 }} component="th" scope="row">
-                          {book.title}
+                          {person.name}
                         </TableCell>
                         <TableCell style={{ width: 200 }} align="right">
-                          {book.subtitle}
+                          {person.cpf}
                         </TableCell>
                         <TableCell style={{ width: 160 }} align="right">
-                          {t("formats.date_format", { date: book.publishDate })}
+                          {t("formats.date_format", { date: person.birthdate })}
                           {/* {t("formats.date_format", { date: new Date() })} */}
                         </TableCell>
                         <TableCell style={{ width: 100 }} align="right">
-                          {book.length}
+                          {person.email}
                         </TableCell>
                         <TableCell style={{ width: 80 }} align="right">
-                          <IconButton onClick={() => editBook(book.id)} aria-label={t("buttons.edit")}>
+                          <IconButton onClick={() => editPerson(person.id)} aria-label={t("buttons.edit")}>
                             <EditIcon />
                           </IconButton>
                         </TableCell>
                         <TableCell style={{ width: 80 }} align="right">
-                          <IconButton className="btn btn-warning" onClick={() => confirmEraseBook(book.id, book.title)} aria-label={t("buttons.delete")}>
+                          <IconButton className="btn btn-warning" onClick={() => confirmErasePerson(person.id, person.name)} aria-label={t("buttons.delete")}>
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>
@@ -146,7 +146,7 @@ const BookList: React.FC<Props> = (props) => {
                       <TablePagination
                         rowsPerPageOptions={[5, 10, 25, { label: t("messages.table_all_itens"), value: -1 }]}
                         colSpan={6}
-                        count={books.length}
+                        count={people.length}
                         rowsPerPage={rowsPerPage}
                         labelRowsPerPage={t("messages.table_rows_per_page")}
                         // labelDisplayedRows={({ from, to, count }) => `Displaying pages ${from}-${to} of total ${count} pages`}
@@ -177,9 +177,9 @@ const BookList: React.FC<Props> = (props) => {
 };
 
 const mapStateToProps = (state: ApplicationState) => ({
-  books: state.books.booksData,
+  people: state.people.peopleData,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(booksActions, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(peopleActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookList);
+export default connect(mapStateToProps, mapDispatchToProps)(PeopleList);

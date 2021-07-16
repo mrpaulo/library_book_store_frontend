@@ -11,15 +11,28 @@ export const en = {
     table_next_page: "Next page",
     table_previous_page: "Previous page",
   },
+  errors: {
+    at_least_one: "At least one!",
+    name_required: "Name is required!",
+    birhdate_required: "Birthdate is required!",
+    cnpj_required: "CNPJ is required!",
+    cpf_required: "CPF is required!",
+    title_required: "Title is required!",
+    too_long: "Too long!",
+  },
   formats: {
     date_format: "{{date, YYY-MM-DD}}"
   },
   labels: {
     author: "Author",
     authors: "Authors",
+    birthdate: "Birthdate",
+    birthplace: "Birth place",
     condition: "Condition",
     cpf: "CPF",
+    descripition: "Description",
     edition: "Edition",
+    email: "Email address",
     feminine: "Feminine",
     format: "Format",
     language_name: "Language",
@@ -63,13 +76,20 @@ export const en = {
   },
   titles: {
     edit_book: "Edit Book",    
+    edit_person: "Edit Person",    
+    edit_company: "Edit Company",    
     search_books: "Search Books",
+    search_companies: "Consulta Empresa",
     search_people: "Search People",
     search_result: "Search Result",
     submit_book: "Submit Book",
+    submit_company: "Submit Company",
+    submit_person: "Submit Person",
   },
   tooltip: {
-    add_book: "Add book"
+    add_book: "Add book",
+    add_company: "Adicionar empresa",
+    add_person: "Add person",
   }
 };
 
@@ -86,19 +106,32 @@ export const pt = {
     table_next_page: "Próxima página",
     table_previous_page: "Página anterior",
   },
+  errors: {
+    at_least_one: "Pelo menos um!",
+    name_required: "Nome é obrigatório!",
+    birhdate_required: "Data de nascimento é obrigatório!",
+    cnpj_required: "CNPJ é obrigatório!",
+    cpf_required: "CPF é obrigatório!",
+    title_required: "Título é obrigatório!",
+    too_long: "Muito longo!",
+  },
   formats: {
     date_format: "{{date, DD-MM-YYYY}}"
   },
   labels: {
     author: "Autor",
     authors: "Autores",
+    birthdate: "Data nascimento",
+    birthplace: "Local de nascimento",
     condition: "Condição",
     cpf: "CPF",
+    descripition: "Descrição",
     edition: "Edição",
+    email: "Email",
     feminine: "Feminino",
     format: "Formato",
     language_name: "Lingua",
-    length: "Qtd. páginas",
+    length: "Qtd. páginas",    
     link: "Link",
     masculine: "Masculino",
     name: "Nome",
@@ -138,13 +171,20 @@ export const pt = {
   },
   titles: {
     edit_book: "Editar Livro",
+    edit_person: "Editar Pessoa",    
+    edit_company: "Editar Empresa",  
     search_books: "Consulta Livros",
+    search_companies: "Consulta Empresa",
     search_people: "Consulta Pessoas",
     search_result: "Resultado da Consulta",
     submit_book: "Registrar Livro",
+    submit_company: "Submit Company",
+    submit_person: "Submit Person",
   },
   tooltip: {
-    add_book: "Adicionar livro"
+    add_book: "Adicionar livro",
+    add_company: "Adicionar empresa",
+    add_person: "Adicionar pessoa",
   }
 };
 

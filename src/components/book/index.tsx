@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
-import FilterBook from './filterBook'
-import BookList from './bookList'
-import EditBook from './editBook'
+import FilterBook from './filter'
+import BookList from './list'
+import EditBook from './edit'
 import { ApplicationState } from '../../store';
 import * as booksActions from '../../store/ducks/books/actions';
 

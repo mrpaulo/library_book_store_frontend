@@ -4,31 +4,30 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
 import * as peopleActions from '../../../store/ducks/people/actions';
-import { Person, PersonFilter } from '../../../store/ducks/people/types';
-import CustomObjSelect from '../../utils/CustomObjSelect';
+import { Person, PersonFilter as Filter } from '../../../store/ducks/people/types';
+import CustomSelect from '../../utils/CustomSelect';
+import { SexList } from '../../utils/constants';
 
 import { Formik, Form, FormikProps, Field } from 'formik';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 
-import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import ClearIcon from '@material-ui/icons/Clear';
 import { useStyles } from '../../../styles/Styles';
-import CustomSelect from '../../utils/CustomSelect';
-import { SexList } from '../../utils/constants';
+import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
+import ClearIcon from '@material-ui/icons/Clear';
+import SearchIcon from '@material-ui/icons/Search';
 
 interface StateProps {
   people?: Person[]  
 }
 
 interface DispatchProps {
-  searchRequest(filter: PersonFilter): void,  
+  searchRequest(filter: Filter): void,  
 }
 
 type Props = StateProps & DispatchProps
 
-const INITIAL_VALUES: PersonFilter = {
+const INITIAL_VALUES: Filter = {
   rowsPerPage: 10,
   currentPage: 1,
   name: '',
@@ -38,7 +37,7 @@ const INITIAL_VALUES: PersonFilter = {
   finalDate: undefined
 };
 
-const FilterPerson: React.FC<Props> = (props) => {
+const PersonFilter: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();  
   const { searchRequest } = props;
@@ -47,7 +46,7 @@ const FilterPerson: React.FC<Props> = (props) => {
   //   bookSubjectRequest();
   // }, []);
 
-  function handleSubmit(values: PersonFilter, actions: any) {
+  function handleSubmit(values: Filter, actions: any) {
     console.log('Form submitted!');
     console.log(values);
 
@@ -65,7 +64,7 @@ const FilterPerson: React.FC<Props> = (props) => {
         initialValues={INITIAL_VALUES}
         className={classes.root}
       >
-        {(props: FormikProps<PersonFilter>) => {
+        {(props: FormikProps<Filter>) => {
           const {
             values,
             touched,
@@ -160,11 +159,11 @@ const FilterPerson: React.FC<Props> = (props) => {
   );
 }
 
-FilterPerson.displayName = 'FilterPerson';
+PersonFilter.displayName = 'PersonFilter';
 
 const mapStateToProps = (state: ApplicationState) => ({
   
 });
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(peopleActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterPerson);
+export default connect(mapStateToProps, mapDispatchToProps)(PersonFilter);

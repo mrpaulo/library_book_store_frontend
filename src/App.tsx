@@ -13,11 +13,11 @@ import {
 } from './services/api/constants';
 import AppMenu from './components/menu/AppMenu';
 import PageBook from './components/book';
-import EditBook from './components/book/editBook';
+import EditBook from './components/book/edit';
 import PageCompany from './components/company';
 import EditCompany from './components/company/editCompany';
 import PagePerson from './components/person';
-import EditPerson from './components/person/editPerson';
+import EditPerson from './components/person/edit';
 
 import clsx from 'clsx'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -80,7 +80,7 @@ const App: React.FC = () => {
               aria-label="account of current user"
               aria-controls='ds'
               aria-haspopup="true"
-              onClick={() => alert("ola")}
+              onClick={() => alert("Olá Cris como está sendo o seu dia?")}
               color="inherit"
             >
               <AccountCircle />

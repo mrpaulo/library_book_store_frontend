@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import { ApplicationState } from '../../../store';
 
 import * as booksActions from '../../../store/ducks/books/actions';
 import { Book, BookLanguage, BookSubject } from '../../../store/ducks/books/types';
-import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
-import { Formik, Form, FormikProps, Field } from 'formik';
-import { ApplicationState } from '../../../store';
-import CustomSelect from '../../utils/CustomSelect';
-import CustomObjSelect from '../../utils/CustomObjSelect';
-import '../../../styles/global.css';
-import { useStyles } from '../../../styles/Styles';
-import SaveIcon from '@material-ui/icons/Save';
-import ClearIcon from '@material-ui/icons/Clear';
-import AutoCompleteCompany from '../../utils/AutoCompleteCompany';
-import { CompanyDTO } from '../../../store/ducks/companies/types';
 import AutoCompleteAuthor from '../../utils/AutoCompleteAuthor';
+import AutoCompleteCompany from '../../utils/AutoCompleteCompany';
+import CustomObjSelect from '../../utils/CustomObjSelect';
+import CustomSelect from '../../utils/CustomSelect';
+import { CompanyDTO } from '../../../store/ducks/companies/types';
+import { CustomEnum } from '../../utils/constants';
 import { PersonDTO } from '../../../store/ducks/people/types';
+
+import { Formik, Form, FormikProps, Field } from 'formik';
+import * as Yup from 'yup';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
-import * as Yup from 'yup';
-import { CustomEnum } from '../../utils/constants';
+
+import '../../../styles/global.css';
+import { useStyles } from '../../../styles/Styles';
+import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
+import ClearIcon from '@material-ui/icons/Clear';
+import SaveIcon from '@material-ui/icons/Save';
 
 interface StateProps {
   book?: Book,
@@ -63,23 +65,8 @@ const INITIAL_VALUES: Book = {
   length: 0,
 };
 
-const validationSchema = Yup.object().shape({
-  title: Yup.string()
-    .max(100, "Too Long!")
-    .required("Title is required!"),
-  authors: Yup.array()
-    .min(1, "At least one")
-    .required(),
-  publisher: Yup.object().required(),
-  subtitle: Yup.string()
-    .max(100, "Too Long!"),
-  review: Yup.string()
-    .max(500, "Too Long!"),
-  link: Yup.string()
-    .max(100, "Too Long!")
-});
-
-const EditBook: React.FC<Props> = (props) => {  
+const EditBook: React.FC<Props> = (props) => {
+  
   const classes = useStyles();
   const { t } = useTranslation();  
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
@@ -88,6 +75,22 @@ const EditBook: React.FC<Props> = (props) => {
   const [subtitle, setSubtitle] = useState(t("titles.submit_book"));
   const [publisher, setPublisher] = useState<CompanyDTO | null>(null);
   const [authors, setAuthors] = useState<PersonDTO[]>([]);
+
+  const validationSchema = Yup.object().shape({
+    title: Yup.string()
+      .max(100, t("errors.too_long"))
+      .required(t("errors.title_required")),
+    authors: Yup.array()
+      .min(1, t("errors.too_long"))
+      .required(),
+    publisher: Yup.object().required(),
+    subtitle: Yup.string()
+      .max(100, t("errors.too_long")),
+    review: Yup.string()
+      .max(500, t("errors.too_long")),
+    link: Yup.string()
+      .max(100, t("errors.too_long"))
+  });
 
   useEffect(() => {
     if (book) {
@@ -107,8 +110,6 @@ const EditBook: React.FC<Props> = (props) => {
     bookSubjectRequest();
     bookLanguageRequest();
   }, []);
-
-  
 
   function handleSubmit(values: Book, actions: any) {
 
