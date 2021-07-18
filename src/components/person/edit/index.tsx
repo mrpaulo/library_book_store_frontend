@@ -5,13 +5,8 @@ import { ApplicationState } from '../../../store';
 
 import * as peopleActions from '../../../store/ducks/people/actions';
 import { Person } from '../../../store/ducks/people/types';
-import AutoCompleteAuthor from '../../utils/AutoCompleteAuthor';
-import AutoCompleteCompany from '../../utils/AutoCompleteCompany';
-import CustomObjSelect from '../../utils/CustomObjSelect';
 import CustomSelect from '../../utils/CustomSelect';
-import { CompanyDTO } from '../../../store/ducks/companies/types';
-import { CustomEnum, SexList } from '../../utils/constants';
-import { PersonDTO } from '../../../store/ducks/people/types';
+import { SexList } from '../../utils/constants';
 
 import { Formik, Form, FormikProps, Field } from 'formik';
 import * as Yup from 'yup';
@@ -25,7 +20,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
 
 interface StateProps {
-  person?: Person  
+  person?: Person
 }
 
 interface DispatchProps {
@@ -34,61 +29,61 @@ interface DispatchProps {
   changeFlagEditing(): void,
   changeFlagDetail(): void,
   cleanPersonEdit(): void,
-  findByIdRequest(id: number): void  
+  findByIdRequest(id: number): void
 }
 
 type Props = StateProps & DispatchProps
 
 const INITIAL_VALUES: Person = {
   id: 0,
-  name: '', 
+  name: '',
   cpf: '',
   sex: '',
-  email: '',  
-  birthdate: undefined,  
+  email: '',
+  birthdate: undefined,
   birthCity: undefined,
   birthCountry: undefined,
   address: undefined
 };
 
 const EditPerson: React.FC<Props> = (props) => {
-  
+
   const classes = useStyles();
-  const { t } = useTranslation();  
+  const { t } = useTranslation();
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const { person, changeFlagEditing, cleanPersonEdit, createRequest, updateRequest } = props;
   const [flagEditing, setFlagEditing] = useState(false);
   const [subtitle, setSubtitle] = useState(t("titles.submit_person"));
-  
+
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .max(100, t("errors.too_long"))
       .required(t("errors.name_required")),
     cpf: Yup.string()
-    .max(100, t("errors.too_long"))
-    .required(t("errors.cpf_required")),
+      .max(100, t("errors.too_long"))
+      .required(t("errors.cpf_required")),
     birthdate: Yup.date()
-    .required(t("errors.birthdate_required"))
+      .required(t("errors.birthdate_required"))
   });
 
   useEffect(() => {
     console.log("Person")
     console.log(person)
-    if (person) {      
+    if (person) {
       setInitialValues(person);
       setFlagEditing(true);
       setSubtitle(t("titles.edit_person"))
     }
   }, [person]);
 
-  useEffect(() => {    
+  useEffect(() => {
   }, []);
 
   function handleSubmit(values: Person, actions: any) {
 
     actions.setSubmitting(false);
 
-   
+
     console.log('Form submitted!');
     console.log(values);
 
@@ -122,8 +117,8 @@ const EditPerson: React.FC<Props> = (props) => {
             handleChange,
             isSubmitting,
           } = props
-         
-                
+
+
 
           return (
             <Card className={classes.root}>
@@ -197,7 +192,7 @@ const EditPerson: React.FC<Props> = (props) => {
                         }
                       />
                     </Grid>
-                   
+
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.sex")}</InputLabel>
                       <Field
@@ -208,7 +203,7 @@ const EditPerson: React.FC<Props> = (props) => {
                         placeholder={t("placeholder.select_sex")}
                         isMulti={false}
                       />
-                    </Grid>           
+                    </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.birthdate")}</InputLabel>
                       <TextField
@@ -267,7 +262,7 @@ const EditPerson: React.FC<Props> = (props) => {
 EditPerson.displayName = 'EditPerson';
 
 const mapStateToProps = (state: ApplicationState) => ({
-  person: state.people.personData  
+  person: state.people.personData
 });
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(peopleActions, dispatch);
 

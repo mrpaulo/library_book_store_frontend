@@ -1,5 +1,6 @@
 import { Reducer } from 'redux';
 import { BooksState, BooksTypes } from './types'
+import { enqueue as notifierEnqueue } from '../notifications/actions'
 
 const INITIAL_STATE: BooksState = {
   booksData: [],
@@ -44,8 +45,11 @@ const reducer: Reducer<BooksState> = (state = INITIAL_STATE, action) => {
     case BooksTypes.CREATE_REQUEST:
       return { ...state, loading: true };
     case BooksTypes.CREATE_SUCCESS:
-      return { ...state, loading: false, error: false, bookData: action.payload.bookData };
-    case BooksTypes.CREATE_FAILURE:
+      let book =  action.payload.bookData;   
+      notifierEnqueue({message: "notifications.sucess", id: book.id}, false);
+      return { ...state, loading: false, error: false, bookData: book, flagEditing: !state.flagEditing };
+    case BooksTypes.CREATE_FAILURE:   
+      notifierEnqueue({message: "notifications.error", id: 1}, false);   
       return { ...state, loading: false, error: true, bookData: undefined };
     case BooksTypes.DELETE_BY_ID_REQUEST:
       return { ...state, loading: true };

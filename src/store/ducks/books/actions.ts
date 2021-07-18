@@ -24,7 +24,7 @@ export const deleteByIdFailure = () => action(BooksTypes.DELETE_BY_ID_FAILURE);
 
 export const createRequest = (book: Book) => action(BooksTypes.CREATE_REQUEST,  { book });
 export const createSuccess = (bookData: Book) => action(BooksTypes.CREATE_SUCCESS,  { bookData });
-export const createFailure = () => action(BooksTypes.CREATE_FAILURE);
+export const createFailure = ( error: any) => action(BooksTypes.CREATE_FAILURE, { error });
 
 export const changeFlagEditing = () => action(BooksTypes.CHANGE_FLAG_EDITING);
 export const changeFlagDetail = () => action(BooksTypes.CHANGE_FLAG_DETAIL);

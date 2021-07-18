@@ -1,25 +1,26 @@
-import { all, call, put,  } from 'redux-saga/effects';
-import * as Eff from 'redux-saga/effects' 
+import { all, call, put, } from 'redux-saga/effects';
+import * as Eff from 'redux-saga/effects'
 import api from '../../../services/api/api';
 
-import { 
+import {
   loadSuccess, loadFailure,
   updateSuccess, updateFailure,
   createSuccess, createFailure,
   findByIdSuccess, findByIdFailure,
   deleteByIdSuccess, deleteByIdFailure,
-  searchSuccess, searchFailure, 
-  bookConditionFailure, bookConditionSuccess, 
+  searchSuccess, searchFailure,
+  bookConditionFailure, bookConditionSuccess,
   bookFormatFailure, bookFormatSuccess, bookSubjectSuccess, bookSubjectFailure, bookLanguageSuccess, bookLanguageFailure
- } from './actions'
+} from './actions'
 import { Book, BookFilter, BooksTypes as types } from './types';
+import { enqueue as notifierEnqueue } from '../notifications/actions'
 
 const takeEvery: any = Eff.takeEvery;
-const BOOKS_V1 =  'v1/books';
+const BOOKS_V1 = 'v1/books';
 
 function* load(): Generator<any, any, any> {
   try {
-    const reponse = yield call(api.get, `${BOOKS_V1}/all`) ;
+    const reponse = yield call(api.get, `${BOOKS_V1}/all`);
 
     yield put(loadSuccess(reponse.data));
   } catch (error) {
@@ -28,7 +29,7 @@ function* load(): Generator<any, any, any> {
 }
 
 function* search(action: any): Generator<any, any, any> {
-  const filter:BookFilter = action.payload.filter;
+  const filter: BookFilter = action.payload.filter;
   try {
     const reponse = yield call(api.post, `${BOOKS_V1}/fetch`, filter);
 
@@ -39,18 +40,18 @@ function* search(action: any): Generator<any, any, any> {
 }
 
 function* findById(action: any): Generator<any, any, any> {
- const id:number = action.payload.id;
+  const id: number = action.payload.id;
   try {
     const reponse = yield call(api.get, `${BOOKS_V1}/${id}`);
 
-    yield put(findByIdSuccess(reponse.data));    
+    yield put(findByIdSuccess(reponse.data));
   } catch (error) {
     yield put(findByIdFailure())
   }
 }
 
-function* deleteById (action: any): Generator<any, any, any>{
-  const id:number = action.payload.id;
+function* deleteById(action: any): Generator<any, any, any> {
+  const id: number = action.payload.id;
   try {
     const reponse = yield call(api.delete, `${BOOKS_V1}/${id}`);
 
@@ -67,11 +68,11 @@ function* create(action: any): Generator<any, any, any> {
 
     yield put(createSuccess(reponse.data));
   } catch (error) {
-    yield put(createFailure())
+      yield put(notifierEnqueue(error, true))     
   }
 }
 
-function* update(action: any): Generator<any, any, any>  {
+function* update(action: any): Generator<any, any, any> {
   const book: Book = action.payload.book;
   try {
     const reponse = yield call(api.put, `${BOOKS_V1}/${book.id}`, book);
@@ -82,19 +83,19 @@ function* update(action: any): Generator<any, any, any>  {
   }
 }
 
-function* getBookFormats(): Generator<any> {  
+function* getBookFormats(): Generator<any> {
   try {
-    const reponse:any = yield call(api.get, `${BOOKS_V1}/formats`);
-    
+    const reponse: any = yield call(api.get, `${BOOKS_V1}/formats`);
+
     yield put(bookFormatSuccess(reponse.data));
   } catch (error) {
     yield put(bookFormatFailure())
   }
 }
 
-function* getBookConditions(): Generator<any> {  
+function* getBookConditions(): Generator<any> {
   try {
-    const reponse:any = yield call(api.get, `${BOOKS_V1}/conditions`);
+    const reponse: any = yield call(api.get, `${BOOKS_V1}/conditions`);
 
     yield put(bookConditionSuccess(reponse.data));
   } catch (error) {
@@ -102,9 +103,9 @@ function* getBookConditions(): Generator<any> {
   }
 }
 
-function* getBookSubjectList(): Generator<any> {  
+function* getBookSubjectList(): Generator<any> {
   try {
-    const reponse:any = yield call(api.get, `${BOOKS_V1}/subjects`);
+    const reponse: any = yield call(api.get, `${BOOKS_V1}/subjects`);
 
     yield put(bookSubjectSuccess(reponse.data));
   } catch (error) {
@@ -112,9 +113,9 @@ function* getBookSubjectList(): Generator<any> {
   }
 }
 
-function* getBookLanguageList(): Generator<any> {  
+function* getBookLanguageList(): Generator<any> {
   try {
-    const reponse:any = yield call(api.get, `${BOOKS_V1}/languages`);
+    const reponse: any = yield call(api.get, `${BOOKS_V1}/languages`);
 
     yield put(bookLanguageSuccess(reponse.data));
   } catch (error) {

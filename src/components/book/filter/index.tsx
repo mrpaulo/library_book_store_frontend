@@ -22,8 +22,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  searchRequest(filter: BookFilter): void,
-  bookSubjectRequest(): void
+  searchRequest(filter: BookFilter): void
+  bookSubjectRequest(): void  
 }
 
 type Props = StateProps & DispatchProps
@@ -56,7 +56,7 @@ const FilterBook: React.FC<Props> = (props) => {
     searchRequest(values);
   }
   function handleClear() {
-    console.log('clear button');
+    console.log('clear button');   
   }
   
   return (

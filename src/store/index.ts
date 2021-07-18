@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga'
 import { AddressesState } from './ducks/addresses/types';
 import {BooksState} from './ducks/books/types';
 import {CompaniesState} from './ducks/companies/types';
+import { NotificationsState } from './ducks/notifications/types';
 import { PeopleState } from './ducks/people/types';
 
 import rootReducer from './ducks/rootReducer';
@@ -12,6 +13,7 @@ export interface ApplicationState {
   addresses: AddressesState,
   books: BooksState,
   companies: CompaniesState,
+  notifications: NotificationsState,
   people: PeopleState,
 }
 

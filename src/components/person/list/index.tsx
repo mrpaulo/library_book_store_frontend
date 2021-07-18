@@ -5,7 +5,7 @@ import { ApplicationState } from '../../../store';
 
 import * as peopleActions from '../../../store/ducks/people/actions';
 import { Person, PersonDTO } from '../../../store/ducks/people/types';
-
+import { formatCPF } from '../../utils/formatUtil';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 
@@ -114,7 +114,7 @@ const PeopleList: React.FC<Props> = (props) => {
                           {person.name}
                         </TableCell>
                         <TableCell style={{ width: 200 }} align="right">
-                          {person.cpf}
+                          {formatCPF(person.cpf)}
                         </TableCell>
                         <TableCell style={{ width: 160 }} align="right">
                           {t("formats.date_format", { date: person.birthdate })}
