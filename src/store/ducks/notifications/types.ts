@@ -11,32 +11,26 @@ export enum NotificationsTypes {
  */
 export interface Notification {
   key: number,
-  message: String,
+  message: string,
   code: number,
   date: Date,
-  type: NotificationTypeEnum,
-  dismissed: boolean
+  type: NotificationTypesEnums,
+  dismissed: boolean,
+  position: String
 }
 
-export enum NotificationTypeEnum {
-  SUCESS,
-  ERROR,
-  WARN,
-  INFO
-}
-
-export enum notificationTypesEnums {
-  Success = 'Success',
-  Fail = 'Fail',
-  Info = 'Info',
-  Warning = 'Warning',
+export enum NotificationTypesEnums {
+  SUCESS = 'success',
+  ERROR = 'error',
+  INFO = 'info',
+  WARNING = 'warning',
 }
 
 export enum backgroundColorEnums {
-  Success = '#5bb85a',
-  Fail = '#d94948',
-  Info = '#55bede',
-  Warning = '#f0a54b',
+  SUCESS = '#5bb85a',
+  ERROR = '#d94948',
+  INFO = '#55bede',
+  WARNING = '#f0a54b',
 }
 
 /**
@@ -45,4 +39,3 @@ export enum backgroundColorEnums {
 export interface NotificationsState {
   readonly notificationsData: Notification[]
 }
-

@@ -3,15 +3,16 @@ import * as Eff from 'redux-saga/effects'
 import api from '../../../services/api/api';
 
 import { 
-  loadSuccess, loadFailure,
-  updateSuccess, updateFailure,
-  createSuccess, createFailure,
-  findByIdSuccess, findByIdFailure,
-  deleteByIdSuccess, deleteByIdFailure,
-  searchSuccess, searchFailure, 
-  findByNameSuccess, findByNameFailure
+  loadSuccess, 
+  updateSuccess, 
+  createSuccess, 
+  findByIdSuccess, 
+  deleteByIdSuccess, 
+  searchSuccess, 
+  findByNameSuccess
  } from './actions'
 import { Person, PersonFilter, PeopleTypes as types } from './types';
+import { enqueueError, enqueue as notifierEnqueue } from '../notifications/actions';
 
 const takeEvery: any = Eff.takeEvery;
 const PEOPLE_V1 =  'v1/people';
@@ -22,7 +23,7 @@ function* load(): Generator<any, any, any> {
 
     yield put(loadSuccess(reponse.data));
   } catch (error) {
-    yield put(loadFailure())
+    yield put(enqueueError(error));
   }
 }
 
@@ -33,7 +34,7 @@ function* search(action: any): Generator<any, any, any> {
 
     yield put(searchSuccess(reponse.data));
   } catch (error) {
-    yield put(searchFailure())
+    yield put(enqueueError(error));
   }
 }
 
@@ -44,7 +45,7 @@ function* findById(action: any): Generator<any, any, any> {
 
     yield put(findByIdSuccess(reponse.data));    
   } catch (error) {
-    yield put(findByIdFailure())
+    yield put(enqueueError(error));
   }
 }
 
@@ -55,7 +56,7 @@ function* findByName(action: any): Generator<any, any, any> {
 
     yield put(findByNameSuccess(reponse.data));    
   } catch (error) {
-    yield put(findByNameFailure())
+    yield put(enqueueError(error));
   }
 }
 
@@ -65,8 +66,9 @@ function* deleteById (action: any): Generator<any, any, any>{
     const reponse = yield call(api.delete, `${PEOPLE_V1}/${id}`);
 
     yield put(deleteByIdSuccess(reponse.data));
+    yield put(notifierEnqueue({ message: "notifications.deleted" }));
   } catch (error) {
-    yield put(deleteByIdFailure())
+    yield put(enqueueError(error));
   }
 }
 
@@ -76,8 +78,9 @@ function* create(action: any): Generator<any, any, any> {
     const reponse = yield call(api.post, PEOPLE_V1, person);
 
     yield put(createSuccess(reponse.data));
+    yield put(notifierEnqueue({ message: "notifications.created" }));
   } catch (error) {
-    yield put(createFailure())
+    yield put(enqueueError(error));  
   }
 }
 
@@ -87,16 +90,11 @@ function* update(action: any): Generator<any, any, any>  {
     const reponse = yield call(api.put, `${PEOPLE_V1}/${person.id}`, person);
 
     yield put(updateSuccess(reponse.data));
+    yield put(notifierEnqueue({ message: "notifications.updated" }));
   } catch (error) {
-    yield put(updateFailure())
+    yield put(enqueueError(error));
   }
 }
-
-
-
-
-
-
 
 export default function* root() {
   yield all([takeEvery(types.LOAD_REQUEST, load)]);

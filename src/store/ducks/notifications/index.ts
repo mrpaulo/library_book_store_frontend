@@ -8,10 +8,10 @@ const INITIAL_STATE: NotificationsState = {
 
 const reducer: Reducer<NotificationsState> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case NotificationsTypes.ENQUEUE:      
-      var notificationData = action.payload;
+    case NotificationsTypes.ENQUEUE:
+      var notificationData = action.payload.notification;
       console.log("notification index")
-      console.log(notificationData)
+      console.log(notificationData)      
       return {
         ...state,
         notificationsData: [
@@ -40,7 +40,7 @@ const reducer: Reducer<NotificationsState> = (state = INITIAL_STATE, action) => 
           (notification) => notification.key !== key
         )
       };
-    default:          
+    default:
       return state;
   }
 }

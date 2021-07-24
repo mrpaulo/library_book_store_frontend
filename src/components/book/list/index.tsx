@@ -24,13 +24,14 @@ interface DispatchProps {
   changeFlagEditing(): void,
   changeFlagDetail(): void,
   findByIdRequest(id: number): void
+  deleteByIdRequest(id: number): void
 }
 
 type Props = StateProps & DispatchProps
 
 const BookList: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { books, loadRequest, changeFlagEditing, findByIdRequest } = props;
+  const { books, loadRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
   const { t } = useTranslation();
   const tooltipTitle = t("tooltip.add_book");
 
@@ -38,26 +39,23 @@ const BookList: React.FC<Props> = (props) => {
     loadRequest();
   }, []);
 
-  function addBook() {
-    console.log("Adicionar livro")
+  function addBook() {    
     changeFlagEditing();
   }
 
   function editBook(id: number) {
     findByIdRequest(id);
-    changeFlagEditing();
-
-    console.log("Editar livro id " + id)
+    changeFlagEditing();    
   }
 
   function confirmEraseBook(id: number, title: String) {
-    if (window.confirm(t("messages.table_confrm_delete", { title }))) {
-      eraseBook(id, title)
+    if (window.confirm(t("messages.table_confrm_delete", { name: title }))) {
+      eraseBook(id);
     }
   }
 
-  function eraseBook(id: number, name: String) {
-    console.log("Editar livro: " + name + " id " + id)
+  function eraseBook(id: number) {    
+    deleteByIdRequest(id);    
   }
 
   const [page, setPage] = useState(0);

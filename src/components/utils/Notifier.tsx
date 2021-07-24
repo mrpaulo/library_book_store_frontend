@@ -5,18 +5,21 @@ import { ApplicationState } from '../../store';
 
 import * as notificationsActions from '../../store/ducks/notifications/actions';
 
-import { Notification } from '../../store/ducks/notifications/types';
-import { Button, SnackbarOrigin, Snackbar, IconButton, Slide} from '@material-ui/core';
+import { useTranslation } from "react-i18next";
+import "../../services/i18n/i18n";
+
+import { Notification, NotificationTypesEnums } from '../../store/ducks/notifications/types';
+import { Button, SnackbarOrigin, Snackbar, IconButton, Slide } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { Alert } from '@material-ui/lab';
+import { Alert, AlertProps, AlertTitle, Color } from '@material-ui/lab';
 
 interface StateProps {
   notifications: Notification[]
 }
 
-interface DispatchProps {    
+interface DispatchProps {
   close(key: any, dismissAll: boolean): void,
-  remove(key: any): void,  
+  remove(key: any): void,
 }
 export interface StateSnack extends SnackbarOrigin {
   open: boolean;
@@ -25,36 +28,59 @@ export interface StateSnack extends SnackbarOrigin {
 type Props = StateProps & DispatchProps
 
 const Notifier: React.FC<Props> = (props) => {
-  const {  notifications, close, remove } = props;
-  
-  const [state, setState] = React.useState<StateSnack>({
+  const { t } = useTranslation();  
+  const { notifications, close, remove } = props;
+  const [alertTitle, setAlertTitle] = useState<String>("");
+  const [alertMessage, setAlertMessage] = useState<string>("");
+  const [alertSeverity, setAlertSeverity] = useState<Color>('success');
+  const [duration, setDuration] = useState<number>(5000);
+
+  const [state, setState] = useState<StateSnack>({
     open: false,
     vertical: 'bottom',
     horizontal: 'right',
   });
   const { vertical, horizontal, open } = state;
 
-  const handleClick = (newState: SnackbarOrigin) => () => {
-    setState({ open: true, ...newState });
-    console.log("Chamou o abrir")
-  };
-
   const handleClose = () => {
     setState({ ...state, open: false });
   };
-  const [displayed, setDisplayed] = useState<Notification[]>([]);
 
   useEffect(() => {
-    if (notifications.length === 0) {
-      setDisplayed([]);
-    }
     notifications.forEach((notification) => {
+      if (notification) {
+        switch (notification.type) {
+          case NotificationTypesEnums.SUCESS:
+            setAlertSeverity('success');
+            setAlertTitle(t('notifications.sucess'));
+            setDuration(4000);
+            break
+          case NotificationTypesEnums.INFO:
+            setAlertSeverity('info');
+            setAlertTitle(t('notifications.info'));
+            setDuration(5000);
+            break
+          case NotificationTypesEnums.WARNING:
+            setAlertSeverity('warning');
+            setAlertTitle(t('notifications.warning'));
+            setDuration(6000);
+            break
+          case NotificationTypesEnums.ERROR:
+            setAlertSeverity('error');
+            setAlertTitle(t('notifications.error'));
+            setDuration(8000);
+            break
+          default:
+        }
+        setAlertMessage(notification.message);
       setState({ ...state, open: true });
+      }
+
       console.log("Notificator")
       console.log(notification)
-    })  
+    })
 
-  }, [ notifications, remove]); 
+  }, [notifications, remove]);
 
   return (
     <>
@@ -62,14 +88,13 @@ const Notifier: React.FC<Props> = (props) => {
         anchorOrigin={{ vertical, horizontal }}
         open={open}
         onClose={handleClose}
-        message="I love snacks"
-        key={vertical + horizontal}
-        autoHideDuration={6000}
+        key={vertical + 'right'}
+        autoHideDuration={duration}
         action={
-          <React.Fragment>            
+          <React.Fragment>
             <IconButton
               aria-label="close"
-              color="inherit"              
+              color="inherit"
               onClick={handleClose}
             >
               <CloseIcon />
@@ -77,11 +102,12 @@ const Notifier: React.FC<Props> = (props) => {
           </React.Fragment>
         }
       >
-        <Alert onClose={handleClose} severity="success">
-          This is a success message!
+        <Alert variant="filled" onClose={handleClose} severity={alertSeverity}>
+          <AlertTitle>{alertTitle}</AlertTitle>
+          {t(alertMessage)}
         </Alert>
       </Snackbar>
-  </>);
+    </>);
 };
 
 Notifier.displayName = 'Notifier';
