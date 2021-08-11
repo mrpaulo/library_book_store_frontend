@@ -18,6 +18,8 @@ import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
+import ModalAddress from '../../address'
+import { Address } from '../../../store/ducks/addresses/types';
 
 interface StateProps {
   person?: Person
@@ -53,6 +55,7 @@ const EditPerson: React.FC<Props> = (props) => {
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const { person, changeFlagEditing, cleanPersonEdit, createRequest, updateRequest } = props;
   const [flagEditing, setFlagEditing] = useState(false);
+  const [birthLocation, setBirthLocation] = useState(undefined);
   const [subtitle, setSubtitle] = useState(t("titles.submit_person"));
 
   const validationSchema = Yup.object().shape({
@@ -63,7 +66,7 @@ const EditPerson: React.FC<Props> = (props) => {
       .max(100, t("errors.too_long"))
       .required(t("errors.cpf_required")),
     birthdate: Yup.date()
-      .required(t("errors.birthdate_required"))
+      .required(t("errors.birthdate_required"))      
   });
 
   useEffect(() => {
@@ -80,26 +83,20 @@ const EditPerson: React.FC<Props> = (props) => {
   }, []);
 
   function handleSubmit(values: Person, actions: any) {
-
     actions.setSubmitting(false);
 
-
-    console.log('Form submitted!');
-    console.log(values);
-
     if (flagEditing) {
-      updateRequest(values);
-      console.log('Update!');
+      updateRequest(values);      
     } else {
-      createRequest(values);
-      console.log('Created!');
+      createRequest(values);      
     }
   }
-  function handleCancel() {
-    console.log('cancel button');
+
+  function handleCancel() {    
     changeFlagEditing();
     cleanPersonEdit();
   }
+
   return (
     <div className="page-containner">
       <Formik
@@ -118,7 +115,12 @@ const EditPerson: React.FC<Props> = (props) => {
             isSubmitting,
           } = props
 
-
+          const handleAddress = (address: Address) => {            
+            values.address = address;   
+            // setPublisher(company);
+            console.log("handleAddress")
+            console.log(address)            
+          }
 
           return (
             <Card className={classes.root}>
@@ -203,6 +205,10 @@ const EditPerson: React.FC<Props> = (props) => {
                         placeholder={t("placeholder.select_sex")}
                         isMulti={false}
                       />
+                    </Grid>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{t("labels.address")}</InputLabel>
+                      <ModalAddress addressSrc={values.address} addressSetup={handleAddress} typeSrc='person' name={values.name} />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.birthdate")}</InputLabel>

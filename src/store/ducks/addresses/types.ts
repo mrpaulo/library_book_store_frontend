@@ -7,31 +7,36 @@ import { CustomEnum } from "../../../components/utils/constants";
 export enum AddressesTypes {
   LOAD_REQUEST = '@addresses/LOAD_REQUEST',
   LOAD_SUCCESS = '@addresses/LOAD_SUCCESS',
-  LOAD_FAILURE = '@addresses/LOAD_FAILURE',
-
+  
   SEARCH_REQUEST = '@addresses/SEARCH_REQUEST',
   SEARCH_SUCCESS = '@addresses/SEARCH_SUCCESS',
-  SEARCH_FAILURE = '@addresses/SEARCH_FAILURE',
-
+  
   FIND_BY_ID_REQUEST = '@addresses/FIND_BY_ID_REQUEST',
   FIND_BY_ID_SUCCESS = '@addresses/FIND_BY_ID_SUCCESS',
-  FIND_BY_ID_FAILURE = '@addresses/FIND_BY_ID_FAILURE',
-
+  
   FIND_BY_NAME_REQUEST = '@addresses/FIND_BY_NAME_REQUEST',
   FIND_BY_NAME_SUCCESS = '@addresses/FIND_BY_NAME_SUCCESS',
-  FIND_BY_NAME_FAILURE = '@addresses/FIND_BY_NAME_FAILURE',
-
+  
   DELETE_BY_ID_REQUEST = '@addresses/DELETE_BY_ID_REQUEST',
   DELETE_BY_ID_SUCCESS = '@addresses/DELETE_BY_ID_SUCCESS',
-  DELETE_BY_ID_FAILURE = '@addresses/DELETE_BY_ID_FAILURE',
-
+  
   CREATE_REQUEST = '@addresses/CREATE_REQUEST',
   CREATE_SUCCESS = '@addresses/CREATE_SUCCESS',
-  CREATE_FAILURE = '@addresses/CREATE_FAILURE',
-
+  
   UPDATE_REQUEST = '@addresses/UPDATE_REQUEST',
   UPDATE_SUCCESS = '@addresses/UPDATE_SUCCESS',
-  UPDATE_FAILURE = '@addresses/UPDATE_FAILURE',
+
+  LOGRADOURO_REQUEST = '@addresses/LOGRADOURO_REQUEST',
+  LOGRADOURO_SUCCESS = '@addresses/LOGRADOURO_SUCCESS',
+  
+  CITY_REQUEST = '@addresses/CITY_REQUEST',
+  CITY_SUCCESS = '@addresses/CITY_SUCCESS',
+
+  STATE_REQUEST = '@addresses/STATE_REQUEST',
+  STATE_SUCCESS = '@addresses/STATE_SUCCESS',
+
+  COUNTRY_REQUEST = '@addresses/COUNTRY_REQUEST',
+  COUNTRY_SUCCESS = '@addresses/COUNTRY_SUCCESS',
 
   CHANGE_FLAG_EDITING = '@addresses/CHANGE_FLAG_EDITING',
   CHANGE_FLAG_DETAIL = '@addresses/CHANGE_FLAG_DETAIL',
@@ -42,16 +47,20 @@ export enum AddressesTypes {
  * Data types
  */
 export interface Address {
-  id: number,
-  logradouro: CustomEnum
+  id?: number,
   name: String,
-  number: String,
-  cep: String,
-  ziCode: String,
-  neighborhood: String,
-  coordination: String,
-  referencialPoint: String,
-  city: City
+  city?: City
+  logradouro?: CustomEnum
+  number?: String,
+  cep?: String,
+  zipCode?: String,
+  neighborhood?: String,
+  coordination?: String,
+  referencialPoint?: String,
+  fmtAddress?:String,
+  cityName?: String,
+  stateName?: String,
+  countryName?: String
 }
 
 export interface City {
@@ -77,31 +86,17 @@ export interface AddressDTO {
   fmtAddress: string
 }
 
-export const addressFormLabel: any = {
-  title: "Title",
-  author: "Author",
-  authors: "Authors",
-  languageName: "Language",
-  publisher: "Publisher",
-  subject: "Subject",
-  subtitle: "Subtitle",
-  review: "Review",
-  link: "Link",
-  format: "Format",
-  condition: "Condition",
-  edition: "Edition",
-  publishDate: "Publish Date",
-  rating: "Rating",
-  length: "Length",
-}
-
 /**
  *  State type
  */
 export interface AddressesState {
   readonly addressData?: Address
-  readonly addressesData: AddressDTO[]
+  readonly addressesData?: AddressDTO[]
   readonly addressesDTO?: AddressDTO[]
+  readonly logradourosListData?: CustomEnum[]
+  readonly citiesListData?: City[]
+  readonly statesListData?: City[]
+  readonly countriesListData?: City[]
   readonly loading: boolean
   readonly error: boolean
   readonly flagEditing: boolean

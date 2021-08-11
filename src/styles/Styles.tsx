@@ -122,3 +122,17 @@ export const useStylesPagination = makeStyles((theme: Theme) =>
     },
   }),
 );
+
+export const modalStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    paper: {
+      position: 'absolute',
+      width: 1000,
+      height: 800,
+      backgroundColor: theme.palette.background.paper,     
+      borderRadius: '10px',
+      boxShadow: theme.shadows[5],
+      
+    },
+  }),
+);

@@ -1,5 +1,5 @@
 import { PageableFilter } from "../../../components/utils/PageableFilter";
-import { AddressDTO, City, Country } from "../addresses/types";
+import { Address, AddressDTO, City, Country } from "../addresses/types";
 
 /**
 * Action types 
@@ -43,7 +43,7 @@ export interface Person {
   email: String,
   birthCity?: City,
   birthCountry?: Country,
-  address?: AddressDTO
+  address?: Address
 }
 
 export interface PersonFilter extends PageableFilter {  

@@ -65,12 +65,11 @@ const INITIAL_VALUES: Book = {
   length: 0,
 };
 
-const EditBook: React.FC<Props> = (props) => {
-  
+const EditBook: React.FC<Props> = (props) => {  
   const classes = useStyles();
   const { t } = useTranslation();  
-  const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const { book, booksFormat, booksCondition, bookSubjectList, languageList, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest, bookConditionRequest, bookSubjectRequest, bookLanguageRequest } = props;
+  const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const [flagEditing, setFlagEditing] = useState(false);
   const [subtitle, setSubtitle] = useState(t("titles.submit_book"));
   const [publisher, setPublisher] = useState<CompanyDTO | null>(null);
@@ -420,7 +419,6 @@ const EditBook: React.FC<Props> = (props) => {
     </div>
   );
 }
-//);
 
 EditBook.displayName = 'EditBook';
 

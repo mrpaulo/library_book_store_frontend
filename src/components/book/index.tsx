@@ -13,9 +13,7 @@ interface StateProps {
   flagDetail: Boolean
 }
 
-interface DispatchProps {
-  
-}
+interface DispatchProps {}
 
 type Props = StateProps & DispatchProps
 
@@ -37,8 +35,6 @@ const PageBook : React.FC<Props> = (props) =>{
 }
 
 PageBook.displayName = 'PageBook';
-
-EditBook.displayName = 'EditBook';
 
 const mapStateToProps = (state: ApplicationState) => ({
   flagEditing: state.books.flagEditing,  

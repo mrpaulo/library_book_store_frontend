@@ -14,6 +14,8 @@ interface CustomObjSelectProps extends FieldProps {
   isObject?: boolean;
   className?: string;
   placeholder?: string;
+  isAddress?: boolean;
+  setValueSelected(option: Option): void
 }
 
 export const CustomObjSelect = ({
@@ -22,7 +24,9 @@ export const CustomObjSelect = ({
   field,
   form,
   options,
-  isMulti = false
+  isMulti = false,
+  isAddress,
+  setValueSelected
 }: CustomObjSelectProps) => {
   const onChange = (option: ValueType<Option | Option[],  boolean>) => {
     form.setFieldValue(
@@ -31,6 +35,9 @@ export const CustomObjSelect = ({
         ? (option as Option[]).map((item: Option) => item.name)
         : (option as Option).name
     );
+    if(isAddress){
+      setValueSelected(option as Option);
+    }
   };
 
   const getValue = () => {
