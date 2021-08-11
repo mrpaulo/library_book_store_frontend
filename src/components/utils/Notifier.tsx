@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../store';
@@ -9,9 +9,9 @@ import { useTranslation } from "react-i18next";
 import "../../services/i18n/i18n";
 
 import { Notification, NotificationTypesEnums } from '../../store/ducks/notifications/types';
-import { Button, SnackbarOrigin, Snackbar, IconButton, Slide } from '@material-ui/core';
+import { SnackbarOrigin, Snackbar, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { Alert, AlertProps, AlertTitle, Color } from '@material-ui/lab';
+import { Alert,  AlertTitle, Color } from '@material-ui/lab';
 
 interface StateProps {
   notifications: Notification[]
@@ -29,7 +29,7 @@ type Props = StateProps & DispatchProps
 
 const Notifier: React.FC<Props> = (props) => {
   const { t } = useTranslation();  
-  const { notifications, close, remove } = props;
+  const { notifications, remove } = props;
   const [alertTitle, setAlertTitle] = useState<String>("");
   const [alertMessage, setAlertMessage] = useState<string>("");
   const [alertSeverity, setAlertSeverity] = useState<Color>('success');

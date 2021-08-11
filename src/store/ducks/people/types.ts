@@ -43,6 +43,7 @@ export interface Person {
   email: String,
   birthCity?: City,
   birthCountry?: Country,
+  birthCountryName?: String,
   address?: Address
 }
 

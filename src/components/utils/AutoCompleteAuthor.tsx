@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
@@ -7,7 +7,6 @@ import * as peopleActions from '../../store/ducks/people/actions';
 
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { makeStyles } from '@material-ui/core/styles';
 
 import { PersonDTO } from '../../store/ducks/people/types';
 import { CircularProgress } from '@material-ui/core';

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
@@ -66,10 +66,7 @@ const PersonFilter: React.FC<Props> = (props) => {
       >
         {(props: FormikProps<Filter>) => {
           const {
-            values,
-            touched,
-            errors,
-            handleBlur,
+            values,            
             handleChange,
             isSubmitting,
           } = props

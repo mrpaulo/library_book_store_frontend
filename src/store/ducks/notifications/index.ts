@@ -23,21 +23,21 @@ const reducer: Reducer<NotificationsState> = (state = INITIAL_STATE, action) => 
         ]
       };
     case NotificationsTypes.CLOSE:
-      var { dismissAll, key } = action.payload;
+      var { dismissAll, keyClose } = action.payload;
       return {
         ...state,
         notifications: state.notificationsData.map((notification) =>
-          dismissAll || notification.key === key
+          dismissAll || notification.key === keyClose
             ? { ...notification, dismissed: true }
             : { ...notification }
         )
       };
     case NotificationsTypes.REMOVE:
-      var { key } = action.payload;
+      var { keyRemove } = action.payload;
       return {
         ...state,
         notifications: state.notificationsData.filter(
-          (notification) => notification.key !== key
+          (notification) => notification.key !== keyRemove
         )
       };
     default:

@@ -1,6 +1,5 @@
 import { Reducer } from 'redux';
 import { BooksState, BooksTypes } from './types'
-import { enqueue as notifierEnqueue, enqueueError } from '../notifications/actions'
 
 const INITIAL_STATE: BooksState = {
   booksData: [],

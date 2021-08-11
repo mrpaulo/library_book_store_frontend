@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
@@ -7,7 +7,6 @@ import * as companiesActions from '../../store/ducks/companies/actions';
 
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { makeStyles } from '@material-ui/core/styles';
 
 import { CompanyDTO } from '../../store/ducks/companies/types';
 import { CircularProgress } from '@material-ui/core';
@@ -27,23 +26,12 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-const autocompleteService = { current: null };
-
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2),
-  },
-}));
-
 const AutoCompleteCompany: React.FC<Props> = (props) => {
-
-  const classes = useStyles();
+  
   const { companies, valueSelected, helperText, error, findByNameRequest, publisherSelected } = props;
   const [value, setValue] = useState<CompanyDTO | null>(null);
   const [inputValue, setInputValue] = useState('');
-  const [options, setOptions] = useState<CompanyDTO[]>([]);
-  const loaded = useRef(false);
+  const [options, setOptions] = useState<CompanyDTO[]>([]);  
   const [open, setOpen] = useState(false);
   const loading = open && options && options.length === 0;
 

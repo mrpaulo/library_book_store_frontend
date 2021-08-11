@@ -21,7 +21,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import { CustomEnum } from '../../utils/constants';
 import CustomObjSelect from '../../utils/CustomObjSelect';
 
-
 interface StateProps {
   address?: Address,
   addressSrc?: Address,
@@ -33,13 +32,8 @@ interface StateProps {
   name?: String
 }
 
-interface DispatchProps {
-  updateRequest(address: Address): void,
-  createRequest(address: Address): void,
-  changeFlagEditing(): void,
-  changeFlagDetail(): void,
-  cleanAddressEdit(): void,
-  findByIdRequest(id: number): void,
+interface DispatchProps {  
+  cleanAddressEdit(): void,  
   countryRequest(): void,
   stateRequest(countryId: number): void,
   cityRequest(countryId: number, stateId: number): void,
@@ -68,8 +62,7 @@ const EditAddress: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
-  const { address, addressSrc, countriesList, statesList, citiesList, logradourosList, name, closeModal, setAddress, logradouroRequest, cityRequest, stateRequest, countryRequest, cleanAddressEdit, createRequest, updateRequest } = props;
-  const [flagEditing, setFlagEditing] = useState(false);
+  const { address, addressSrc, countriesList, statesList, citiesList, logradourosList, name, closeModal, setAddress, logradouroRequest, cityRequest, stateRequest, countryRequest, cleanAddressEdit } = props;  
   const [subtitle, setSubtitle] = useState(t("titles.submit_address") + " " + name);
   const [countrySelected, setCountrySelected] = useState<Country | null>(null);
   const [stateSelected, setStateSelected] = useState<StateCountry | null>(null);
@@ -93,8 +86,7 @@ const EditAddress: React.FC<Props> = (props) => {
     console.log("Address")
     console.log(address)
     if (address) {
-      setInitialValues(address);
-      setFlagEditing(true);
+      setInitialValues(address);      
       setSubtitle(t("titles.edit_address"))
     }
   }, [address]);
@@ -166,8 +158,7 @@ const EditAddress: React.FC<Props> = (props) => {
           const {
             values,
             touched,
-            errors,
-            handleBlur,
+            errors,            
             handleChange,
             isSubmitting,
           } = props

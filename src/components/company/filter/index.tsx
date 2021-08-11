@@ -1,54 +1,51 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
-import * as booksActions from '../../../store/ducks/books/actions';
-import { Book, BookFilter, BookSubject } from '../../../store/ducks/books/types';
-import CustomObjSelect from '../../utils/CustomObjSelect';
+import * as companiesActions from '../../../store/ducks/companies/actions';
+import { Company, CompanyFilter as Filter } from '../../../store/ducks/companies/types';
+import CustomSelect from '../../utils/CustomSelect';
+import { SexList } from '../../utils/constants';
 
 import { Formik, Form, FormikProps, Field } from 'formik';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 
-import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import ClearIcon from '@material-ui/icons/Clear';
 import { useStyles } from '../../../styles/Styles';
+import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
+import ClearIcon from '@material-ui/icons/Clear';
+import SearchIcon from '@material-ui/icons/Search';
 
 interface StateProps {
-  books?: Book[],
-  bookSubjectList: BookSubject[]
+  companies?: Company[]  
 }
 
 interface DispatchProps {
-  searchRequest(filter: BookFilter): void
-  bookSubjectRequest(): void  
+  searchRequest(filter: Filter): void,  
 }
 
 type Props = StateProps & DispatchProps
 
-const INITIAL_VALUES: BookFilter = {
+const INITIAL_VALUES: Filter = {
   rowsPerPage: 10,
   currentPage: 1,
-  title: '',
-  author: '',
-  publisher: '',
-  subject: undefined,
+  name: '',
+  cnpj: '',  
   startDate: undefined,
   finalDate: undefined
 };
 
-const FilterBook: React.FC<Props> = (props) => {
+const CompanyFilter: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();  
-  const { searchRequest, bookSubjectRequest, bookSubjectList } = props;
+  const { searchRequest } = props;
 
-  useEffect(() => {
-    bookSubjectRequest();
-  }, []);
+  // useEffect(() => {
+  //   bookSubjectRequest();
+  // }, []);
 
-  function handleSubmit(values: BookFilter, actions: any) {
+  function handleSubmit(values: Filter, actions: any) {
     console.log('Form submitted!');
     console.log(values);
 
@@ -56,7 +53,7 @@ const FilterBook: React.FC<Props> = (props) => {
     searchRequest(values);
   }
   function handleClear() {
-    console.log('clear button');   
+    console.log('clear button');
   }
   
   return (
@@ -66,9 +63,9 @@ const FilterBook: React.FC<Props> = (props) => {
         initialValues={INITIAL_VALUES}
         className={classes.root}
       >
-        {(props: FormikProps<BookFilter>) => {
+        {(props: FormikProps<Filter>) => {
           const {
-            values,          
+            values,            
             handleChange,
             isSubmitting,
           } = props
@@ -76,18 +73,18 @@ const FilterBook: React.FC<Props> = (props) => {
             <Card className={classes.root}>
               <Form>
                 <CardHeader
-                  title={t("titles.search_books")}
+                  title={t("titles.search_companies")}
                   subheader=""
                 />
                 <CardContent>
                   <Grid container justify="space-around" direction="row">
                     <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.title")}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.name")}</InputLabel>
                       <TextField
-                        name="title"
+                        name="name"
                         type="text"
                         placeholder=""
-                        value={values.title}
+                        value={values.name}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -97,12 +94,12 @@ const FilterBook: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.author")}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.cnpj")}</InputLabel>
                       <TextField
-                        name="author"
+                        name="cnpj"
                         type="text"
                         placeholder=""
-                        value={values.author}
+                        value={values.cnpj}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -110,34 +107,7 @@ const FilterBook: React.FC<Props> = (props) => {
                         }}
                         variant="outlined"
                       />
-                    </Grid>
-                    <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.publisher")}</InputLabel>
-                      <TextField
-                        name="publisher"
-                        type="text"
-                        placeholder=""
-                        value={values.publisher}
-                        onChange={handleChange}
-                        className={classes.textField}
-                        InputProps={{
-                          className: classes.input,
-                        }}
-                        variant="outlined"
-                      />
-                    </Grid>
-                    <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.subject")}</InputLabel>
-                      <Field
-                        className="form-select-field"
-                        name="subjectName"
-                        options={bookSubjectList}
-                        component={CustomObjSelect}
-                        placeholder={t("placeholder.select_book_subject")}
-                        isMulti={false}
-                        isObject={true}
-                      />
-                    </Grid>
+                    </Grid>                            
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>
@@ -175,11 +145,11 @@ const FilterBook: React.FC<Props> = (props) => {
   );
 }
 
-FilterBook.displayName = 'FilterBook';
+CompanyFilter.displayName = 'CompanyFilter';
 
 const mapStateToProps = (state: ApplicationState) => ({
-  bookSubjectList: state.books.bookSubjectListData  
+  
 });
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(booksActions, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(companiesActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterBook);
+export default connect(mapStateToProps, mapDispatchToProps)(CompanyFilter);

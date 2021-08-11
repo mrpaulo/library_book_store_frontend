@@ -16,26 +16,17 @@ import List from '@material-ui/core/List'
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
-import IconLibraryBooks from '@material-ui/icons/LibraryBooks'
+import InfoIcon from '@material-ui/icons/Info';
 import BusinessIcon from '@material-ui/icons/Business';
 import PersonIcon from '@material-ui/icons/Person';
 import GroupIcon from '@material-ui/icons/Group';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 const appMenuItems = [
+  
   {
     name: 'menu.books',
-    link: BOOKS_URL,
     Icon: MenuBookIcon,
-  },    
-  {
-    name: 'menu.add_book',
-    link: '/add-book',
-    Icon: AddIcon,
-  }, 
-  {
-    name: 'menu.books',
-    Icon: IconLibraryBooks,
     items: [
       {
         name: 'menu.search_books',
@@ -89,7 +80,12 @@ const appMenuItems = [
         link: ADD_PERSON_URL,
         Icon: PersonAddIcon,
       }],
-  }
+  },
+  {
+    name: 'menu.about',
+    link: BOOKS_URL,
+    Icon: InfoIcon,
+  }, 
 ]
 
 const AppMenu: React.FC = () => {

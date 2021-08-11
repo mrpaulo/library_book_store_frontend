@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
+import FilterCompany from './filter'
+import CompanyList from './list'
+import EditCompany from './edit'
 import { ApplicationState } from '../../store';
 import * as companiesActions from '../../store/ducks/companies/actions';
 
@@ -10,9 +13,7 @@ interface StateProps {
   flagDetail: Boolean
 }
 
-interface DispatchProps {
-  
-}
+interface DispatchProps {}
 
 type Props = StateProps & DispatchProps
 
@@ -21,7 +22,14 @@ const PageCompany : React.FC<Props> = (props) =>{
   const {flagEditing, flagDetail} = props;
   return (
     <>
-   <h1>Company </h1>
+    {flagEditing || flagDetail ? (
+        <EditCompany />
+      ) : (
+        <> 
+        <FilterCompany />
+        <CompanyList />
+      </>     
+    )}
     </>
   );
 }

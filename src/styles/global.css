@@ -19,3 +19,9 @@
   overflow-x: auto;
   padding-bottom: 60px;
 }
+.MuiOutlinedInput-input {
+  padding: 8.5px 14px;
+}
+.MuiFormHelperText-root {
+  color: rgb(255 0 0 / 54%) !important;
+}

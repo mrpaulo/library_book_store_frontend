@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../store';
 
 import * as addressesActions from '../../store/ducks/addresses/actions';
-import { Address, AddressDTO } from '../../store/ducks/addresses/types';
+import { Address } from '../../store/ducks/addresses/types';
 
 import '../../styles/global.css';
 import { modalStyles, useStyles } from '../../styles/Styles';
@@ -34,7 +34,7 @@ interface StateProps {
 
 interface DispatchProps {
   addressSetup(address: Address): void
-  deleteByIdRequest(id: number): void
+  deleteByIdAddressRequest(id: number): void
 }
 
 type Props = StateProps & DispatchProps
@@ -43,8 +43,7 @@ const ModalAddress: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const classes = modalStyles();
   const defaulStyle = useStyles();
-  const { addressSrc, typeSrc, name, addressSetup, deleteByIdRequest } = props;
-  // getModalStyle is not a pure function, we roll the style only on the first render
+  const { addressSrc, typeSrc, name, addressSetup, deleteByIdAddressRequest } = props;
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
   const [fmtAddress, setFmtAddress] = useState("");
@@ -100,7 +99,7 @@ const ModalAddress: React.FC<Props> = (props) => {
   const eraseAddress = () => {
     console.log("deleteAddress")
     if (addressId > 0) {
-      deleteByIdRequest(addressId);
+      deleteByIdAddressRequest(addressId);
     } else {
       setAddress(null);
       setFmtAddress("");

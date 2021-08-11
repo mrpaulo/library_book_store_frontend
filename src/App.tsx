@@ -15,7 +15,7 @@ import AppMenu from './components/menu/AppMenu';
 import PageBook from './components/book';
 import EditBook from './components/book/edit';
 import PageCompany from './components/company';
-import EditCompany from './components/company/editCompany';
+import EditCompany from './components/company/edit';
 import PagePerson from './components/person';
 import EditPerson from './components/person/edit';
 
@@ -40,7 +40,7 @@ const App: React.FC = () => {
 
   const changeLaguage = (e: any) => {
     e.preventDefault();
-    if (languageSelected == languages.en) {
+    if (languageSelected === languages.en) {
       setLanguageSelect(languages.pt)
       i18n.changeLanguage(languages.pt)
     } else {

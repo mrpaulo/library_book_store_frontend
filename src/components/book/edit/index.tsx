@@ -149,7 +149,6 @@ const EditBook: React.FC<Props> = (props) => {
             values,
             touched,
             errors,
-            handleBlur,
             handleChange,
             isSubmitting,
           } = props

@@ -1,4 +1,3 @@
-import { PageableFilter } from "../../../components/utils/PageableFilter";
 import { CustomEnum } from "../../../components/utils/constants";
 
 /**
