@@ -2,15 +2,15 @@ import { all, fork } from 'redux-saga/effects';
 
 import AddressSaga from './addresses/sagas';
 import BookSaga from './books/sagas';
-import CompanySaga from './companies/sagas';
-import PersonSaga from './people/sagas';
+import PublisherSaga from './publishers/sagas';
+import AuthorSaga from './authors/sagas';
 
 const root = function* run() {
   yield all([
     fork(AddressSaga),
     fork(BookSaga),
-    fork(CompanySaga),
-    fork(PersonSaga),
+    fork(PublisherSaga),
+    fork(AuthorSaga),
   ])
 };
 

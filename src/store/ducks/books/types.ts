@@ -1,7 +1,7 @@
 import { CustomEnum } from "../../../components/utils/constants";
 import { PageableFilter } from "../../../components/utils/PageableFilter";
-import { CompanyDTO } from "../companies/types";
-import { PersonDTO } from "../people/types";
+import { PublisherDTO } from "../publishers/types";
+import { AuthorDTO } from "../authors/types";
 
 /**
 * Action types 
@@ -47,10 +47,10 @@ export enum BooksTypes {
 export interface Book {
   id: number,
   title: String,
-  authors?: PersonDTO[],
+  authors?: AuthorDTO[],
   languageName?: String,
   language?: BookLanguage,
-  publisher?: CompanyDTO,
+  publisher?: PublisherDTO,
   subject?: BookSubject,
   subjectName?: String,
   subtitle?: String,

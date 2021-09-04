@@ -6,12 +6,12 @@ import { ApplicationState } from '../../../store';
 import * as booksActions from '../../../store/ducks/books/actions';
 import { Book, BookLanguage, BookSubject } from '../../../store/ducks/books/types';
 import AutoCompleteAuthor from '../../utils/AutoCompleteAuthor';
-import AutoCompleteCompany from '../../utils/AutoCompleteCompany';
+import AutoCompletePublisher from '../../utils/AutoCompletePublisher';
 import CustomObjSelect from '../../utils/CustomObjSelect';
 import CustomSelect from '../../utils/CustomSelect';
-import { CompanyDTO } from '../../../store/ducks/companies/types';
+import { PublisherDTO } from '../../../store/ducks/publishers/types';
 import { CustomEnum } from '../../utils/constants';
-import { PersonDTO } from '../../../store/ducks/people/types';
+import { AuthorDTO } from '../../../store/ducks/authors/types';
 
 import { Formik, Form, FormikProps, Field } from 'formik';
 import * as Yup from 'yup';
@@ -72,8 +72,8 @@ const EditBook: React.FC<Props> = (props) => {
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const [flagEditing, setFlagEditing] = useState(false);
   const [subtitle, setSubtitle] = useState(t("titles.submit_book"));
-  const [publisher, setPublisher] = useState<CompanyDTO | null>(null);
-  const [authors, setAuthors] = useState<PersonDTO[]>([]);
+  const [publisher, setPublisher] = useState<PublisherDTO | null>(null);
+  const [authors, setAuthors] = useState<AuthorDTO[]>([]);
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()
@@ -95,8 +95,8 @@ const EditBook: React.FC<Props> = (props) => {
     if (book) {
       book.subjectName = book.subject ? book.subject.name : "";
       book.languageName = book.language ? book.language.name : "";
-      setAuthors(book.authors as PersonDTO[]);
-      setPublisher(book.publisher as CompanyDTO);
+      setAuthors(book.authors as AuthorDTO[]);
+      setPublisher(book.publisher as PublisherDTO);
       setInitialValues(book);
       setFlagEditing(true);
       setSubtitle(t("titles.edit_book"))
@@ -153,12 +153,12 @@ const EditBook: React.FC<Props> = (props) => {
             isSubmitting,
           } = props
          
-          const getPublisherSelected = (company: CompanyDTO) => {            
-            values.publisher = company;   
-            setPublisher(company);
+          const getPublisherSelected = (publisher: PublisherDTO) => {            
+            values.publisher = publisher;   
+            setPublisher(publisher);
           }
         
-          const getAuthorsSelected = (authors: PersonDTO[]) => {
+          const getAuthorsSelected = (authors: AuthorDTO[]) => {
             values.authors = authors;       
             setAuthors(authors) ;
           }          
@@ -237,7 +237,7 @@ const EditBook: React.FC<Props> = (props) => {
                         className="form-select-field"
                         name="publisher"
                         valueSelected={publisher}
-                        component={AutoCompleteCompany}
+                        component={AutoCompletePublisher}
                         onChange={handleChange}
                         publisherSelected={getPublisherSelected}
                         helperText={errors.publisher}

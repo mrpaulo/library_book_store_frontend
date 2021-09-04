@@ -3,35 +3,35 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { ApplicationState } from '../../store';
-import * as peopleActions from '../../store/ducks/people/actions';
+import * as authorsActions from '../../store/ducks/authors/actions';
 
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import { PersonDTO } from '../../store/ducks/people/types';
+import { AuthorDTO } from '../../store/ducks/authors/types';
 import { CircularProgress } from '@material-ui/core';
 import '../../styles/global.css';
 
 interface StateProps {
-  people?: PersonDTO[]
-  valueSelected: PersonDTO[],
+  authors?: AuthorDTO[]
+  valueSelected: AuthorDTO[],
   helperText?: String,
   error?: boolean
 }
 
 interface DispatchProps {
   findByNameRequest(name: string): void
-  authorsSelected(people: PersonDTO[]): void
+  authorsSelected(authors: AuthorDTO[]): void
 }
 
 type Props = StateProps & DispatchProps
 
-const AutoCompletePerson: React.FC<Props> = (props) => {
+const AutoCompleteAuthor: React.FC<Props> = (props) => {
 
-  const { people, valueSelected, helperText, error, findByNameRequest, authorsSelected } = props;
-  const [value, setValue] = useState<PersonDTO[]>([]);
+  const { authors, valueSelected, helperText, error, findByNameRequest, authorsSelected } = props;
+  const [value, setValue] = useState<AuthorDTO[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [options, setOptions] = useState<PersonDTO[]>([]);
+  const [options, setOptions] = useState<AuthorDTO[]>([]);
   const [open, setOpen] = useState(false);
   const loading = open && options && options.length === 0;
 
@@ -50,7 +50,7 @@ const AutoCompletePerson: React.FC<Props> = (props) => {
     }
 
     if (active) {
-      setOptions(people as PersonDTO[]);
+      setOptions(authors as AuthorDTO[]);
     }
 
     return () => {
@@ -62,7 +62,7 @@ const AutoCompletePerson: React.FC<Props> = (props) => {
     <Autocomplete
       multiple
       limitTags={2}
-      id="auto-complete-person"
+      id="auto-complete-author"
       className={"form-select-field"}
       open={open}
       onOpen={() => {
@@ -78,7 +78,7 @@ const AutoCompletePerson: React.FC<Props> = (props) => {
       includeInputInList
       filterSelectedOptions
       value={value}
-      onChange={(event: any, newValue: PersonDTO[]) => {
+      onChange={(event: any, newValue: AuthorDTO[]) => {
         setOptions(options);
         setValue(newValue);
         authorsSelected(newValue)
@@ -107,11 +107,11 @@ const AutoCompletePerson: React.FC<Props> = (props) => {
   );
 }
 
-AutoCompletePerson.displayName = 'AutoCompletePerson';
+AutoCompleteAuthor.displayName = 'AutoCompleteAuthor';
 
 const mapStateToProps = (state: ApplicationState) => ({
-  people: state.people.peopleAutoComplete
+  authors: state.authors.authorsAutoComplete
 });
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(peopleActions, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(authorsActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(AutoCompletePerson);
+export default connect(mapStateToProps, mapDispatchToProps)(AutoCompleteAuthor);

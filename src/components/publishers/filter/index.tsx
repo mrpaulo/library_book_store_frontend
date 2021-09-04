@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
-import * as peopleActions from '../../../store/ducks/people/actions';
-import { Person, PersonFilter as Filter } from '../../../store/ducks/people/types';
+import * as publishersActions from '../../../store/ducks/publishers/actions';
+import { Publisher, PublisherFilter as Filter } from '../../../store/ducks/publishers/types';
 import CustomSelect from '../../utils/CustomSelect';
 import { SexList } from '../../utils/constants';
 
@@ -18,7 +18,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SearchIcon from '@material-ui/icons/Search';
 
 interface StateProps {
-  people?: Person[]  
+  publishers?: Publisher[]  
 }
 
 interface DispatchProps {
@@ -31,13 +31,12 @@ const INITIAL_VALUES: Filter = {
   rowsPerPage: 10,
   currentPage: 1,
   name: '',
-  cpf: '',
-  sex: '',  
+  cnpj: '',  
   startDate: undefined,
   finalDate: undefined
 };
 
-const PersonFilter: React.FC<Props> = (props) => {
+const PublisherFilter: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();  
   const { searchRequest } = props;
@@ -74,7 +73,7 @@ const PersonFilter: React.FC<Props> = (props) => {
             <Card className={classes.root}>
               <Form>
                 <CardHeader
-                  title={t("titles.search_people")}
+                  title={t("titles.search_publishers")}
                   subheader=""
                 />
                 <CardContent>
@@ -95,28 +94,18 @@ const PersonFilter: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.cpf")}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.cnpj")}</InputLabel>
                       <TextField
-                        name="cpf"
+                        name="cnpj"
                         type="text"
                         placeholder=""
-                        value={values.cpf}
+                        value={values.cnpj}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
                         }}
                         variant="outlined"
-                      />
-                    
-                      <InputLabel className="form-label" >{t("labels.sex")}</InputLabel>
-                      <Field
-                        className="form-select-field"
-                        name="format"
-                        options={SexList}
-                        component={CustomSelect}
-                        placeholder={t("placeholder.select_sex")}
-                        isMulti={false}
                       />
                     </Grid>                            
                   </Grid>
@@ -156,11 +145,11 @@ const PersonFilter: React.FC<Props> = (props) => {
   );
 }
 
-PersonFilter.displayName = 'PersonFilter';
+PublisherFilter.displayName = 'PublisherFilter';
 
 const mapStateToProps = (state: ApplicationState) => ({
   
 });
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(peopleActions, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(publishersActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(PersonFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(PublisherFilter);

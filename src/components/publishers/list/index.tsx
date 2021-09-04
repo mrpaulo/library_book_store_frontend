@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
-import * as companiesActions from '../../../store/ducks/companies/actions';
-import {  CompanyDTO } from '../../../store/ducks/companies/types';
+import * as publishersActions from '../../../store/ducks/publishers/actions';
+import {  PublisherDTO } from '../../../store/ducks/publishers/types';
 import { formatCNPJ } from '../../utils/formatUtil';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -16,7 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
 interface StateProps {
-  companies: CompanyDTO[]
+  publishers: PublisherDTO[]
 }
 
 interface DispatchProps {
@@ -29,39 +29,39 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-const CompaniesList: React.FC<Props> = (props) => {
+const PublishersList: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { companies, loadRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
+  const { publishers, loadRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
   const { t } = useTranslation();
-  const tooltipTitle = t("tooltip.add_company");
+  const tooltipTitle = t("tooltip.add_publisher");
 
   useEffect(() => {
     loadRequest();
   }, []);
 
-  function addCompany() {
+  function addPublisher() {
     changeFlagEditing();
   }
 
-  function editCompany(id: number) {
+  function editPublisher(id: number) {
     findByIdRequest(id);
     changeFlagEditing();
   }
 
-  function confirmEraseCompany(id: number, name: String) {
+  function confirmErasePublisher(id: number, name: String) {
     if (window.confirm(t("messages.table_confrm_delete", { name }))) {
-      eraseCompany(id)
+      erasePublisher(id)
     }
   }
 
-  function eraseCompany(id: number) {
+  function erasePublisher(id: number) {
     deleteByIdRequest(id); 
   }
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, companies.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, publishers.length - page * rowsPerPage);
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -82,7 +82,7 @@ const CompaniesList: React.FC<Props> = (props) => {
           subheader=""
         />
         <CardContent>
-          {(companies.length > 0 ? (
+          {(publishers.length > 0 ? (
             <Grid container justify="space-around" direction="row">
               <TableContainer >
                 <Table className={classes.table} aria-label="custom pagination table">
@@ -94,7 +94,7 @@ const CompaniesList: React.FC<Props> = (props) => {
                       <StyledTableCell align="right"></StyledTableCell>
                       <StyledTableCell align="right">
                         <Tooltip title={tooltipTitle}>
-                          <IconButton aria-label={t("buttons.add")} onClick={addCompany}>
+                          <IconButton aria-label={t("buttons.add")} onClick={addPublisher}>
                             <AddIcon color="primary" />
                           </IconButton>
                         </Tooltip>
@@ -103,27 +103,27 @@ const CompaniesList: React.FC<Props> = (props) => {
                   </TableHead>
                   <TableBody>
                     {(rowsPerPage > 0
-                      ? companies.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      : companies
-                    ).map((company) => (
-                      <TableRow key={company.id}>
+                      ? publishers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      : publishers
+                    ).map((publisher) => (
+                      <TableRow key={publisher.id}>
                         <TableCell style={{ width: 300 }} component="th" scope="row">
-                          {company.name}
+                          {publisher.name}
                         </TableCell>
                         <TableCell style={{ width: 200 }} align="right">
-                          {formatCNPJ(company.cnpj as string)}
+                          {formatCNPJ(publisher.cnpj as string)}
                         </TableCell>
                         <TableCell style={{ width: 160 }} align="right">
-                          {t("formats.date_format", { date: company.createDate })}
+                          {t("formats.date_format", { date: publisher.createDate })}
                           {/* {t("formats.date_format", { date: new Date() })} */}
                         </TableCell>                        
                         <TableCell style={{ width: 80 }} align="right">
-                          <IconButton onClick={() => editCompany(company.id)} aria-label={t("buttons.edit")}>
+                          <IconButton onClick={() => editPublisher(publisher.id)} aria-label={t("buttons.edit")}>
                             <EditIcon />
                           </IconButton>
                         </TableCell>
                         <TableCell style={{ width: 80 }} align="right">
-                          <IconButton className="btn btn-warning" onClick={() => confirmEraseCompany(company.id, company.name)} aria-label={t("buttons.delete")}>
+                          <IconButton className="btn btn-warning" onClick={() => confirmErasePublisher(publisher.id, publisher.name)} aria-label={t("buttons.delete")}>
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>
@@ -140,7 +140,7 @@ const CompaniesList: React.FC<Props> = (props) => {
                       <TablePagination
                         rowsPerPageOptions={[5, 10, 25, { label: t("messages.table_all_itens"), value: -1 }]}
                         colSpan={6}
-                        count={companies.length}
+                        count={publishers.length}
                         rowsPerPage={rowsPerPage}
                         labelRowsPerPage={t("messages.table_rows_per_page")}
                         // labelDisplayedRows={({ from, to, count }) => `Displaying pages ${from}-${to} of total ${count} pages`}
@@ -171,9 +171,9 @@ const CompaniesList: React.FC<Props> = (props) => {
 };
 
 const mapStateToProps = (state: ApplicationState) => ({
-  companies: state.companies.companiesData,
+  publishers: state.publishers.publishersData,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(companiesActions, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(publishersActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CompaniesList);
+export default connect(mapStateToProps, mapDispatchToProps)(PublishersList);

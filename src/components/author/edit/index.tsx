@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
-import * as companiesActions from '../../../store/ducks/companies/actions';
+import * as authorsActions from '../../../store/ducks/authors/actions';
 import * as addressesActions from '../../../store/ducks/addresses/actions';
-import { Company } from '../../../store/ducks/companies/types';
+import { Author } from '../../../store/ducks/authors/types';
 import CustomSelect from '../../utils/CustomSelect';
+import { SexList } from '../../utils/constants';
 
 import { Formik, Form, FormikProps, Field } from 'formik';
 import * as Yup from 'yup';
@@ -23,68 +24,72 @@ import { Address, Country } from '../../../store/ducks/addresses/types';
 import CustomObjSelect from '../../utils/CustomObjSelect';
 
 interface StateProps {
-  company?: Company,
+  author?: Author,
   countriesList?: Country[],
 }
 
 interface DispatchProps {
-  updateRequest(company: Company): void,
-  createRequest(company: Company): void,
+  updateRequest(author: Author): void,
+  createRequest(author: Author): void,
   changeFlagEditing(): void,
   changeFlagDetail(): void,
-  cleanCompanyEdit(): void,
+  cleanAuthorEdit(): void,
   findByIdRequest(id: number): void,
   countryRequest(): void
 }
 
 type Props = StateProps & DispatchProps
 
-const INITIAL_VALUES: Company = {
+const INITIAL_VALUES: Author = {
   id: 0,
   name: '',
-  cnpj: '', 
-  description: "",      
+  sex: '',
+  email: '',
+  birthdate: undefined,
+  birthCity: undefined,
+  birthCountry: undefined,
   address: undefined
 };
 
-const EditCompany: React.FC<Props> = (props) => {
+const EditAuthor: React.FC<Props> = (props) => {
 
   const classes = useStyles();
   const { t } = useTranslation();
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
-  const { company, countriesList, changeFlagEditing, cleanCompanyEdit, createRequest, updateRequest, countryRequest } = props;
+  const { author, countriesList, changeFlagEditing, cleanAuthorEdit, createRequest, updateRequest, countryRequest } = props;
   const [flagEditing, setFlagEditing] = useState(false);
   const [countrySelected, setCountrySelected] = useState<Country | null>(null);
-  const [subtitle, setSubtitle] = useState(t("titles.submit_company"));
+  const [subtitle, setSubtitle] = useState(t("titles.submit_author"));
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .max(100, t("errors.too_long"))
-      .required(t("errors.name_required")),
-    cnpj: Yup.string()
-      .max(100, t("errors.too_long"))
-      .required(t("errors.cnpj_required")),
-    description:  Yup.string()
-    .max(100, t("errors.too_long"))
+      .required(t("errors.name_required")),   
+    birthdate: Yup.date()
+      .required(t("errors.birthdate_required"))
   });
 
   useEffect(() => {
-    console.log("Company")
-    console.log(company)
-    if (company) {
-      setInitialValues(company);
+    console.log("Author")
+    console.log(author)
+    if (author) {
+      author.birthCountryName = author.birthCountry ? author.birthCountry.name : "" ;
+      setInitialValues(author);
       setFlagEditing(true);
-      setSubtitle(t("titles.edit_company"))
+      setSubtitle(t("titles.edit_author"))
     }
-  }, [company]);
+  }, [author]);
 
   useEffect(() => {
     countryRequest()
   }, []);
 
-  function handleSubmit(values: Company, actions: any) {
+  function handleSubmit(values: Author, actions: any) {
     actions.setSubmitting(false);
-    
+
+    if (countrySelected) {
+      values.birthCountry = countrySelected;
+    }
     if (flagEditing) {
       updateRequest(values);
     } else {
@@ -94,7 +99,7 @@ const EditCompany: React.FC<Props> = (props) => {
 
   function handleCancel() {
     changeFlagEditing();
-    cleanCompanyEdit();
+    cleanAuthorEdit();
   }
 
   return (
@@ -105,7 +110,7 @@ const EditCompany: React.FC<Props> = (props) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
       >
-        {(props: FormikProps<Company>) => {
+        {(props: FormikProps<Author>) => {
           const {
             values,
             touched,
@@ -118,6 +123,9 @@ const EditCompany: React.FC<Props> = (props) => {
             values.address = address;
           }
 
+          const getCountrySelected = (country: Country) => {
+            setCountrySelected(country);
+          }
           return (
             <Card className={classes.root}>
               <Form>
@@ -147,40 +155,50 @@ const EditCompany: React.FC<Props> = (props) => {
                             : false
                         }
                       />
-                    </Grid>
+                    </Grid>                  
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.cnpj")}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.email")}</InputLabel>
                       <TextField
-                        name="cnpj"
+                        name="email"
                         type="text"
                         placeholder=""
-                        value={values.cnpj}
+                        value={values.email}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.cnpj}
+                        helperText={errors.email}
                         error={
-                          errors.cnpj && touched.cnpj
+                          errors.email && touched.email
                             ? true
                             : false
                         }
                       />
                     </Grid>
-                   
 
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.address")}</InputLabel>
-                      <ModalAddress addressSrc={values.address} addressSetup={handleAddress} typeSrc='company' name={values.name} />
+                      <InputLabel className="form-label" >{t("labels.sex")}</InputLabel>
+                      <Field
+                        className="form-select-field"
+                        name="sex"
+                        options={SexList}
+                        component={CustomSelect}
+                        placeholder={t("placeholder.select_sex")}
+                        isMulti={false}
+                      />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.create_date")}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.address")}</InputLabel>
+                      <ModalAddress addressSrc={values.address} addressSetup={handleAddress} typeSrc='author' name={values.name} />
+                    </Grid>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{t("labels.birthdate")}</InputLabel>
                       <TextField
-                        name="createDate"
+                        name="birthdate"
                         type="date"
-                        value={values.createDate}
+                        value={values.birthdate}
                         onChange={handleChange}
                         className={classes.textField}
                         defaultValue=""
@@ -194,26 +212,19 @@ const EditCompany: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.description")}</InputLabel>
-                      <TextField
-                        name="description"
-                        type="text"
-                        placeholder=""
-                        value={values.description}
-                        onChange={handleChange}
-                        className={classes.textField}
-                        InputProps={{
-                          className: classes.input,
-                        }}
-                        variant="outlined"
-                        helperText={errors.description}
-                        error={
-                          errors.description && touched.description
-                            ? true
-                            : false
-                        }
+                      <InputLabel className="form-label" >{t("labels.birth_country")}</InputLabel>
+                      <Field
+                        className="form-select-field"
+                        name="birthCountryName"
+                        options={countriesList}
+                        component={CustomObjSelect}
+                        setValueSelected={getCountrySelected}
+                        placeholder={t("placeholder.select_country")}
+                        isMulti={false}
+                        isObject={true}
+                        isAddress={true}
                       />
-                    </Grid>                    
+                    </Grid>
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10}>
@@ -251,14 +262,14 @@ const EditCompany: React.FC<Props> = (props) => {
 }
 //);
 
-EditCompany.displayName = 'EditCompany';
+EditAuthor.displayName = 'EditAuthor';
 
 const mapStateToProps = (state: ApplicationState) => ({
-  company: state.companies.companyData,
+  author: state.authors.authorData,
   countriesList: state.addresses.countriesListData,
 });
-const actions = { ...companiesActions, ...addressesActions };
+const actions = { ...authorsActions, ...addressesActions };
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditCompany);
+export default connect(mapStateToProps, mapDispatchToProps)(EditAuthor);
 

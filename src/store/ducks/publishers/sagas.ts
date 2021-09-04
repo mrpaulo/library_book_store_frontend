@@ -10,15 +10,15 @@ import {
   deleteByIdSuccess, 
   searchSuccess,  
   findByNameSuccess } from './actions'
-import { Company, CompanyFilter, CompaniesTypes as types } from './types';
+import { Publisher, PublisherFilter, PublishersTypes as types } from './types';
 import { enqueueError, enqueue as notifierEnqueue } from '../notifications/actions';
 
 const takeEvery: any = Eff.takeEvery;
-const COMPANIES_V1 =  'v1/companies';
+const PUBLISHERS_V1 =  'v1/publishers';
 
 function* load(): Generator<any, any, any> {
   try {
-    const reponse = yield call(api.get, `${COMPANIES_V1}/all`) ;
+    const reponse = yield call(api.get, `${PUBLISHERS_V1}/all`) ;
 
     yield put(loadSuccess(reponse.data));
   } catch (error) {
@@ -27,9 +27,9 @@ function* load(): Generator<any, any, any> {
 }
 
 function* search(action: any): Generator<any, any, any> {
-  const filter:CompanyFilter = action.payload.filter;
+  const filter:PublisherFilter = action.payload.filter;
   try {
-    const reponse = yield call(api.post, `${COMPANIES_V1}/fetch`, filter);
+    const reponse = yield call(api.post, `${PUBLISHERS_V1}/fetch`, filter);
 
     yield put(searchSuccess(reponse.data));
   } catch (error) {
@@ -40,7 +40,7 @@ function* search(action: any): Generator<any, any, any> {
 function* findById(action: any): Generator<any, any, any> {
  const id:number = action.payload.id;
   try {
-    const reponse = yield call(api.get, `${COMPANIES_V1}/${id}`);
+    const reponse = yield call(api.get, `${PUBLISHERS_V1}/${id}`);
 
     yield put(findByIdSuccess(reponse.data));    
   } catch (error) {
@@ -51,7 +51,7 @@ function* findById(action: any): Generator<any, any, any> {
 function* findByName(action: any): Generator<any, any, any> {
  const name:string = action.payload.name;
   try {
-    const reponse = yield call(api.get, `${COMPANIES_V1}/fetch/${name}`);
+    const reponse = yield call(api.get, `${PUBLISHERS_V1}/fetch/${name}`);
 
     yield put(findByNameSuccess(reponse.data));    
   } catch (error) {
@@ -62,7 +62,7 @@ function* findByName(action: any): Generator<any, any, any> {
 function* deleteById (action: any): Generator<any, any, any>{
   const id:number = action.payload.id;
   try {
-    const reponse = yield call(api.delete, `${COMPANIES_V1}/${id}`);
+    const reponse = yield call(api.delete, `${PUBLISHERS_V1}/${id}`);
 
     yield put(deleteByIdSuccess(reponse.data));
     yield put(notifierEnqueue({ message: "notifications.deleted" }));   
@@ -72,9 +72,9 @@ function* deleteById (action: any): Generator<any, any, any>{
 }
 
 function* create(action: any): Generator<any, any, any> {
-  const company: Company = action.payload.company;
+  const publisher: Publisher = action.payload.publisher;
   try {
-    const reponse = yield call(api.post, COMPANIES_V1, company);
+    const reponse = yield call(api.post, PUBLISHERS_V1, publisher);
 
     yield put(createSuccess(reponse.data));
     yield put(notifierEnqueue({ message: "notifications.created" }));
@@ -84,9 +84,9 @@ function* create(action: any): Generator<any, any, any> {
 }
 
 function* update(action: any): Generator<any, any, any>  {
-  const company: Company = action.payload.company;
+  const publisher: Publisher = action.payload.publisher;
   try {
-    const reponse = yield call(api.put, `${COMPANIES_V1}/${company.id}`, company);
+    const reponse = yield call(api.put, `${PUBLISHERS_V1}/${publisher.id}`, publisher);
 
     yield put(updateSuccess(reponse.data));
     yield put(notifierEnqueue({ message: "notifications.updated" }));

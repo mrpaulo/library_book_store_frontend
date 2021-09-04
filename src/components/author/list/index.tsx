@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
-import * as peopleActions from '../../../store/ducks/people/actions';
-import {  PersonDTO } from '../../../store/ducks/people/types';
+import * as authorsActions from '../../../store/ducks/authors/actions';
+import {  AuthorDTO } from '../../../store/ducks/authors/types';
 import { formatCPF } from '../../utils/formatUtil';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -16,7 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
 interface StateProps {
-  people: PersonDTO[]
+  authors: AuthorDTO[]
 }
 
 interface DispatchProps {
@@ -29,39 +29,39 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-const PeopleList: React.FC<Props> = (props) => {
+const AuthorsList: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { people, loadRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
+  const { authors, loadRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
   const { t } = useTranslation();
-  const tooltipTitle = t("tooltip.add_person");
+  const tooltipTitle = t("tooltip.add_author");
 
   useEffect(() => {
     loadRequest();
   }, []);
 
-  function addPerson() {
+  function addAuthor() {
     changeFlagEditing();
   }
 
-  function editPerson(id: number) {
+  function editAuthor(id: number) {
     findByIdRequest(id);
     changeFlagEditing();
   }
 
-  function confirmErasePerson(id: number, name: String) {
+  function confirmEraseAuthor(id: number, name: String) {
     if (window.confirm(t("messages.table_confrm_delete", { name }))) {
-      erasePerson(id)
+      eraseAuthor(id)
     }
   }
 
-  function erasePerson(id: number) {
+  function eraseAuthor(id: number) {
     deleteByIdRequest(id); 
   }
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, people.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, authors.length - page * rowsPerPage);
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -82,20 +82,19 @@ const PeopleList: React.FC<Props> = (props) => {
           subheader=""
         />
         <CardContent>
-          {(people.length > 0 ? (
+          {(authors.length > 0 ? (
             <Grid container justify="space-around" direction="row">
               <TableContainer >
                 <Table className={classes.table} aria-label="custom pagination table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell>{t("labels.name")}</StyledTableCell>
-                      <StyledTableCell align="right">{t("labels.cpf")}</StyledTableCell>
+                      <StyledTableCell>{t("labels.name")}</StyledTableCell>                      
                       <StyledTableCell align="right">{t("labels.birthdate")}</StyledTableCell>
                       <StyledTableCell align="right">{t("labels.email")}</StyledTableCell>
                       <StyledTableCell align="right"></StyledTableCell>
                       <StyledTableCell align="right">
                         <Tooltip title={tooltipTitle}>
-                          <IconButton aria-label={t("buttons.add")} onClick={addPerson}>
+                          <IconButton aria-label={t("buttons.add")} onClick={addAuthor}>
                             <AddIcon color="primary" />
                           </IconButton>
                         </Tooltip>
@@ -104,30 +103,27 @@ const PeopleList: React.FC<Props> = (props) => {
                   </TableHead>
                   <TableBody>
                     {(rowsPerPage > 0
-                      ? people.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      : people
-                    ).map((person) => (
-                      <TableRow key={person.id}>
+                      ? authors.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      : authors
+                    ).map((author) => (
+                      <TableRow key={author.id}>
                         <TableCell style={{ width: 300 }} component="th" scope="row">
-                          {person.name}
-                        </TableCell>
-                        <TableCell style={{ width: 200 }} align="right">
-                          {formatCPF(person.cpf)}
-                        </TableCell>
+                          {author.name}
+                        </TableCell>                       
                         <TableCell style={{ width: 160 }} align="right">
-                          {t("formats.date_format", { date: person.birthdate })}
+                          {t("formats.date_format", { date: author.birthdate })}
                           {/* {t("formats.date_format", { date: new Date() })} */}
                         </TableCell>
                         <TableCell style={{ width: 100 }} align="right">
-                          {person.email}
+                          {author.email}
                         </TableCell>
                         <TableCell style={{ width: 80 }} align="right">
-                          <IconButton onClick={() => editPerson(person.id)} aria-label={t("buttons.edit")}>
+                          <IconButton onClick={() => editAuthor(author.id)} aria-label={t("buttons.edit")}>
                             <EditIcon />
                           </IconButton>
                         </TableCell>
                         <TableCell style={{ width: 80 }} align="right">
-                          <IconButton className="btn btn-warning" onClick={() => confirmErasePerson(person.id, person.name)} aria-label={t("buttons.delete")}>
+                          <IconButton className="btn btn-warning" onClick={() => confirmEraseAuthor(author.id, author.name)} aria-label={t("buttons.delete")}>
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>
@@ -144,7 +140,7 @@ const PeopleList: React.FC<Props> = (props) => {
                       <TablePagination
                         rowsPerPageOptions={[5, 10, 25, { label: t("messages.table_all_itens"), value: -1 }]}
                         colSpan={6}
-                        count={people.length}
+                        count={authors.length}
                         rowsPerPage={rowsPerPage}
                         labelRowsPerPage={t("messages.table_rows_per_page")}
                         // labelDisplayedRows={({ from, to, count }) => `Displaying pages ${from}-${to} of total ${count} pages`}
@@ -175,9 +171,9 @@ const PeopleList: React.FC<Props> = (props) => {
 };
 
 const mapStateToProps = (state: ApplicationState) => ({
-  people: state.people.peopleData,
+  authors: state.authors.authorsData,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(peopleActions, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(authorsActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(PeopleList);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorsList);

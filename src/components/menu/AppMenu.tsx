@@ -6,10 +6,10 @@ import AppMenuItem from './AppMenuItem'
 import {
   BOOKS_URL,
   ADD_BOOK_URL,
-  COMPANIES_URL,
-  ADD_COMPANY_URL,
-  PEOPLE_URL,
-  ADD_PERSON_URL
+  PUBLISHERS_URL,
+  ADD_PUBLISHER_URL,
+  AUTHORS_URL,
+  ADD_AUTHOR_URL
 } from '../../services/api/constants';
 
 import List from '@material-ui/core/List'
@@ -52,32 +52,32 @@ const appMenuItems = [
     ],
   },
   {
-    name: 'menu.companies',
+    name: 'menu.publishers',
     Icon: BusinessIcon,
     items: [
       {
-        name: 'menu.search_companies',
-        link: COMPANIES_URL,
+        name: 'menu.search_publishers',
+        link: PUBLISHERS_URL,
         Icon: SearchIcon,
       },
       {
-        name: 'menu.add_company',
-        link: ADD_COMPANY_URL,
+        name: 'menu.add_publisher',
+        link: ADD_PUBLISHER_URL,
         Icon: AddIcon,
       }],
   },
   {
-    name: 'menu.people',
+    name: 'menu.authors',
     Icon: PersonIcon,
     items: [
       {
-        name: 'menu.search_people',
-        link: PEOPLE_URL,
+        name: 'menu.search_authors',
+        link: AUTHORS_URL,
         Icon: GroupIcon,
       },
       {
-        name: 'menu.add_person',
-        link: ADD_PERSON_URL,
+        name: 'menu.add_author',
+        link: ADD_AUTHOR_URL,
         Icon: PersonAddIcon,
       }],
   },

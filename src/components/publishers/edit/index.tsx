@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
-import * as peopleActions from '../../../store/ducks/people/actions';
+import * as publishersActions from '../../../store/ducks/publishers/actions';
 import * as addressesActions from '../../../store/ducks/addresses/actions';
-import { Person } from '../../../store/ducks/people/types';
+import { Publisher } from '../../../store/ducks/publishers/types';
 import CustomSelect from '../../utils/CustomSelect';
-import { SexList } from '../../utils/constants';
 
 import { Formik, Form, FormikProps, Field } from 'formik';
 import * as Yup from 'yup';
@@ -24,76 +23,68 @@ import { Address, Country } from '../../../store/ducks/addresses/types';
 import CustomObjSelect from '../../utils/CustomObjSelect';
 
 interface StateProps {
-  person?: Person,
+  publisher?: Publisher,
   countriesList?: Country[],
 }
 
 interface DispatchProps {
-  updateRequest(person: Person): void,
-  createRequest(person: Person): void,
+  updateRequest(publisher: Publisher): void,
+  createRequest(publisher: Publisher): void,
   changeFlagEditing(): void,
   changeFlagDetail(): void,
-  cleanPersonEdit(): void,
+  cleanPublisherEdit(): void,
   findByIdRequest(id: number): void,
   countryRequest(): void
 }
 
 type Props = StateProps & DispatchProps
 
-const INITIAL_VALUES: Person = {
+const INITIAL_VALUES: Publisher = {
   id: 0,
   name: '',
-  cpf: '',
-  sex: '',
-  email: '',
-  birthdate: undefined,
-  birthCity: undefined,
-  birthCountry: undefined,
+  cnpj: '', 
+  description: "",      
   address: undefined
 };
 
-const EditPerson: React.FC<Props> = (props) => {
+const EditPublisher: React.FC<Props> = (props) => {
 
   const classes = useStyles();
   const { t } = useTranslation();
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
-  const { person, countriesList, changeFlagEditing, cleanPersonEdit, createRequest, updateRequest, countryRequest } = props;
+  const { publisher, countriesList, changeFlagEditing, cleanPublisherEdit, createRequest, updateRequest, countryRequest } = props;
   const [flagEditing, setFlagEditing] = useState(false);
   const [countrySelected, setCountrySelected] = useState<Country | null>(null);
-  const [subtitle, setSubtitle] = useState(t("titles.submit_person"));
+  const [subtitle, setSubtitle] = useState(t("titles.submit_publisher"));
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .max(100, t("errors.too_long"))
       .required(t("errors.name_required")),
-    cpf: Yup.string()
+    cnpj: Yup.string()
       .max(100, t("errors.too_long"))
-      .required(t("errors.cpf_required")),
-    birthdate: Yup.date()
-      .required(t("errors.birthdate_required"))
+      .required(t("errors.cnpj_required")),
+    description:  Yup.string()
+    .max(100, t("errors.too_long"))
   });
 
   useEffect(() => {
-    console.log("Person")
-    console.log(person)
-    if (person) {
-      person.birthCountryName = person.birthCountry ? person.birthCountry.name : "" ;
-      setInitialValues(person);
+    console.log("Publisher")
+    console.log(publisher)
+    if (publisher) {
+      setInitialValues(publisher);
       setFlagEditing(true);
-      setSubtitle(t("titles.edit_person"))
+      setSubtitle(t("titles.edit_publisher"))
     }
-  }, [person]);
+  }, [publisher]);
 
   useEffect(() => {
     countryRequest()
   }, []);
 
-  function handleSubmit(values: Person, actions: any) {
+  function handleSubmit(values: Publisher, actions: any) {
     actions.setSubmitting(false);
-
-    if (countrySelected) {
-      values.birthCountry = countrySelected;
-    }
+    
     if (flagEditing) {
       updateRequest(values);
     } else {
@@ -103,7 +94,7 @@ const EditPerson: React.FC<Props> = (props) => {
 
   function handleCancel() {
     changeFlagEditing();
-    cleanPersonEdit();
+    cleanPublisherEdit();
   }
 
   return (
@@ -114,7 +105,7 @@ const EditPerson: React.FC<Props> = (props) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
       >
-        {(props: FormikProps<Person>) => {
+        {(props: FormikProps<Publisher>) => {
           const {
             values,
             touched,
@@ -127,9 +118,6 @@ const EditPerson: React.FC<Props> = (props) => {
             values.address = address;
           }
 
-          const getCountrySelected = (country: Country) => {
-            setCountrySelected(country);
-          }
           return (
             <Card className={classes.root}>
               <Form>
@@ -161,69 +149,38 @@ const EditPerson: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.cpf")}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.cnpj")}</InputLabel>
                       <TextField
-                        name="cpf"
+                        name="cnpj"
                         type="text"
                         placeholder=""
-                        value={values.cpf}
+                        value={values.cnpj}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.cpf}
+                        helperText={errors.cnpj}
                         error={
-                          errors.cpf && touched.cpf
+                          errors.cnpj && touched.cnpj
                             ? true
                             : false
                         }
                       />
                     </Grid>
-                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.email")}</InputLabel>
-                      <TextField
-                        name="email"
-                        type="text"
-                        placeholder=""
-                        value={values.email}
-                        onChange={handleChange}
-                        className={classes.textField}
-                        InputProps={{
-                          className: classes.input,
-                        }}
-                        variant="outlined"
-                        helperText={errors.email}
-                        error={
-                          errors.email && touched.email
-                            ? true
-                            : false
-                        }
-                      />
-                    </Grid>
+                   
 
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.sex")}</InputLabel>
-                      <Field
-                        className="form-select-field"
-                        name="sex"
-                        options={SexList}
-                        component={CustomSelect}
-                        placeholder={t("placeholder.select_sex")}
-                        isMulti={false}
-                      />
-                    </Grid>
-                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.address")}</InputLabel>
-                      <ModalAddress addressSrc={values.address} addressSetup={handleAddress} typeSrc='person' name={values.name} />
+                      <ModalAddress addressSrc={values.address} addressSetup={handleAddress} typeSrc='publisher' name={values.name} />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.birthdate")}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.create_date")}</InputLabel>
                       <TextField
-                        name="birthdate"
+                        name="createDate"
                         type="date"
-                        value={values.birthdate}
+                        value={values.createDate}
                         onChange={handleChange}
                         className={classes.textField}
                         defaultValue=""
@@ -237,19 +194,26 @@ const EditPerson: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.birth_country")}</InputLabel>
-                      <Field
-                        className="form-select-field"
-                        name="birthCountryName"
-                        options={countriesList}
-                        component={CustomObjSelect}
-                        setValueSelected={getCountrySelected}
-                        placeholder={t("placeholder.select_country")}
-                        isMulti={false}
-                        isObject={true}
-                        isAddress={true}
+                      <InputLabel className="form-label" >{t("labels.description")}</InputLabel>
+                      <TextField
+                        name="description"
+                        type="text"
+                        placeholder=""
+                        value={values.description}
+                        onChange={handleChange}
+                        className={classes.textField}
+                        InputProps={{
+                          className: classes.input,
+                        }}
+                        variant="outlined"
+                        helperText={errors.description}
+                        error={
+                          errors.description && touched.description
+                            ? true
+                            : false
+                        }
                       />
-                    </Grid>
+                    </Grid>                    
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10}>
@@ -287,14 +251,14 @@ const EditPerson: React.FC<Props> = (props) => {
 }
 //);
 
-EditPerson.displayName = 'EditPerson';
+EditPublisher.displayName = 'EditPublisher';
 
 const mapStateToProps = (state: ApplicationState) => ({
-  person: state.people.personData,
+  publisher: state.publishers.publisherData,
   countriesList: state.addresses.countriesListData,
 });
-const actions = { ...peopleActions, ...addressesActions };
+const actions = { ...publishersActions, ...addressesActions };
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditPerson);
+export default connect(mapStateToProps, mapDispatchToProps)(EditPublisher);
 

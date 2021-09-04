@@ -3,40 +3,40 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { ApplicationState } from '../../store';
-import * as companiesActions from '../../store/ducks/companies/actions';
+import * as publishersActions from '../../store/ducks/publishers/actions';
 
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import { CompanyDTO } from '../../store/ducks/companies/types';
+import { PublisherDTO } from '../../store/ducks/publishers/types';
 import { CircularProgress } from '@material-ui/core';
 import '../../styles/global.css';
 
 interface StateProps {
-  companies?: CompanyDTO[]
-  valueSelected?: CompanyDTO,
+  publishers?: PublisherDTO[]
+  valueSelected?: PublisherDTO,
   helperText?: String,
   error?: boolean
 }
 
 interface DispatchProps {
   findByNameRequest(name: string): void
-  publisherSelected(company: CompanyDTO): void
+  publisherSelected(publisher: PublisherDTO): void
 }
 
 type Props = StateProps & DispatchProps
 
-const AutoCompleteCompany: React.FC<Props> = (props) => {
+const AutoCompletePublisher: React.FC<Props> = (props) => {
   
-  const { companies, valueSelected, helperText, error, findByNameRequest, publisherSelected } = props;
-  const [value, setValue] = useState<CompanyDTO | null>(null);
+  const { publishers, valueSelected, helperText, error, findByNameRequest, publisherSelected } = props;
+  const [value, setValue] = useState<PublisherDTO | null>(null);
   const [inputValue, setInputValue] = useState('');
-  const [options, setOptions] = useState<CompanyDTO[]>([]);  
+  const [options, setOptions] = useState<PublisherDTO[]>([]);  
   const [open, setOpen] = useState(false);
   const loading = open && options && options.length === 0;
 
 useEffect(() => {
-  setValue(valueSelected as CompanyDTO);
+  setValue(valueSelected as PublisherDTO);
 }, [valueSelected])
 
   useEffect(() => {
@@ -49,7 +49,7 @@ useEffect(() => {
     }
 
     if (active) {
-      setOptions(companies as CompanyDTO[]);
+      setOptions(publishers as PublisherDTO[]);
     }
 
     return () => {
@@ -59,7 +59,7 @@ useEffect(() => {
 
   return (
     <Autocomplete
-      id="auto-complete-company"
+      id="auto-complete-publisher"
       className={"form-select-field"}
       open={open}
       onOpen={() => {
@@ -75,10 +75,10 @@ useEffect(() => {
       includeInputInList
       filterSelectedOptions
       value={value}
-      onChange={(event: any, newValue: CompanyDTO | null) => {
+      onChange={(event: any, newValue: PublisherDTO | null) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
-        publisherSelected(newValue as CompanyDTO);
+        publisherSelected(newValue as PublisherDTO);
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
@@ -104,11 +104,11 @@ useEffect(() => {
   );
 }
 
-AutoCompleteCompany.displayName = 'AutoCompleteCompany';
+AutoCompletePublisher.displayName = 'AutoCompletePublisher';
 
 const mapStateToProps = (state: ApplicationState) => ({
-  companies: state.companies.companiesAutoComplete
+  publishers: state.publishers.publishersAutoComplete
 });
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(companiesActions, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(publishersActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(AutoCompleteCompany);
+export default connect(mapStateToProps, mapDispatchToProps)(AutoCompletePublisher);

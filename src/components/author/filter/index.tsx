@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
-import * as companiesActions from '../../../store/ducks/companies/actions';
-import { Company, CompanyFilter as Filter } from '../../../store/ducks/companies/types';
+import * as authorsActions from '../../../store/ducks/authors/actions';
+import { Author, AuthorFilter as Filter } from '../../../store/ducks/authors/types';
 import CustomSelect from '../../utils/CustomSelect';
 import { SexList } from '../../utils/constants';
 
@@ -18,7 +18,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SearchIcon from '@material-ui/icons/Search';
 
 interface StateProps {
-  companies?: Company[]  
+  authors?: Author[]  
 }
 
 interface DispatchProps {
@@ -31,12 +31,13 @@ const INITIAL_VALUES: Filter = {
   rowsPerPage: 10,
   currentPage: 1,
   name: '',
-  cnpj: '',  
+  cpf: '',
+  sex: '',  
   startDate: undefined,
   finalDate: undefined
 };
 
-const CompanyFilter: React.FC<Props> = (props) => {
+const AuthorFilter: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();  
   const { searchRequest } = props;
@@ -73,7 +74,7 @@ const CompanyFilter: React.FC<Props> = (props) => {
             <Card className={classes.root}>
               <Form>
                 <CardHeader
-                  title={t("titles.search_companies")}
+                  title={t("titles.search_authors")}
                   subheader=""
                 />
                 <CardContent>
@@ -94,18 +95,28 @@ const CompanyFilter: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.cnpj")}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.cpf")}</InputLabel>
                       <TextField
-                        name="cnpj"
+                        name="cpf"
                         type="text"
                         placeholder=""
-                        value={values.cnpj}
+                        value={values.cpf}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
                         }}
                         variant="outlined"
+                      />
+                    
+                      <InputLabel className="form-label" >{t("labels.sex")}</InputLabel>
+                      <Field
+                        className="form-select-field"
+                        name="format"
+                        options={SexList}
+                        component={CustomSelect}
+                        placeholder={t("placeholder.select_sex")}
+                        isMulti={false}
                       />
                     </Grid>                            
                   </Grid>
@@ -145,11 +156,11 @@ const CompanyFilter: React.FC<Props> = (props) => {
   );
 }
 
-CompanyFilter.displayName = 'CompanyFilter';
+AuthorFilter.displayName = 'AuthorFilter';
 
 const mapStateToProps = (state: ApplicationState) => ({
   
 });
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(companiesActions, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(authorsActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CompanyFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorFilter);
