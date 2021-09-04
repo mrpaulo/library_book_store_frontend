@@ -48,7 +48,8 @@ const INITIAL_VALUES: Author = {
   birthdate: undefined,
   birthCity: undefined,
   birthCountry: undefined,
-  address: undefined
+  address: undefined,
+  description: ''
 };
 
 const EditAuthor: React.FC<Props> = (props) => {
@@ -66,7 +67,9 @@ const EditAuthor: React.FC<Props> = (props) => {
       .max(100, t("errors.too_long"))
       .required(t("errors.name_required")),   
     birthdate: Yup.date()
-      .required(t("errors.birthdate_required"))
+      .required(t("errors.birthdate_required")),
+      description: Yup.string()
+      .max(100, t("errors.too_long"))
   });
 
   useEffect(() => {
@@ -225,6 +228,27 @@ const EditAuthor: React.FC<Props> = (props) => {
                         isAddress={true}
                       />
                     </Grid>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{t("labels.description")}</InputLabel>
+                      <TextField
+                        name="description"
+                        type="text"
+                        placeholder=""
+                        value={values.description}
+                        onChange={handleChange}
+                        className={classes.textField}
+                        InputProps={{
+                          className: classes.input,
+                        }}
+                        variant="outlined"
+                        helperText={errors.description}
+                        error={
+                          errors.description && touched.description
+                            ? true
+                            : false
+                        }
+                      />
+                    </Grid>  
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10}>

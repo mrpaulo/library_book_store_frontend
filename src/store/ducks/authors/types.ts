@@ -43,7 +43,8 @@ export interface Author {
   birthCity?: City,
   birthCountry?: Country,
   birthCountryName?: String,
-  address?: Address
+  address?: Address,
+  description?: String
 }
 
 export interface AuthorFilter extends PageableFilter {  
@@ -59,7 +60,8 @@ export interface AuthorDTO {
   email: String,
   birthCity: String,
   birthCountry: String,
-  address: AddressDTO
+  address: AddressDTO,
+  description?: String
 }
 
 /**
