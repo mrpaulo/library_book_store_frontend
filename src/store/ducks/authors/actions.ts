@@ -1,10 +1,12 @@
 import { action } from 'typesafe-actions';
-import { AuthorsTypes, Author, AuthorFilter, AuthorDTO } from './types';
+import { AuthorsTypes, Author, AuthorRequestFilter, AuthorDTO } from './types';
+import { selectors } from '.';
+import { select } from 'redux-saga/effects';
 
 export const loadRequest = () => action(AuthorsTypes.LOAD_REQUEST);
 export const loadSuccess = (authorsData: Author[]) => action(AuthorsTypes.LOAD_SUCCESS,  { authorsData });
 
-export const searchRequest = (filter: AuthorFilter) => action(AuthorsTypes.SEARCH_REQUEST, { filter});
+export const searchRequest = () => action(AuthorsTypes.SEARCH_REQUEST);
 export const searchSuccess = (authorsData: Author[]) => action(AuthorsTypes.SEARCH_SUCCESS,  { authorsData });
 
 export const findByIdRequest = (id: number) => action(AuthorsTypes.FIND_BY_ID_REQUEST,  { id });
@@ -25,3 +27,11 @@ export const createSuccess = (authorData: Author) => action(AuthorsTypes.CREATE_
 export const changeFlagEditing = () => action(AuthorsTypes.CHANGE_FLAG_EDITING);
 export const changeFlagDetail = () => action(AuthorsTypes.CHANGE_FLAG_DETAIL);
 export const cleanAuthorEdit = () => action(AuthorsTypes.CLEAN_BOOK_EDIT);
+
+export const updateRequestFilter = (requestFilter: AuthorRequestFilter) => action(AuthorsTypes.UPDATE_FILTER,  { requestFilter });
+export const cleanRequestFilter = () => action(AuthorsTypes.CLEAN_FILTER);
+
+export const updateTotalRows = (requestData: any) => {
+  const responseTotalRows = requestData.headers.totalcount || 0;
+  return action(AuthorsTypes.UPDATE_RESPONSE_TOTAL_ROWS,  { responseTotalRows: responseTotalRows });
+}

@@ -28,8 +28,11 @@ export enum AuthorsTypes {
 
   CHANGE_FLAG_EDITING = '@authors/CHANGE_FLAG_EDITING',
   CHANGE_FLAG_DETAIL = '@authors/CHANGE_FLAG_DETAIL',
-  CLEAN_BOOK_EDIT = '@authors/CLEAN_BOOK_EDIT'
-
+  CLEAN_BOOK_EDIT = '@authors/CLEAN_BOOK_EDIT',
+  UPDATE_FILTER= '@authors/UPDATE_FILTER',
+  CLEAN_FILTER= '@authors/CLEAN_FILTER',
+  UPDATE_RESPONSE_TOTAL_ROWS= '@authors/UPDATE_RESPONSE_TOTAL_ROWS'
+  
 };
 /**
  * Data types
@@ -47,7 +50,7 @@ export interface Author {
   description?: String
 }
 
-export interface AuthorFilter extends PageableFilter {  
+export interface AuthorRequestFilter extends PageableFilter {  
   cpf?: String,
   sex?: String  
 }
@@ -71,9 +74,11 @@ export interface AuthorsState {
   readonly authorData?: Author
   readonly authorsData: AuthorDTO[]
   readonly authorsAutoComplete?: AuthorDTO[]
+  readonly requestFilter?: AuthorRequestFilter
   readonly loading: boolean
   readonly error: boolean
   readonly flagEditing: boolean
   readonly flagDetail: boolean
+  readonly responseTotalRows: number
 }
 

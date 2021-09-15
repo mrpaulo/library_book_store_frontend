@@ -1,11 +1,11 @@
 import { action } from 'typesafe-actions';
 import { CustomEnum } from '../../../components/utils/constants';
-import { BooksTypes, Book, BookFilter, BookSubject, BookLanguage} from './types';
+import { BooksTypes, Book, BookRequestFilter, BookSubject, BookLanguage} from './types';
 
 export const loadRequest = () => action(BooksTypes.LOAD_REQUEST);
 export const loadSuccess = (booksData: Book[]) => action(BooksTypes.LOAD_SUCCESS,  { booksData });
 
-export const searchRequest = (filter: BookFilter) => action(BooksTypes.SEARCH_REQUEST, { filter});
+export const searchRequest = (filter: BookRequestFilter) => action(BooksTypes.SEARCH_REQUEST, { filter});
 export const searchSuccess = (booksData: Book[]) => action(BooksTypes.SEARCH_SUCCESS,  { booksData });
 
 export const findByIdRequest = (id: number) => action(BooksTypes.FIND_BY_ID_REQUEST,  { id });

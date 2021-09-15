@@ -43,7 +43,7 @@ export interface Publisher {
   address?: Address
 }
 
-export interface PublisherFilter extends PageableFilter{  
+export interface PublisherRequestFilter extends PageableFilter{  
   name?: String, 
   cnpj?: String, 
 }

@@ -1,10 +1,10 @@
 import { action } from 'typesafe-actions';
-import { PublishersTypes, Publisher, PublisherFilter, PublisherDTO } from './types';
+import { PublishersTypes, Publisher, PublisherRequestFilter, PublisherDTO } from './types';
 
 export const loadRequest = () => action(PublishersTypes.LOAD_REQUEST);
 export const loadSuccess = (publishersData: Publisher[]) => action(PublishersTypes.LOAD_SUCCESS,  { publishersData });
 
-export const searchRequest = (filter: PublisherFilter) => action(PublishersTypes.SEARCH_REQUEST, { filter});
+export const searchRequest = (filter: PublisherRequestFilter) => action(PublishersTypes.SEARCH_REQUEST, { filter});
 export const searchSuccess = (publishersData: Publisher[]) => action(PublishersTypes.SEARCH_SUCCESS,  { publishersData });
 
 export const findByIdRequest = (id: number) => action(PublishersTypes.FIND_BY_ID_REQUEST,  { id });

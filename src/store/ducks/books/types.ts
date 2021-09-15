@@ -64,7 +64,7 @@ export interface Book {
   length?: Number,
 }
 
-export interface BookFilter extends PageableFilter{  
+export interface BookRequestFilter extends PageableFilter{  
   title: String,
   author?: String,  
   publisher?: String,

@@ -14,7 +14,7 @@ import {
   bookSubjectSuccess, 
   bookLanguageSuccess, 
 } from './actions'
-import { Book, BookFilter, BooksTypes as types } from './types';
+import { Book, BookRequestFilter, BooksTypes as types } from './types';
 import { enqueue as notifierEnqueue, enqueueError } from '../notifications/actions'
 
 const takeEvery: any = Eff.takeEvery;
@@ -31,7 +31,7 @@ function* load(): Generator<any, any, any> {
 }
 
 function* search(action: any): Generator<any, any, any> {
-  const filter: BookFilter = action.payload.filter;
+  const filter: BookRequestFilter = action.payload.filter;
   try {
     const reponse = yield call(api.post, `${BOOKS_V1}/fetch`, filter);
 

@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
 import * as booksActions from '../../../store/ducks/books/actions';
-import { Book, BookFilter, BookSubject } from '../../../store/ducks/books/types';
+import { Book, BookRequestFilter, BookSubject } from '../../../store/ducks/books/types';
 import CustomObjSelect from '../../utils/CustomObjSelect';
 
 import { Formik, Form, FormikProps, Field } from 'formik';
@@ -22,13 +22,13 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  searchRequest(filter: BookFilter): void
+  searchRequest(filter: BookRequestFilter): void
   bookSubjectRequest(): void  
 }
 
 type Props = StateProps & DispatchProps
 
-const INITIAL_VALUES: BookFilter = {
+const INITIAL_VALUES: BookRequestFilter = {
   rowsPerPage: 10,
   currentPage: 1,
   title: '',
@@ -48,7 +48,7 @@ const FilterBook: React.FC<Props> = (props) => {
     bookSubjectRequest();
   }, []);
 
-  function handleSubmit(values: BookFilter, actions: any) {
+  function handleSubmit(values: BookRequestFilter, actions: any) {
     console.log('Form submitted!');
     console.log(values);
 
@@ -66,7 +66,7 @@ const FilterBook: React.FC<Props> = (props) => {
         initialValues={INITIAL_VALUES}
         className={classes.root}
       >
-        {(props: FormikProps<BookFilter>) => {
+        {(props: FormikProps<BookRequestFilter>) => {
           const {
             values,          
             handleChange,

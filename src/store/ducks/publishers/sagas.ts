@@ -10,7 +10,7 @@ import {
   deleteByIdSuccess, 
   searchSuccess,  
   findByNameSuccess } from './actions'
-import { Publisher, PublisherFilter, PublishersTypes as types } from './types';
+import { Publisher, PublisherRequestFilter, PublishersTypes as types } from './types';
 import { enqueueError, enqueue as notifierEnqueue } from '../notifications/actions';
 
 const takeEvery: any = Eff.takeEvery;
@@ -27,7 +27,7 @@ function* load(): Generator<any, any, any> {
 }
 
 function* search(action: any): Generator<any, any, any> {
-  const filter:PublisherFilter = action.payload.filter;
+  const filter:PublisherRequestFilter = action.payload.filter;
   try {
     const reponse = yield call(api.post, `${PUBLISHERS_V1}/fetch`, filter);
 

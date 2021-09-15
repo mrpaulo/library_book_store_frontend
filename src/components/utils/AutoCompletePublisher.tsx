@@ -44,7 +44,7 @@ useEffect(() => {
     if (!loading) {
       return undefined;
     }
-    if (inputValue && inputValue.length > 2 && active) {
+    if (inputValue && inputValue.length > 1 && active) {
       findByNameRequest(inputValue);
     }
 

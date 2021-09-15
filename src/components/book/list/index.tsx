@@ -58,20 +58,20 @@ const BookList: React.FC<Props> = (props) => {
     deleteByIdRequest(id);    
   }
 
-  const [page, setPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, books.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, books.length - currentPage * rowsPerPage);
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    setPage(newPage);
+    setCurrentPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setCurrentPage(0);
   };
 
   return (
@@ -104,7 +104,7 @@ const BookList: React.FC<Props> = (props) => {
                   </TableHead>
                   <TableBody>
                     {(rowsPerPage > 0
-                      ? books.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      ? books.slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
                       : books
                     ).map((book) => (
                       <TableRow key={book.id}>
@@ -149,7 +149,7 @@ const BookList: React.FC<Props> = (props) => {
                         labelRowsPerPage={t("messages.table_rows_per_page")}
                         // labelDisplayedRows={({ from, to, count }) => `Displaying pages ${from}-${to} of total ${count} pages`}
                         labelDisplayedRows={({ from, to, count }) => t("messages.table_displaying_pagers", { from, to, count })}
-                        page={page}
+                        page={currentPage}
                         nextIconButtonText={t("buttons.table_next_page")}
                         backIconButtonText={t("buttons.table_previous_page")}
                         SelectProps={{

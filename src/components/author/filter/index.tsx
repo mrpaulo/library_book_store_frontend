@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
 import * as authorsActions from '../../../store/ducks/authors/actions';
-import { Author, AuthorFilter as Filter } from '../../../store/ducks/authors/types';
+import { Author, AuthorRequestFilter as Filter } from '../../../store/ducks/authors/types';
 import CustomSelect from '../../utils/CustomSelect';
 import { SexList } from '../../utils/constants';
 
@@ -16,13 +16,16 @@ import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SearchIcon from '@material-ui/icons/Search';
+import { selectors } from '../../../store/ducks/authors';
 
 interface StateProps {
   authors?: Author[]  
 }
 
 interface DispatchProps {
-  searchRequest(filter: Filter): void,  
+  searchRequest(): void,  
+  updateRequestFilter(requestFilter: Filter): void,
+  cleanRequestFilter(): void
 }
 
 type Props = StateProps & DispatchProps
@@ -30,8 +33,7 @@ type Props = StateProps & DispatchProps
 const INITIAL_VALUES: Filter = {
   rowsPerPage: 10,
   currentPage: 1,
-  name: '',
-  cpf: '',
+  name: '',  
   sex: '',  
   startDate: undefined,
   finalDate: undefined
@@ -40,21 +42,21 @@ const INITIAL_VALUES: Filter = {
 const AuthorFilter: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();  
-  const { searchRequest } = props;
-
-  // useEffect(() => {
-  //   bookSubjectRequest();
-  // }, []);
+  const { searchRequest, updateRequestFilter, cleanRequestFilter } = props;
 
   function handleSubmit(values: Filter, actions: any) {
     console.log('Form submitted!');
     console.log(values);
-
+    
     actions.setSubmitting(false);
-    searchRequest(values);
+    cleanRequestFilter();
+    updateRequestFilter(values);
+    searchRequest();
   }
+
   function handleClear() {
     console.log('clear button');
+    cleanRequestFilter();
   }
   
   return (
@@ -95,20 +97,6 @@ const AuthorFilter: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.cpf")}</InputLabel>
-                      <TextField
-                        name="cpf"
-                        type="text"
-                        placeholder=""
-                        value={values.cpf}
-                        onChange={handleChange}
-                        className={classes.textField}
-                        InputProps={{
-                          className: classes.input,
-                        }}
-                        variant="outlined"
-                      />
-                    
                       <InputLabel className="form-label" >{t("labels.sex")}</InputLabel>
                       <Field
                         className="form-select-field"
@@ -118,7 +106,42 @@ const AuthorFilter: React.FC<Props> = (props) => {
                         placeholder={t("placeholder.select_sex")}
                         isMulti={false}
                       />
-                    </Grid>                            
+                    </Grid>    
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{t("labels.startDate")}</InputLabel>
+                      <TextField
+                        name="startDate"
+                        type="date"
+                        value={values.startDate}
+                        onChange={handleChange}
+                        className={classes.textField}
+                        defaultValue=""
+                        InputProps={{
+                          className: classes.input,
+                        }}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        variant="outlined"
+                      />
+                      <InputLabel className="form-label" >{t("labels.finalDate")}</InputLabel>
+                      <TextField
+                        name="finalDate"
+                        type="date"
+                        value={values.finalDate}
+                        onChange={handleChange}
+                        className={classes.textField}
+                        defaultValue=""
+                        InputProps={{
+                          className: classes.input,
+                        }}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        variant="outlined"
+                      />
+                    </Grid> 
+                                           
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>

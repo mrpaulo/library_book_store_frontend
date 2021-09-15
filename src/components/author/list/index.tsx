@@ -4,8 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
 import * as authorsActions from '../../../store/ducks/authors/actions';
-import {  AuthorDTO } from '../../../store/ducks/authors/types';
-import { formatCPF } from '../../utils/formatUtil';
+import { AuthorDTO, AuthorRequestFilter } from '../../../store/ducks/authors/types';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 
@@ -16,7 +15,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
 interface StateProps {
-  authors: AuthorDTO[]
+  authors: AuthorDTO[],
+  filter?: AuthorRequestFilter,
+  responseTotalRows: number
 }
 
 interface DispatchProps {
@@ -25,15 +26,18 @@ interface DispatchProps {
   changeFlagDetail(): void,
   findByIdRequest(id: number): void
   deleteByIdRequest(id: number): void
+  updateRequestFilter(requestFilter: AuthorRequestFilter): void,
+  searchRequest(): void,
 }
 
 type Props = StateProps & DispatchProps
 
 const AuthorsList: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { authors, loadRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
+  const { authors, filter, responseTotalRows, searchRequest, loadRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest, updateRequestFilter } = props;
   const { t } = useTranslation();
   const tooltipTitle = t("tooltip.add_author");
+  const [requestFilterLocal, setRequestFilterLocal] = useState<AuthorRequestFilter | null>(filter as AuthorRequestFilter);
 
   useEffect(() => {
     loadRequest();
@@ -55,23 +59,39 @@ const AuthorsList: React.FC<Props> = (props) => {
   }
 
   function eraseAuthor(id: number) {
-    deleteByIdRequest(id); 
+    deleteByIdRequest(id);
   }
 
-  const [page, setPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, authors.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, responseTotalRows - currentPage * rowsPerPage);
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    setPage(newPage);
+    setCurrentPage(newPage);
+    setRequestFilterLocal({ currentPage: currentPage } as AuthorRequestFilter);
+    
+    if (filter) {
+      filter.currentPage = newPage +1;
+    }
+
+    updateRequestFilter(filter as AuthorRequestFilter);
+    searchRequest();
   };
 
   const handleChangeRowsPerPage = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setCurrentPage(0);
+
+    if (filter) {
+      filter.rowsPerPage = +event.target.value;
+      filter.currentPage = 0;
+    }
+
+    updateRequestFilter(filter as AuthorRequestFilter);
+    searchRequest();
   };
 
   return (
@@ -88,7 +108,7 @@ const AuthorsList: React.FC<Props> = (props) => {
                 <Table className={classes.table} aria-label="custom pagination table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell>{t("labels.name")}</StyledTableCell>                      
+                      <StyledTableCell>{t("labels.name")}</StyledTableCell>
                       <StyledTableCell align="right">{t("labels.birthdate")}</StyledTableCell>
                       <StyledTableCell align="right">{t("labels.email")}</StyledTableCell>
                       <StyledTableCell align="right"></StyledTableCell>
@@ -102,14 +122,11 @@ const AuthorsList: React.FC<Props> = (props) => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {(rowsPerPage > 0
-                      ? authors.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      : authors
-                    ).map((author) => (
+                    {authors.map((author) => (
                       <TableRow key={author.id}>
                         <TableCell style={{ width: 300 }} component="th" scope="row">
                           {author.name}
-                        </TableCell>                       
+                        </TableCell>
                         <TableCell style={{ width: 160 }} align="right">
                           {t("formats.date_format", { date: author.birthdate })}
                           {/* {t("formats.date_format", { date: new Date() })} */}
@@ -140,12 +157,12 @@ const AuthorsList: React.FC<Props> = (props) => {
                       <TablePagination
                         rowsPerPageOptions={[5, 10, 25, { label: t("messages.table_all_itens"), value: -1 }]}
                         colSpan={6}
-                        count={authors.length}
+                        count={responseTotalRows}
                         rowsPerPage={rowsPerPage}
                         labelRowsPerPage={t("messages.table_rows_per_page")}
                         // labelDisplayedRows={({ from, to, count }) => `Displaying pages ${from}-${to} of total ${count} pages`}
                         labelDisplayedRows={({ from, to, count }) => t("messages.table_displaying_pagers", { from, to, count })}
-                        page={page}
+                        page={currentPage}
                         nextIconButtonText={t("buttons.table_next_page")}
                         backIconButtonText={t("buttons.table_previous_page")}
                         SelectProps={{
@@ -172,6 +189,8 @@ const AuthorsList: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state: ApplicationState) => ({
   authors: state.authors.authorsData,
+  filter: state.authors.requestFilter,
+  responseTotalRows: state.authors.responseTotalRows
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(authorsActions, dispatch);

@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
 import * as publishersActions from '../../../store/ducks/publishers/actions';
-import { Publisher, PublisherFilter as Filter } from '../../../store/ducks/publishers/types';
+import { Publisher, PublisherRequestFilter as Filter } from '../../../store/ducks/publishers/types';
 import CustomSelect from '../../utils/CustomSelect';
 import { SexList } from '../../utils/constants';
 

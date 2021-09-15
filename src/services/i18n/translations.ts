@@ -76,7 +76,7 @@ export const en = {
   messages: {
     table_all_itens: "All",
     table_confrm_delete: "Are you sure about delete {{name}}?",
-    table_displaying_pagers: "Displaying pages {{from}}-{{to}} of total {{count}} pages",
+    table_displaying_pagers: "Displaying pages {{from}}-{{to}} of total {{count}} rows",
     table_no_results: "No results",
     table_rows_per_page: "Rows per page",
   },  
@@ -202,7 +202,7 @@ export const pt = {
   messages: {
     table_all_itens: "Todas",
     table_confrm_delete: "Você tem certeza que deseja excluir {{name}}?",
-    table_displaying_pagers: "Mostrando página{{from}}-{{to}} do total de {{count}} página",
+    table_displaying_pagers: "Mostrando página{{from}}-{{to}} do total de {{count}} linhas",
     table_no_results: "Sem resultados",
     table_rows_per_page: "Linhas por página",
   },  
