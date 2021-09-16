@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
 import * as authorsActions from '../../../store/ducks/authors/actions';
-import { AuthorDTO, AuthorRequestFilter } from '../../../store/ducks/authors/types';
+import { AuthorDTO, AuthorRequestFilter as Filter} from '../../../store/ducks/authors/types';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 
@@ -16,7 +16,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 interface StateProps {
   authors: AuthorDTO[],
-  filter?: AuthorRequestFilter,
+  filter?: Filter,
   responseTotalRows: number
 }
 
@@ -26,7 +26,7 @@ interface DispatchProps {
   changeFlagDetail(): void,
   findByIdRequest(id: number): void
   deleteByIdRequest(id: number): void
-  updateRequestFilter(requestFilter: AuthorRequestFilter): void,
+  updateRequestFilter(requestFilter: Filter): void,
   searchRequest(): void,
 }
 
@@ -37,8 +37,7 @@ const AuthorsList: React.FC<Props> = (props) => {
   const { authors, filter, responseTotalRows, searchRequest, loadRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest, updateRequestFilter } = props;
   const { t } = useTranslation();
   const tooltipTitle = t("tooltip.add_author");
-  const [requestFilterLocal, setRequestFilterLocal] = useState<AuthorRequestFilter | null>(filter as AuthorRequestFilter);
-
+  
   useEffect(() => {
     loadRequest();
   }, []);
@@ -69,13 +68,12 @@ const AuthorsList: React.FC<Props> = (props) => {
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setCurrentPage(newPage);
-    setRequestFilterLocal({ currentPage: currentPage } as AuthorRequestFilter);
-    
+        
     if (filter) {
       filter.currentPage = newPage +1;
     }
 
-    updateRequestFilter(filter as AuthorRequestFilter);
+    updateRequestFilter(filter as Filter);
     searchRequest();
   };
 
@@ -90,7 +88,7 @@ const AuthorsList: React.FC<Props> = (props) => {
       filter.currentPage = 0;
     }
 
-    updateRequestFilter(filter as AuthorRequestFilter);
+    updateRequestFilter(filter as Filter);
     searchRequest();
   };
 
