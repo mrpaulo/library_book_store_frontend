@@ -86,7 +86,7 @@ const BookList: React.FC<Props> = (props) => {
 
     if (filter) {
       filter.rowsPerPage = +event.target.value;
-      filter.currentPage = 0;
+      filter.currentPage = 1;
     }
 
     updateRequestFilter(filter as Filter);

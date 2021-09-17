@@ -5,8 +5,6 @@ import { ApplicationState } from '../../../store';
 
 import * as publishersActions from '../../../store/ducks/publishers/actions';
 import { Publisher, PublisherRequestFilter as Filter } from '../../../store/ducks/publishers/types';
-import CustomSelect from '../../utils/CustomSelect';
-import { SexList } from '../../utils/constants';
 
 import { Formik, Form, FormikProps, Field } from 'formik';
 import { useTranslation } from "react-i18next";
@@ -22,7 +20,9 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  searchRequest(filter: Filter): void,  
+  searchRequest(): void,  
+  updateRequestFilter(requestFilter: Filter): void
+  cleanRequestFilter(): void
 }
 
 type Props = StateProps & DispatchProps
@@ -39,7 +39,7 @@ const INITIAL_VALUES: Filter = {
 const PublisherFilter: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();  
-  const { searchRequest } = props;
+  const { searchRequest, updateRequestFilter, cleanRequestFilter } = props;
 
   // useEffect(() => {
   //   bookSubjectRequest();
@@ -50,8 +50,11 @@ const PublisherFilter: React.FC<Props> = (props) => {
     console.log(values);
 
     actions.setSubmitting(false);
-    searchRequest(values);
+    cleanRequestFilter();
+    updateRequestFilter(values);
+    searchRequest();
   }
+  
   function handleClear() {
     console.log('clear button');
   }

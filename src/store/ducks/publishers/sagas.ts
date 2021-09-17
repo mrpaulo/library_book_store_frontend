@@ -1,4 +1,4 @@
-import { all, call, put,  } from 'redux-saga/effects';
+import { all, call, put, select,  } from 'redux-saga/effects';
 import * as Eff from 'redux-saga/effects' 
 import api from '../../../services/api/api';
 
@@ -9,9 +9,11 @@ import {
   findByIdSuccess, 
   deleteByIdSuccess, 
   searchSuccess,  
-  findByNameSuccess } from './actions'
-import { Publisher, PublisherRequestFilter, PublishersTypes as types } from './types';
+  findByNameSuccess, 
+  updateTotalRows} from './actions'
+import { Publisher, PublishersTypes as types } from './types';
 import { enqueueError, enqueue as notifierEnqueue } from '../notifications/actions';
+import { selectors } from '.';
 
 const takeEvery: any = Eff.takeEvery;
 const PUBLISHERS_V1 =  'v1/publishers';
@@ -26,11 +28,13 @@ function* load(): Generator<any, any, any> {
   }
 }
 
-function* search(action: any): Generator<any, any, any> {
-  const filter:PublisherRequestFilter = action.payload.filter;
+function* search(): Generator<any, any, any> {
+  const filter = yield select(selectors.getRequestFilter);
+  
   try {
     const reponse = yield call(api.post, `${PUBLISHERS_V1}/fetch`, filter);
-
+    
+    yield put(updateTotalRows(reponse));
     yield put(searchSuccess(reponse.data));
   } catch (error) {
     yield put(enqueueError(error));

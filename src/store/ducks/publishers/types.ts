@@ -28,8 +28,11 @@ export enum PublishersTypes {
 
   CHANGE_FLAG_EDITING = '@publishers/CHANGE_FLAG_EDITING',
   CHANGE_FLAG_DETAIL = '@publishers/CHANGE_FLAG_DETAIL',
-  CLEAN_BOOK_EDIT = '@publishers/CLEAN_BOOK_EDIT'
+  CLEAN_BOOK_EDIT = '@publishers/CLEAN_BOOK_EDIT',
   
+  UPDATE_FILTER= '@publishers/UPDATE_FILTER',
+  CLEAN_FILTER= '@publishers/CLEAN_FILTER',
+  UPDATE_RESPONSE_TOTAL_ROWS= '@publishers/UPDATE_RESPONSE_TOTAL_ROWS' 
 };
 /**
  * Data types
@@ -67,5 +70,7 @@ export interface PublishersState {
   readonly error: boolean
   readonly flagEditing: boolean
   readonly flagDetail: boolean  
+  readonly requestFilter?: PublisherRequestFilter
+  readonly responseTotalRows: number
 }
 

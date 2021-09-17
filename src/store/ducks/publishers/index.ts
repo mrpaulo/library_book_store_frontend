@@ -1,5 +1,6 @@
 import { Reducer } from 'redux';
-import { PublishersState, PublishersTypes } from './types'
+import { ApplicationState } from '../..';
+import { PublishersState, PublishersTypes as Types } from './types'
 
 const INITIAL_STATE: PublishersState = {
   publisherData: undefined,
@@ -8,49 +9,64 @@ const INITIAL_STATE: PublishersState = {
   error: false,
   loading: false,
   flagEditing: false,
-  flagDetail: false
+  flagDetail: false,
+  requestFilter: undefined,
+  responseTotalRows: 0
 };
 
 const reducer: Reducer<PublishersState> = (state = INITIAL_STATE, action) => {
 
   switch (action.type) {
-    case PublishersTypes.LOAD_REQUEST:
+    case Types.LOAD_REQUEST:
       return { ...state, loading: true };
-    case PublishersTypes.LOAD_SUCCESS:
+    case Types.LOAD_SUCCESS:
       return { ...state, loading: false, error: false, publishersData: action.payload.publishersData };    
-    case PublishersTypes.SEARCH_REQUEST:
+    case Types.SEARCH_REQUEST:
       return { ...state, loading: true };
-    case PublishersTypes.SEARCH_SUCCESS:
+    case Types.SEARCH_SUCCESS:
       return { ...state, loading: false, error: false, publishersData: action.payload.publishersData };    
-    case PublishersTypes.FIND_BY_ID_REQUEST:
+    case Types.FIND_BY_ID_REQUEST:
       return { ...state, loading: true };
-    case PublishersTypes.FIND_BY_ID_SUCCESS:
+    case Types.FIND_BY_ID_SUCCESS:
       return { ...state, loading: false, error: false, publisherData: action.payload.publisherData };    
-    case PublishersTypes.FIND_BY_NAME_REQUEST:
+    case Types.FIND_BY_NAME_REQUEST:
       return { ...state, loading: true };
-    case PublishersTypes.FIND_BY_NAME_SUCCESS:
+    case Types.FIND_BY_NAME_SUCCESS:
       return { ...state, loading: false, error: false, publishersAutoComplete: action.payload.publishersData };    
-    case PublishersTypes.UPDATE_REQUEST:
+    case Types.UPDATE_REQUEST:
       return { ...state, loading: true };
-    case PublishersTypes.UPDATE_SUCCESS:
+    case Types.UPDATE_SUCCESS:
       return { ...state, loading: false, error: false, publisherData: action.payload.publisherData };    
-    case PublishersTypes.CREATE_REQUEST:
+    case Types.CREATE_REQUEST:
       return { ...state, loading: true };
-    case PublishersTypes.CREATE_SUCCESS:
+    case Types.CREATE_SUCCESS:
       return { ...state, loading: false, error: false, publisherData: action.payload.publisherData };    
-    case PublishersTypes.DELETE_BY_ID_REQUEST:
+    case Types.DELETE_BY_ID_REQUEST:
       return { ...state, loading: true };
-    case PublishersTypes.DELETE_BY_ID_SUCCESS:
+    case Types.DELETE_BY_ID_SUCCESS:
       return { ...state, loading: false, error: false, publisherData: action.payload.publisherData };    
-    case PublishersTypes.CHANGE_FLAG_EDITING:
+    case Types.CHANGE_FLAG_EDITING:
       return { ...state, flagEditing: !state.flagEditing };
-    case PublishersTypes.CHANGE_FLAG_DETAIL:
+    case Types.CHANGE_FLAG_DETAIL:
       return { ...state, flagDetail: !state.flagDetail };
-    case PublishersTypes.CLEAN_BOOK_EDIT:
+    case Types.CLEAN_BOOK_EDIT:
       return { ...state, publisherData: undefined };    
+      case Types.UPDATE_FILTER:
+        return { ...state, requestFilter: action.payload.requestFilter };
+      case Types.CLEAN_FILTER:
+        return { ...state, requestFilter: undefined };
+      case Types.UPDATE_RESPONSE_TOTAL_ROWS:
+        return { ...state, responseTotalRows: action.payload.responseTotalRows };
     default:
       return state;
   }
 }
 
 export default reducer;
+
+// SELECTORS
+const getRequestFilter = (state: ApplicationState) => state.publishers.requestFilter || {};
+
+export const selectors = {
+  getRequestFilter
+} 
