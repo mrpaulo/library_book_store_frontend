@@ -39,7 +39,11 @@ export enum BooksTypes {
 
   CHANGE_FLAG_EDITING = '@books/CHANGE_FLAG_EDITING',
   CHANGE_FLAG_DETAIL = '@books/CHANGE_FLAG_DETAIL',
-  CLEAN_BOOK_EDIT = '@books/CLEAN_BOOK_EDIT'  
+  CLEAN_BOOK_EDIT = '@books/CLEAN_BOOK_EDIT',
+
+  UPDATE_FILTER= '@books/UPDATE_FILTER',
+  CLEAN_FILTER= '@books/CLEAN_FILTER',
+  UPDATE_RESPONSE_TOTAL_ROWS= '@books/UPDATE_RESPONSE_TOTAL_ROWS' 
 };
 /**
  * Data types
@@ -96,4 +100,6 @@ export interface BooksState {
   readonly booksConditionData: CustomEnum[],
   readonly bookSubjectListData: BookSubject[],
   readonly languageListData: BookLanguage[],
+  readonly requestFilter?: BookRequestFilter
+  readonly responseTotalRows: number
 }

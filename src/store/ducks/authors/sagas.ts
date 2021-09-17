@@ -32,8 +32,7 @@ function* load(): Generator<any, any, any> {
 function* search(): Generator<any, any, any> {
 
   const filter = yield select(selectors.getRequestFilter);
-  console.log("Filter")
-  console.log(filter)  
+  
   try {
     const reponse = yield call(api.post, `${AUTHORS_V1}/fetch`, filter);
 

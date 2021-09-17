@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
 import * as booksActions from '../../../store/ducks/books/actions';
-import { Book } from '../../../store/ducks/books/types';
+import { Book, BookRequestFilter as Filter } from '../../../store/ducks/books/types';
 
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -16,22 +16,26 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
 interface StateProps {
-  books: Book[]
+  books: Book[],
+  filter?: Filter,
+  responseTotalRows: number
 }
 
 interface DispatchProps {
   loadRequest(): void,
   changeFlagEditing(): void,
   changeFlagDetail(): void,
-  findByIdRequest(id: number): void
-  deleteByIdRequest(id: number): void
+  findByIdRequest(id: number): void,
+  deleteByIdRequest(id: number): void,
+  updateRequestFilter(requestFilter: Filter): void,
+  searchRequest(): void,
 }
 
 type Props = StateProps & DispatchProps
 
 const BookList: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { books, loadRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
+  const { books, filter, responseTotalRows, updateRequestFilter, searchRequest, loadRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
   const { t } = useTranslation();
   const tooltipTitle = t("tooltip.add_book");
 
@@ -61,10 +65,17 @@ const BookList: React.FC<Props> = (props) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, books.length - currentPage * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, responseTotalRows - currentPage * rowsPerPage);
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setCurrentPage(newPage);
+
+    if (filter) {
+      filter.currentPage = newPage +1;
+    }
+
+    updateRequestFilter(filter as Filter);
+    searchRequest();
   };
 
   const handleChangeRowsPerPage = (
@@ -72,6 +83,14 @@ const BookList: React.FC<Props> = (props) => {
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setCurrentPage(0);
+
+    if (filter) {
+      filter.rowsPerPage = +event.target.value;
+      filter.currentPage = 0;
+    }
+
+    updateRequestFilter(filter as Filter);
+    searchRequest();
   };
 
   return (
@@ -103,10 +122,7 @@ const BookList: React.FC<Props> = (props) => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {(rowsPerPage > 0
-                      ? books.slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
-                      : books
-                    ).map((book) => (
+                    {books.map((book) => (
                       <TableRow key={book.id}>
                         <TableCell style={{ width: 300 }} component="th" scope="row">
                           {book.title}
@@ -144,7 +160,7 @@ const BookList: React.FC<Props> = (props) => {
                       <TablePagination
                         rowsPerPageOptions={[5, 10, 25, { label: t("messages.table_all_itens"), value: -1 }]}
                         colSpan={6}
-                        count={books.length}
+                        count={responseTotalRows}
                         rowsPerPage={rowsPerPage}
                         labelRowsPerPage={t("messages.table_rows_per_page")}
                         // labelDisplayedRows={({ from, to, count }) => `Displaying pages ${from}-${to} of total ${count} pages`}
@@ -176,6 +192,8 @@ const BookList: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state: ApplicationState) => ({
   books: state.books.booksData,
+  filter: state.books.requestFilter,
+  responseTotalRows: state.books.responseTotalRows
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(booksActions, dispatch);

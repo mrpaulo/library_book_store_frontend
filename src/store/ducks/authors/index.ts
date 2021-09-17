@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { ApplicationState } from '../..';
-import { AuthorsState, AuthorsTypes } from './types'
+import { AuthorsState, AuthorsTypes as Types } from './types'
 
 const INITIAL_STATE: AuthorsState = {
   authorData: undefined,
@@ -17,34 +17,34 @@ const INITIAL_STATE: AuthorsState = {
 const reducer: Reducer<AuthorsState> = (state = INITIAL_STATE, action) => {
 
   switch (action.type) {
-    case AuthorsTypes.LOAD_REQUEST:
+    case Types.LOAD_REQUEST:
       return { ...state, loading: true };
-    case AuthorsTypes.LOAD_SUCCESS:
+    case Types.LOAD_SUCCESS:
       return { ...state, loading: false, error: false, authorsData: action.payload.authorsData };
 
-    case AuthorsTypes.SEARCH_REQUEST:
+    case Types.SEARCH_REQUEST:
       return { ...state, loading: true };
-    case AuthorsTypes.SEARCH_SUCCESS:
+    case Types.SEARCH_SUCCESS:
       return { ...state, loading: false, error: false, authorsData: action.payload.authorsData };
-    case AuthorsTypes.FIND_BY_ID_REQUEST:
+    case Types.FIND_BY_ID_REQUEST:
       return { ...state, loading: true };
-    case AuthorsTypes.FIND_BY_ID_SUCCESS:
+    case Types.FIND_BY_ID_SUCCESS:
       return { ...state, loading: false, error: false, authorData: action.payload.authorData };
-    case AuthorsTypes.FIND_BY_NAME_REQUEST:
+    case Types.FIND_BY_NAME_REQUEST:
       return { ...state, loading: true };
-    case AuthorsTypes.FIND_BY_NAME_SUCCESS:
+    case Types.FIND_BY_NAME_SUCCESS:
       return { ...state, loading: false, error: false, authorsAutoComplete: action.payload.authorsData };
-    case AuthorsTypes.UPDATE_REQUEST:
+    case Types.UPDATE_REQUEST:
       return { ...state, loading: true };
-    case AuthorsTypes.UPDATE_SUCCESS:
+    case Types.UPDATE_SUCCESS:
       return { ...state, loading: false, error: false, flagEditing: !state.flagEditing, authorData: undefined };
-    case AuthorsTypes.CREATE_REQUEST:
+    case Types.CREATE_REQUEST:
       return { ...state, loading: true };
-    case AuthorsTypes.CREATE_SUCCESS:
+    case Types.CREATE_SUCCESS:
       return { ...state, loading: false, error: false, flagEditing: !state.flagEditing, authorData: undefined };
-    case AuthorsTypes.DELETE_BY_ID_REQUEST:
+    case Types.DELETE_BY_ID_REQUEST:
       return { ...state, loading: true };
-    case AuthorsTypes.DELETE_BY_ID_SUCCESS:
+    case Types.DELETE_BY_ID_SUCCESS:
       return {
         ...state,
         loading: true,
@@ -52,18 +52,18 @@ const reducer: Reducer<AuthorsState> = (state = INITIAL_STATE, action) => {
           (author) => author.id !== action.payload.data.id
         )
       };
-    case AuthorsTypes.CHANGE_FLAG_EDITING:
+    case Types.CHANGE_FLAG_EDITING:
       return { ...state, flagEditing: !state.flagEditing };
-    case AuthorsTypes.CHANGE_FLAG_DETAIL:
+    case Types.CHANGE_FLAG_DETAIL:
       return { ...state, flagDetail: !state.flagDetail };
-    case AuthorsTypes.CLEAN_BOOK_EDIT:
+    case Types.CLEAN_BOOK_EDIT:
       return { ...state, authorData: undefined };
-    case AuthorsTypes.UPDATE_FILTER:      
+    case Types.UPDATE_FILTER:      
       return { ...state, requestFilter: action.payload.requestFilter };
-    case AuthorsTypes.CLEAN_FILTER:
+    case Types.CLEAN_FILTER:
       return { ...state, requestFilter: undefined };
-    case AuthorsTypes.UPDATE_RESPONSE_TOTAL_ROWS:
-      return{...state, responseTotalRows: action.payload.responseTotalRows}
+    case Types.UPDATE_RESPONSE_TOTAL_ROWS:
+      return{...state, responseTotalRows: action.payload.responseTotalRows};
     default:
       return state;
   }

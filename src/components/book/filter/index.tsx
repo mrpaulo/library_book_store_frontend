@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../../store';
 
 import * as booksActions from '../../../store/ducks/books/actions';
-import { Book, BookRequestFilter, BookSubject } from '../../../store/ducks/books/types';
+import { Book, BookRequestFilter as Filter, BookSubject } from '../../../store/ducks/books/types';
 import CustomObjSelect from '../../utils/CustomObjSelect';
 
 import { Formik, Form, FormikProps, Field } from 'formik';
@@ -22,13 +22,15 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  searchRequest(filter: BookRequestFilter): void
+  searchRequest(): void
   bookSubjectRequest(): void  
+  updateRequestFilter(requestFilter: Filter): void
+  cleanRequestFilter(): void
 }
 
 type Props = StateProps & DispatchProps
 
-const INITIAL_VALUES: BookRequestFilter = {
+const INITIAL_VALUES: Filter = {
   rowsPerPage: 10,
   currentPage: 1,
   title: '',
@@ -42,18 +44,20 @@ const INITIAL_VALUES: BookRequestFilter = {
 const FilterBook: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();  
-  const { searchRequest, bookSubjectRequest, bookSubjectList } = props;
+  const { bookSubjectList, searchRequest, bookSubjectRequest,  updateRequestFilter, cleanRequestFilter } = props;
 
   useEffect(() => {
     bookSubjectRequest();
   }, []);
 
-  function handleSubmit(values: BookRequestFilter, actions: any) {
+  function handleSubmit(values: Filter, actions: any) {
     console.log('Form submitted!');
     console.log(values);
 
     actions.setSubmitting(false);
-    searchRequest(values);
+    cleanRequestFilter();
+    updateRequestFilter(values);
+    searchRequest();
   }
   function handleClear() {
     console.log('clear button');   
@@ -66,7 +70,7 @@ const FilterBook: React.FC<Props> = (props) => {
         initialValues={INITIAL_VALUES}
         className={classes.root}
       >
-        {(props: FormikProps<BookRequestFilter>) => {
+        {(props: FormikProps<Filter>) => {
           const {
             values,          
             handleChange,
