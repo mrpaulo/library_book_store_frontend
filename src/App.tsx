@@ -82,7 +82,7 @@ const App: React.FC = () => {
               aria-label="account of current user"
               aria-controls='ds'
               aria-haspopup="true"
-              onClick={() => alert("Olá Cris como está sendo o seu dia?")}
+              onClick={() => alert("Autentication not defined yet")}
               color="inherit"
             >
               <AccountCircle />

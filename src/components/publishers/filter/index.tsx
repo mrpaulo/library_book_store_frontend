@@ -6,7 +6,7 @@ import { ApplicationState } from '../../../store';
 import * as publishersActions from '../../../store/ducks/publishers/actions';
 import { Publisher, PublisherRequestFilter as Filter } from '../../../store/ducks/publishers/types';
 
-import { Formik, Form, FormikProps, Field } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 
@@ -40,10 +40,6 @@ const PublisherFilter: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();  
   const { searchRequest, updateRequestFilter, cleanRequestFilter } = props;
-
-  // useEffect(() => {
-  //   bookSubjectRequest();
-  // }, []);
 
   function handleSubmit(values: Filter, actions: any) {
     console.log('Form submitted!');

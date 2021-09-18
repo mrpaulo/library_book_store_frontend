@@ -100,7 +100,7 @@ const AuthorFilter: React.FC<Props> = (props) => {
                       <InputLabel className="form-label" >{t("labels.sex")}</InputLabel>
                       <Field
                         className="form-select-field"
-                        name="format"
+                        name="sex"
                         options={SexList}
                         component={CustomSelect}
                         placeholder={t("placeholder.select_sex")}

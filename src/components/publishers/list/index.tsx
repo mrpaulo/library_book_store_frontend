@@ -21,8 +21,7 @@ interface StateProps {
   responseTotalRows: number
 }
 
-interface DispatchProps {
-  loadRequest(): void,
+interface DispatchProps {  
   changeFlagEditing(): void,
   changeFlagDetail(): void,
   findByIdRequest(id: number): void
@@ -35,12 +34,13 @@ type Props = StateProps & DispatchProps
 
 const PublishersList: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { publishers, filter, responseTotalRows, updateRequestFilter, searchRequest, loadRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
+  const { publishers, filter, responseTotalRows, updateRequestFilter, searchRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
   const { t } = useTranslation();
   const tooltipTitle = t("tooltip.add_publisher");
 
   useEffect(() => {
-    loadRequest();
+    updateRequestFilter({currentPage: 1, rowsPerPage: 10} as Filter);
+    searchRequest();
   }, []);
 
   function addPublisher() {

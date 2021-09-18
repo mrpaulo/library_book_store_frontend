@@ -6,21 +6,19 @@ import { ApplicationState } from '../../../store';
 import * as publishersActions from '../../../store/ducks/publishers/actions';
 import * as addressesActions from '../../../store/ducks/addresses/actions';
 import { Publisher } from '../../../store/ducks/publishers/types';
-import CustomSelect from '../../utils/CustomSelect';
 
-import { Formik, Form, FormikProps, Field } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 
 import '../../../styles/global.css';
 import { useStyles } from '../../../styles/Styles';
-import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
+import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
 import ModalAddress from '../../address'
 import { Address, Country } from '../../../store/ducks/addresses/types';
-import CustomObjSelect from '../../utils/CustomObjSelect';
 
 interface StateProps {
   publisher?: Publisher,
@@ -52,9 +50,8 @@ const EditPublisher: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
-  const { publisher, countriesList, changeFlagEditing, cleanPublisherEdit, createRequest, updateRequest, countryRequest } = props;
-  const [flagEditing, setFlagEditing] = useState(false);
-  const [countrySelected, setCountrySelected] = useState<Country | null>(null);
+  const { publisher, changeFlagEditing, cleanPublisherEdit, createRequest, updateRequest, countryRequest } = props;
+  const [flagEditing, setFlagEditing] = useState(false);  
   const [subtitle, setSubtitle] = useState(t("titles.submit_publisher"));
 
   const validationSchema = Yup.object().shape({
