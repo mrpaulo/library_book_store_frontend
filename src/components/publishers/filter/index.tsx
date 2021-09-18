@@ -110,7 +110,45 @@ const PublisherFilter: React.FC<Props> = (props) => {
                         }}
                         variant="outlined"
                       />
-                    </Grid>                            
+                    </Grid>   
+                    <Grid className="form-grid" container lg={10} md={10} sm={10} xs={10}>                    
+                      <Grid item lg={6} md={6} sm={6} xs={6}>
+                        <InputLabel className="form-label" >{t("labels.start_date_create")}</InputLabel>
+                        <TextField
+                          name="startDate"
+                          type="date"
+                          value={values.startDate}
+                          onChange={handleChange}
+                          className={classes.textFieldDate}
+                          defaultValue=""
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item lg={6} md={6} sm={6} xs={6}>
+                        <InputLabel className="form-label" >{t("labels.final_date")}</InputLabel>
+                        <TextField
+                          name="finalDate"
+                          type="date"
+                          value={values.finalDate}
+                          onChange={handleChange}
+                          className={classes.textFieldDate}
+                          defaultValue=""
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                        />
+                      </Grid>
+                    </Grid>                         
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>

@@ -85,10 +85,18 @@ export const useStyles = makeStyles({
     marginTop: 0,
     fontWeight: 300
   },
+  textFieldDate: {
+    width: '80%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    paddingBottom: 0,
+    marginTop: 0,
+    fontWeight: 300
+  },
   input: {
     marginBottom: '2%',
     height: '2.5em'
-  },
+  }, 
   table: {
     width: '82%',    
   },

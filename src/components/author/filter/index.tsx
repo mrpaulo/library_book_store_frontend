@@ -19,11 +19,11 @@ import SearchIcon from '@material-ui/icons/Search';
 import { selectors } from '../../../store/ducks/authors';
 
 interface StateProps {
-  authors?: Author[]  
+  authors?: Author[]
 }
 
 interface DispatchProps {
-  searchRequest(): void,  
+  searchRequest(): void,
   updateRequestFilter(requestFilter: Filter): void,
   cleanRequestFilter(): void
 }
@@ -33,21 +33,21 @@ type Props = StateProps & DispatchProps
 const INITIAL_VALUES: Filter = {
   rowsPerPage: 10,
   currentPage: 1,
-  name: '',  
-  sex: '',  
+  name: '',
+  sex: '',
   startDate: undefined,
   finalDate: undefined
 };
 
 const AuthorFilter: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { t } = useTranslation();  
+  const { t } = useTranslation();
   const { searchRequest, updateRequestFilter, cleanRequestFilter } = props;
 
   function handleSubmit(values: Filter, actions: any) {
     console.log('Form submitted!');
     console.log(values);
-    
+
     actions.setSubmitting(false);
     cleanRequestFilter();
     updateRequestFilter(values);
@@ -58,7 +58,7 @@ const AuthorFilter: React.FC<Props> = (props) => {
     console.log('clear button');
     cleanRequestFilter();
   }
-  
+
   return (
     <>
       <Formik
@@ -68,7 +68,7 @@ const AuthorFilter: React.FC<Props> = (props) => {
       >
         {(props: FormikProps<Filter>) => {
           const {
-            values,            
+            values,
             handleChange,
             isSubmitting,
           } = props
@@ -106,74 +106,77 @@ const AuthorFilter: React.FC<Props> = (props) => {
                         placeholder={t("placeholder.select_sex")}
                         isMulti={false}
                       />
-                    </Grid>    
-                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.startDate")}</InputLabel>
-                      <TextField
-                        name="startDate"
-                        type="date"
-                        value={values.startDate}
-                        onChange={handleChange}
-                        className={classes.textField}
-                        defaultValue=""
-                        InputProps={{
-                          className: classes.input,
-                        }}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        variant="outlined"
-                      />
-                      <InputLabel className="form-label" >{t("labels.finalDate")}</InputLabel>
-                      <TextField
-                        name="finalDate"
-                        type="date"
-                        value={values.finalDate}
-                        onChange={handleChange}
-                        className={classes.textField}
-                        defaultValue=""
-                        InputProps={{
-                          className: classes.input,
-                        }}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        variant="outlined"
-                      />
-                    </Grid> 
-                                           
-                  </Grid>
-                </CardContent>
-                <Grid item lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>
-                  <Grid container justify="flex-end" alignItems="flex-end" >
-                    <Button
-                      className={classes.resetButton}
-                      type="reset"
-                      onClick={handleClear}
-                      disabled={isSubmitting}
-                      color="secondary"
-                      variant="outlined"
-                      startIcon={<ClearIcon />}
-                    >
-                      {t("buttons.clear")}
-                    </Button>
-                    <Button
-                      className={classes.submitButton}
-                      type="submit"
-                      disabled={isSubmitting}
-                      color="primary"
-                      variant="outlined"
-                      startIcon={<SearchIcon />}
-                    >
-                      {t("buttons.search")}
-                    </Button>
-                  </Grid>
+                    </Grid>                    
+                    <Grid className="form-grid" container lg={10} md={10} sm={10} xs={10}>                    
+                      <Grid item lg={6} md={6} sm={6} xs={6}>
+                        <InputLabel className="form-label" >{t("labels.start_date_birth")}</InputLabel>
+                        <TextField
+                          name="startDate"
+                          type="date"
+                          value={values.startDate}
+                          onChange={handleChange}
+                          className={classes.textFieldDate}
+                          defaultValue=""
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item lg={6} md={6} sm={6} xs={6}>
+                        <InputLabel className="form-label" >{t("labels.final_date")}</InputLabel>
+                        <TextField
+                          name="finalDate"
+                          type="date"
+                          value={values.finalDate}
+                          onChange={handleChange}
+                          className={classes.textFieldDate}
+                          defaultValue=""
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>                
+              </CardContent>
+              <Grid item lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>
+                <Grid container justify="flex-end" alignItems="flex-end" >
+                  <Button
+                    className={classes.resetButton}
+                    type="reset"
+                    onClick={handleClear}
+                    disabled={isSubmitting}
+                    color="secondary"
+                    variant="outlined"
+                    startIcon={<ClearIcon />}
+                  >
+                    {t("buttons.clear")}
+                  </Button>
+                  <Button
+                    className={classes.submitButton}
+                    type="submit"
+                    disabled={isSubmitting}
+                    color="primary"
+                    variant="outlined"
+                    startIcon={<SearchIcon />}
+                  >
+                    {t("buttons.search")}
+                  </Button>
                 </Grid>
-              </Form>
+              </Grid>
+            </Form>
             </Card>
-          )
+      )
         }}
-      </Formik>
+    </Formik>
     </>
 
   );
@@ -182,7 +185,7 @@ const AuthorFilter: React.FC<Props> = (props) => {
 AuthorFilter.displayName = 'AuthorFilter';
 
 const mapStateToProps = (state: ApplicationState) => ({
-  
+
 });
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(authorsActions, dispatch);
 

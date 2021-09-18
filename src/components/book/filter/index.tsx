@@ -60,7 +60,8 @@ const FilterBook: React.FC<Props> = (props) => {
     searchRequest();
   }
   function handleClear() {
-    console.log('clear button');   
+    console.log('clear button'); 
+    cleanRequestFilter();  
   }
   
   return (
@@ -69,12 +70,14 @@ const FilterBook: React.FC<Props> = (props) => {
         onSubmit={handleSubmit}
         initialValues={INITIAL_VALUES}
         className={classes.root}
+        
       >
         {(props: FormikProps<Filter>) => {
           const {
             values,          
             handleChange,
             isSubmitting,
+            resetForm            
           } = props
           return (
             <Card className={classes.root}>
@@ -137,10 +140,47 @@ const FilterBook: React.FC<Props> = (props) => {
                         name="subjectName"
                         options={bookSubjectList}
                         component={CustomObjSelect}
-                        placeholder={t("placeholder.select_book_subject")}
-                        isMulti={false}
-                        isObject={true}
+                        placeholder={t("placeholder.select_book_subject")}                        
+                        isObject
                       />
+                    </Grid>
+                    <Grid className="form-grid" container lg={10} md={10} sm={10} xs={10}>                    
+                      <Grid item lg={6} md={6} sm={6} xs={6}>
+                        <InputLabel className="form-label" >{t("labels.start_date_publish")}</InputLabel>
+                        <TextField
+                          name="startDate"
+                          type="date"
+                          value={values.startDate}
+                          onChange={handleChange}
+                          className={classes.textFieldDate}
+                          defaultValue=""
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item lg={6} md={6} sm={6} xs={6}>
+                        <InputLabel className="form-label" >{t("labels.final_date")}</InputLabel>
+                        <TextField
+                          name="finalDate"
+                          type="date"
+                          value={values.finalDate}
+                          onChange={handleChange}
+                          className={classes.textFieldDate}
+                          defaultValue=""
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                        />
+                      </Grid>
                     </Grid>
                   </Grid>
                 </CardContent>
@@ -149,7 +189,11 @@ const FilterBook: React.FC<Props> = (props) => {
                     <Button
                       className={classes.resetButton}
                       type="reset"
-                      onClick={handleClear}
+                      onClick={
+                        () => {
+                          resetForm()
+                          handleClear()
+                        }}
                       disabled={isSubmitting}
                       color="secondary"
                       variant="outlined"
