@@ -1,20 +1,23 @@
 import {createStore, Store, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga'
-import { AddressesState } from './ducks/addresses/types';
-import {BooksState} from './ducks/books/types';
-import {PublishersState} from './ducks/publishers/types';
-import { NotificationsState } from './ducks/notifications/types';
-import { AuthorsState } from './ducks/authors/types';
 
 import rootReducer from './ducks/rootReducer';
 import rootSaga from './ducks/rootSaga'
 
+import { AddressesState } from './ducks/addresses/types';
+import { AuthenticationsState } from './ducks/authentications/types';
+import { AuthorsState } from './ducks/authors/types';
+import { BooksState } from './ducks/books/types';
+import { NotificationsState } from './ducks/notifications/types';
+import {PublishersState} from './ducks/publishers/types';
+
 export interface ApplicationState {
   addresses: AddressesState,
-  books: BooksState,
-  publishers: PublishersState,
-  notifications: NotificationsState,
+  authentications: AuthenticationsState
   authors: AuthorsState,
+  books: BooksState,
+  notifications: NotificationsState,
+  publishers: PublishersState,
 }
 
 const sagaMiddleware = createSagaMiddleware();

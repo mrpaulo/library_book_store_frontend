@@ -59,6 +59,7 @@ const FilterBook: React.FC<Props> = (props) => {
     updateRequestFilter(values);
     searchRequest();
   }
+  
   function handleClear() {
     console.log('clear button'); 
     cleanRequestFilter();  
