@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga'
 
 import rootReducer from './ducks/rootReducer';
 import rootSaga from './ducks/rootSaga'
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { AddressesState } from './ducks/addresses/types';
 import { AuthenticationsState } from './ducks/authentications/types';
@@ -22,7 +23,11 @@ export interface ApplicationState {
 
 const sagaMiddleware = createSagaMiddleware();
 
-const store: Store<ApplicationState> = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+const store: Store<ApplicationState> = 
+createStore(
+  rootReducer, 
+  composeWithDevTools( applyMiddleware(sagaMiddleware))
+  );
 
 sagaMiddleware.run(rootSaga)
 
