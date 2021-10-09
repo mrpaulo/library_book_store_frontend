@@ -11,13 +11,15 @@ import { enqueueError, enqueue as notifierEnqueue } from '../notifications/actio
 import { selectors } from '.';
 
 const takeEvery: any = Eff.takeEvery;
-const PUBLISHERS_V1 =  'v1/publishers';
+const AUTHENTICATIONS_V1 =  'v1/authentiations';
 
 
 function* login(action: any): Generator<any, any, any> {
  const login:Login = action.payload.loginData;
+ console.log("Login")
+ console.log(login)
   try {
-    const reponse = yield call(api.get, `${PUBLISHERS_V1}/${login}`);
+    const reponse = yield call(api.post, `${AUTHENTICATIONS_V1}`, login);
 
     yield put(loginSuccess(reponse.data));    
   } catch (error) {
@@ -28,7 +30,7 @@ function* login(action: any): Generator<any, any, any> {
 function* logout(action: any): Generator<any, any, any> {
   const login:Login = action.payload.loginData;
    try {
-     const reponse = yield call(api.get, `${PUBLISHERS_V1}/${login}`);
+     const reponse = yield call(api.get, `${AUTHENTICATIONS_V1}/${login}`);
  
      yield put(logoutSuccess());    
    } catch (error) {

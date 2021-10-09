@@ -5,6 +5,8 @@ export const en = {
     clear: "Clear",
     delete: "Delete",
     edit: "Edit",
+    login: "Login",
+    logout: "Logout",
     ok: "Ok",
     search: "Search",
     submit: "Submit",
@@ -51,6 +53,7 @@ export const en = {
     name: "Name",
     neighborhood: "Neighborhood",
     number: "Number",
+    password: "Password",
     publish_date: "Publish date",
     publisher: "Publisher",
     rating: "Rating",
@@ -64,6 +67,7 @@ export const en = {
     subject: "Subject",
     subtitle: "Subtitle",
     title: "Title",
+    user_name: "User name"
   },
   menu: {
     about: "About",
@@ -109,7 +113,8 @@ export const en = {
   titles: {
     edit_book: "Edit Book",    
     edit_author: "Edit Author",    
-    edit_publisher: "Edit Publisher",    
+    edit_publisher: "Edit Publisher",  
+    login: "Login",  
     search_books: "Search Books",
     search_publishers: "Search Publisher",
     search_authors: "Search Authors",
@@ -135,6 +140,8 @@ export const pt = {
     clear: "Limpar",
     delete: "Excluir",
     edit: "Editar",
+    login: "Entrar",
+    logout: "Sair",
     ok: "Ok",
     search: "Pesquisar",
     submit: "Salvar",
@@ -181,6 +188,7 @@ export const pt = {
     name: "Nome",
     neighborhood: "Bairro",
     number: "Número",
+    password: "Senha",
     publish_date: "Data publicação",
     publisher: "Editora",
     rating: "Avaliação",
@@ -194,6 +202,7 @@ export const pt = {
     subject: "Assunto",
     subtitle: "Subtítulo",
     title: "Título",
+    user_name: "Nome usuário"
   },
   menu: {
     about: "Sobre",
@@ -240,6 +249,7 @@ export const pt = {
     edit_book: "Editar Livro",
     edit_author: "Editar Autor",    
     edit_publisher: "Editar Editora",  
+    login: "Login",
     search_books: "Consultar Livros",
     search_publishers: "Consultar Editora",
     search_authors: "Consultar Autores",

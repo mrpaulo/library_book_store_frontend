@@ -5,7 +5,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as authenticationsActions from '../../store/ducks/authentications/actions';
 import { Formik, Form, FormikProps, Field } from 'formik';
 import { useTranslation } from "react-i18next";
-import "../../../services/i18n/i18n";
+import "../../services/i18n/i18n";
 
 import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
@@ -17,15 +17,16 @@ import { Login, Token } from '../../store/ducks/authentications/types';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../store';
 import { useStyles } from '../../styles/Styles';
-import SearchIcon from '@material-ui/icons/Search';
+
+import { Grid, InputLabel } from '@material-ui/core';
 
 interface StateProps {
   login?: Login,
   token?: Token,
-  failure: boolean  
+  failure: boolean
 }
 
-interface DispatchProps {    
+interface DispatchProps {
   loginRequest(login: Login): void,
   logoutRequest(login: Login): void,
 }
@@ -33,27 +34,30 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps
 
 const INITIAL_VALUES: Login = {
-   userName: '',
-  password: ''  
+  userName: '',
+  password: ''
 };
 
-const LoginPage: React.FC<Props> = (props)=> {
+const LoginPage: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { t } = useTranslation();  
+  const { t } = useTranslation();
   const { login, token, failure, loginRequest, logoutRequest } = props;
   const [disableLoginBtn, setDisableLoginBtn] = useState<boolean>(false);
-  
+
 
   useEffect(() => {
     if (login && login.userName.trim() && login.password.trim()) {
-    setDisableLoginBtn(false)
+      setDisableLoginBtn(false)
     } else {
       setDisableLoginBtn(true)
     }
   }, [login]);
 
   const handleLogin = () => {
-   loginRequest(login as Login)
+    loginRequest(login as Login)
+  };
+  const handleLogout = () => {
+    loginRequest(login as Login)
   };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
@@ -65,74 +69,95 @@ const LoginPage: React.FC<Props> = (props)=> {
   function handleSubmit(values: Login, actions: any) {
     console.log('Form submitted!');
     console.log(values);
-    loginRequest(login as Login)
+    loginRequest(values as Login)
     actions.setSubmitting(false);
-   
+
   }
 
   return (
     <>
-    <Formik
+      <Formik
         onSubmit={handleSubmit}
         initialValues={INITIAL_VALUES}
         className={classes.root}
       >
         {(props: FormikProps<Login>) => {
           const {
-            values,            
+            values,
             handleChange,
             isSubmitting,
           } = props
           return (
-            <Card className={classes.root}>
+            <Card className={classes.root} >
               <Form>
                 <CardHeader
-                  title={t("titles.search_publishers")}
+                  title={t("titles.login")}
                   subheader=""
+                  style={{ textAlign: 'center' }}
                 />
-        <CardContent>
-          <div>
-            <TextField
-              error={failure}
-              fullWidth
-              id="username"
-              type="email"
-              label="Username"
-              placeholder="Username"
-              margin="normal"
-              // helperText={state.helperText}
-              onChange={handleChange}
-              onKeyPress={handleKeyPress}
-            />
-            <TextField
-              error={failure}
-              fullWidth
-              id="password"
-              type="password"
-              label="Password"
-              placeholder="Password"
-              margin="normal"
-              // helperText={state.helperText}
-              onChange={handleChange}
-              onKeyPress={handleKeyPress}
-            />
-          </div>
-        </CardContent>
-        <CardActions>
-        <Button
-            className={classes.submitButton}
-            type="submit"
-            disabled={isSubmitting}
-            color="primary"
-            variant="outlined"
-            startIcon={<SearchIcon />}
-          >
-            {t("buttons.search")}
-          </Button>
-        </CardActions>
-        </Form>
-      </Card>      
-      )
+                <CardContent>
+                  <Grid container justify="center" alignItems="center">
+                    <Grid item lg={6} md={6} sm={6} xs={6}>
+                      <InputLabel className="form-label" >{t("labels.user_name")}</InputLabel>
+                      <TextField
+                        error={failure}
+                        name="userName"
+                        type="email"
+                        className={classes.textField}
+                        InputProps={{
+                          className: classes.input,
+                        }}
+                        variant="outlined"
+                        // helperText={state.helperText}
+                        onChange={handleChange}
+                        onKeyPress={handleKeyPress}
+                      />
+                      <InputLabel className="form-label" >{t("labels.password")}</InputLabel>
+                      <TextField
+                        error={failure}
+                        name="password"
+                        type="password"
+                        className={classes.textField}
+                        InputProps={{
+                          className: classes.input,
+                        }}
+                        variant="outlined"
+                        // helperText={state.helperText}
+                        onChange={handleChange}
+                        onKeyPress={handleKeyPress}
+                      />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+                <CardActions>
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={{ paddingBottom: '80px' }}>
+                    <Grid container justify="flex-end" alignItems="flex-end" >
+                      <Button
+                        className={classes.resetButton}
+                        type="reset"
+                        onClick={handleLogout}
+                        disabled={isSubmitting}
+                        color="secondary"
+                        variant="outlined"
+                      >
+                        {t("buttons.logout")}
+                      </Button>
+                      <Button
+                        className={classes.submitButton}
+                        type="submit"
+                        disabled={isSubmitting}
+                        color="primary"
+                        variant="outlined"
+
+                      >
+                        {t("buttons.login")}
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </CardActions>
+              </Form>
+            </Card>
+          )
         }}
       </Formik>
     </>

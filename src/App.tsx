@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
@@ -9,7 +9,8 @@ import {
   PUBLISHERS_URL,
   ADD_PUBLISHER_URL,
   AUTHORS_URL,
-  ADD_AUTHOR_URL
+  ADD_AUTHOR_URL,
+  LOGIN_URL
 } from './services/api/constants';
 import AppMenu from './components/menu/AppMenu';
 import PageBook from './components/book';
@@ -18,6 +19,7 @@ import PageCompany from './components/publishers';
 import EditCompany from './components/publishers/edit';
 import PagePerson from './components/author';
 import EditPerson from './components/author/edit';
+import LoginPage from './components/login'
 
 import clsx from 'clsx'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -37,6 +39,8 @@ import Notifier from './components/utils/Notifier';
 const App: React.FC = () => {
   const classes = pageMenuStyles()
   const [languageSelected, setLanguageSelect] = useState(languages.en);
+  const [showMenuUser, setShowMenuUser] = useState(false);
+  const dropdownRef = useRef(null);
 
   const changeLaguage = (e: any) => {
     e.preventDefault();
@@ -49,8 +53,12 @@ const App: React.FC = () => {
     }
   }
 
+  const openMenuUser = () => {
+    console.log("Open menu")
+    setShowMenuUser(!showMenuUser)
+  }
   return (
-    <>     
+    <>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -82,11 +90,22 @@ const App: React.FC = () => {
               aria-label="account of current user"
               aria-controls='ds'
               aria-haspopup="true"
-              onClick={() => alert("Autentication not defined yet")}
+              onClick={openMenuUser}
               color="inherit"
             >
               <AccountCircle />
             </IconButton>
+            {showMenuUser
+              ? (
+                <nav ref={dropdownRef} className={`menu ${showMenuUser ? 'active' : 'inactive'}`}>
+                  <ul>
+                    <li><a href="/login">Login page</a></li>
+                    <li><a href="/login">Logout</a></li>
+                  </ul>
+                </nav>
+              )
+              : (null)
+            }
           </div>
         </Toolbar>
       </AppBar>
@@ -112,6 +131,7 @@ const App: React.FC = () => {
                   <Route path={ADD_PUBLISHER_URL} component={EditCompany} />
                   <Route path={AUTHORS_URL} exact component={PagePerson} />
                   <Route path={ADD_AUTHOR_URL} component={EditPerson} />
+                  <Route path={LOGIN_URL} component={LoginPage} />
                 </Switch>
                 <Notifier />
               </Provider>
