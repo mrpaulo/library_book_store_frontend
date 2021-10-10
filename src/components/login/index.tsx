@@ -1,9 +1,8 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import * as authenticationsActions from '../../store/ducks/authentications/actions';
-import { Formik, Form, FormikProps, Field } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from "react-i18next";
 import "../../services/i18n/i18n";
 
@@ -28,7 +27,7 @@ interface StateProps {
 
 interface DispatchProps {
   loginRequest(login: Login): void,
-  logoutRequest(login: Login): void,
+  logoutRequest(): void,
 }
 
 type Props = StateProps & DispatchProps
@@ -52,18 +51,13 @@ const LoginPage: React.FC<Props> = (props) => {
       setDisableLoginBtn(true)
     }
   }, [login]);
-
-  const handleLogin = () => {
-    loginRequest(login as Login)
-  };
+  
   const handleLogout = () => {
-    loginRequest(login as Login)
+    logoutRequest()
   };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
-    if (event.keyCode === 13 || event.which === 13) {
-      disableLoginBtn || handleLogin();
-    }
+   
   };
 
   function handleSubmit(values: Login, actions: any) {
@@ -71,7 +65,6 @@ const LoginPage: React.FC<Props> = (props) => {
     console.log(values);
     loginRequest(values as Login)
     actions.setSubmitting(false);
-
   }
 
   return (

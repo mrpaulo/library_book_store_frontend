@@ -4,5 +4,8 @@ import { AuthenticationsTypes as Types, Login, Token } from './types';
 export const loginRequest = (loginData: Login) => action(Types.LOGIN_REQUEST, { loginData });
 export const loginSuccess = (tokenData: Token ) => action(Types.LOGIN_SUCCESS,  { tokenData });
 
-export const logoutRequest = (loginData: Login) => action(Types.LOGOUT_REQUEST, { loginData });
+export const logoutRequest = () => action(Types.LOGOUT_REQUEST);
 export const logoutSuccess = () => action(Types.LOGOUT_SUCCESS);
+
+export const isTokenValidRequest = () => action(Types.IS_VALID_REQUEST);
+export const isTokenValidSuccess = (isAuthenticated: boolean) => action(Types.IS_VALID_SUCCESS, { isAuthenticated });
