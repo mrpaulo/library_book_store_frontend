@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { LOGIN_URL } from './services/api/constants';
 
@@ -8,7 +8,7 @@ import { i18n } from './services/i18n/i18n';
 import { languages } from './services/i18n/constants';
 import { useTranslation } from "react-i18next";
 
-import { IconButton, Toolbar, Typography } from '@material-ui/core';
+import { Button, IconButton, Toolbar, Typography } from '@material-ui/core';
 import { AppBar } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -19,13 +19,15 @@ import { connect } from 'react-redux';
 
 import * as authenticationsActions from './store/ducks/authentications/actions';
 import { Token } from './store/ducks/authentications/types';
+import { createHashHistory } from 'history'
 
-interface StateProps {  
+interface StateProps {
   token?: Token,
   isAuthenticated: boolean
 }
 
-interface DispatchProps {  
+interface DispatchProps {
+  isTokenValidRequest(): void,
   logoutRequest(): void,
 }
 
@@ -34,10 +36,15 @@ type Props = StateProps & DispatchProps
 const TopBar: React.FC<Props> = (props) => {
   const classes = pageMenuStyles()
   const { t } = useTranslation();
-  const { token, logoutRequest } = props;
+  const { token, isAuthenticated, logoutRequest, isTokenValidRequest } = props;
+  const history = createHashHistory()
   const [languageSelected, setLanguageSelect] = useState(languages.en);
   const [showMenuUser, setShowMenuUser] = useState(false);
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    isTokenValidRequest();
+  }, []);
 
   const changeLaguage = (e: any) => {
     e.preventDefault();
@@ -48,6 +55,18 @@ const TopBar: React.FC<Props> = (props) => {
       setLanguageSelect(languages.en)
       i18n.changeLanguage(languages.en)
     }
+  }
+
+  const handleLogout = () => {
+    logoutRequest();    
+  };
+
+  const handleLogin = () => {
+    goToLoginPage();
+  };
+
+  const goToLoginPage = () => {
+    window.location.href = LOGIN_URL;
   }
 
   const openMenuUser = () => {
@@ -94,8 +113,40 @@ const TopBar: React.FC<Props> = (props) => {
             ? (
               <nav ref={dropdownRef} className={`menu ${showMenuUser ? 'active' : 'inactive'}`}>
                 <ul>
-                  <li><a href={LOGIN_URL}>{t("menu.login")}</a></li>
-                  <li><a href="/login">{t("menu.logout")}</a></li>
+                  {isAuthenticated ?
+                    (
+                      <>
+                        <li>
+                          <p>
+                            <AccountCircle />
+                            {token?.userName}
+                          </p>
+                        </li>
+                        <li>
+                          <Button
+                            className={classes.menuBarButton}
+                            type="submit"
+                            color="secondary"
+                            variant="outlined"
+                            onClick={handleLogout}
+                          >
+                            {t("menu.logout")}
+                          </Button>
+                        </li>
+                      </>
+                    ) : (
+                      <li>
+                        <Button
+                          className={classes.menuBarButton}
+                          type="submit"
+                          color="primary"
+                          variant="outlined"
+                          onClick={handleLogin}
+                        >
+                          {t("menu.login")}
+                        </Button>
+                      </li>
+                    )}
                 </ul>
               </nav>
             )
@@ -107,7 +158,7 @@ const TopBar: React.FC<Props> = (props) => {
   )
 };
 
-const mapStateToProps = (state: ApplicationState) => ({  
+const mapStateToProps = (state: ApplicationState) => ({
   token: state.authentications.tokenData,
   isAuthenticated: state.authentications.isAuthenticated
 });

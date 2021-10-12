@@ -1,6 +1,6 @@
 import { all, call, put, select, } from 'redux-saga/effects';
 import * as Eff from 'redux-saga/effects'
-import api from '../../../services/api/api';
+import {apiBasic, apiBearer } from '../../../services/api/api';
 
 import {
   isTokenValidSuccess,
@@ -20,7 +20,7 @@ function* login(action: any): Generator<any, any, any> {
   console.log("Login")
   console.log(login)
   try {
-    const reponse = yield call(api.post, `${AUTHENTICATIONS_V1}`, login);
+    const reponse = yield call(apiBasic.post, `${AUTHENTICATIONS_V1}`, login);
 
     yield put(loginSuccess(reponse.data));
   } catch (error) {
@@ -32,7 +32,7 @@ function* logout(): Generator<any, any, any> {
   const token: Token = yield select(selectors.getToken);
   if (token) {
     try {
-      yield call(api.get, `${AUTHENTICATIONS_V1}/${token.value}`);
+      yield call(apiBasic.get, `${AUTHENTICATIONS_V1}/${token.value}`);
       yield put(logoutSuccess());
     } catch (error) {
       yield put(enqueueError(error));
@@ -48,7 +48,7 @@ function* isValidToken(): Generator<any, any, any> {
   console.log(token)
   if (token) {
     try {
-      const reponse = yield call(api.post, `${AUTHENTICATIONS_V1}/valid`, token);
+      const reponse = yield call(apiBasic.post, `${AUTHENTICATIONS_V1}/valid`, token);
 
       yield put(isTokenValidSuccess(reponse.data));
     } catch (error) {

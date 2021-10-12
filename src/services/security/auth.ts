@@ -1,10 +1,17 @@
-export const  saveTokenStorage = (token: any) => {
-  sessionStorage.setItem('@App:token', JSON.stringify(token));
-}
-export const   getTokenStorage = () => {
- return JSON.parse(sessionStorage.getItem('@App:token') as string);
- }
+const TOKEN_NAME = '@LBS_App:token';
 
- export const   removeTokenStorage = () => {
- sessionStorage.removeItem('@App:token');
-  }
+export const saveTokenStorage = (token: any) => {
+  sessionStorage.setItem(TOKEN_NAME, JSON.stringify(token));
+}
+export const getTokenStorage = () => {
+  return JSON.parse(sessionStorage.getItem(TOKEN_NAME) as string);
+}
+
+export const getTokenValueStorage = () => {
+  let token = getTokenStorage() || ''
+  return token.value;
+}
+
+export const removeTokenStorage = () => {
+  sessionStorage.removeItem(TOKEN_NAME);  
+}

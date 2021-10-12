@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { getTokenValueStorage } from '../security/auth';
 
 import { BASE_URL } from './constants';
 
-const api = axios.create({
+export const apiBasic = axios.create({
   baseURL: BASE_URL,
   auth: {
     username: "teste",
@@ -10,4 +11,8 @@ const api = axios.create({
   }
 });
 
-export default api;
+export const apiBearer = axios.create({
+  baseURL: BASE_URL,  
+  headers: { Authorization: `Bearer ${getTokenValueStorage()}` }
+});
+

@@ -60,9 +60,13 @@
   border-bottom: 1px solid #dddddd;
 }
 
-.menu li a {
+.menu li p {
   text-decoration: none;
   color: #333333;
   padding: 15px 20px;
   display: block;
+  text-transform: uppercase;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  text-align: center;
 }
+

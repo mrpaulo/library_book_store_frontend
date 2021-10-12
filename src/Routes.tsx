@@ -1,6 +1,4 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import store from './store';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
 import {
@@ -46,8 +44,7 @@ const Routes: React.FC = () => {
           <AppMenu />
         </Drawer>
         <main className={classes.content}>
-          <Container maxWidth="lg" className={classes.container}>
-            <Provider store={store}>
+          <Container maxWidth="lg" className={classes.container}>            
               <Switch>
                 <Route path="/" exact component={PageBook} />
                 <Route path={BOOKS_URL} exact component={PageBook} />
@@ -58,8 +55,7 @@ const Routes: React.FC = () => {
                 <PrivateRoute path={ADD_AUTHOR_URL} exact component={EditPerson} />
                 <Route path={LOGIN_URL} component={LoginPage} />
               </Switch>
-              <Notifier />
-            </Provider>
+              <Notifier />            
           </Container>
         </main>
       </div>

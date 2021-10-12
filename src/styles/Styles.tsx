@@ -9,6 +9,11 @@ export const pageMenuStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  menuBarButton: {
+    marginRight: theme.spacing(2),
+    border: 'none',
+    width: '100%'
+  },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
