@@ -1,18 +1,26 @@
 import axios from 'axios';
 import { getTokenValueStorage } from '../security/auth';
 
-import { BASE_URL } from './constants';
+import { BASE_API_URL, BASE_URL } from './constants';
 
 export const apiBasic = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_API_URL,
   auth: {
-    username: "teste",
+    username: "client",
     password: "teste"
   }
 });
 
 export const apiBearer = axios.create({
-  baseURL: BASE_URL,  
+  baseURL: BASE_API_URL,  
   headers: { Authorization: `Bearer ${getTokenValueStorage()}` }
+});
+
+export const apiLogin = axios.create({
+  baseURL: BASE_URL,
+  auth: {
+    username: "client",
+    password: "teste"
+  }
 });
 

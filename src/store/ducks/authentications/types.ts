@@ -16,13 +16,14 @@ export enum AuthenticationsTypes {
  * Data types
  */
 export interface Login {  
-  userName: String, 
-  password: String  
+  username: String, 
+  password: String
 }
 
 export interface Token{    
   userName: String, 
-  value: String
+  access_token: String,
+  refresh_token: String
 }
 
 /**

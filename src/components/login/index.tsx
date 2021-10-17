@@ -33,7 +33,7 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps
 
 const INITIAL_VALUES: Login = {
-  userName: '',
+  username: '',
   password: ''
 };
 
@@ -45,7 +45,7 @@ const LoginPage: React.FC<Props> = (props) => {
 
 
   useEffect(() => {
-    if (login && login.userName.trim() && login.password.trim()) {
+    if (login && login.username.trim() && login.password.trim()) {
       setDisableLoginBtn(false)
     } else {
       setDisableLoginBtn(true)
@@ -94,8 +94,8 @@ const LoginPage: React.FC<Props> = (props) => {
                       <InputLabel className="form-label" >{t("labels.user_name")}</InputLabel>
                       <TextField
                         error={failure}
-                        name="userName"
-                        type="email"
+                        name="username"
+                        type="text"
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,

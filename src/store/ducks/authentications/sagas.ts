@@ -1,6 +1,6 @@
 import { all, call, put, select, } from 'redux-saga/effects';
 import * as Eff from 'redux-saga/effects'
-import {apiBasic, apiBearer } from '../../../services/api/api';
+import {apiBasic, apiBearer, apiLogin } from '../../../services/api/api';
 
 import {
   isTokenValidSuccess,
@@ -16,11 +16,14 @@ const AUTHENTICATIONS_V1 = 'v1/authentiations';
 
 
 function* login(action: any): Generator<any, any, any> {
-  const login: Login = action.payload.loginData;
-  console.log("Login")
-  console.log(login)
+  const login: Login = action.payload.loginData;    
+  var bodyFormData = new FormData();
+  bodyFormData.append('grant_type', 'password');
+  bodyFormData.append('username', login.username as string);
+  bodyFormData.append('password', login.password as string);
   try {
-    const reponse = yield call(apiBasic.post, `${AUTHENTICATIONS_V1}`, login);
+    
+    const reponse = yield call(apiLogin.post, `oauth/token`, bodyFormData);
 
     yield put(loginSuccess(reponse.data));
   } catch (error) {
@@ -32,7 +35,7 @@ function* logout(): Generator<any, any, any> {
   const token: Token = yield select(selectors.getToken);
   if (token) {
     try {
-      yield call(apiBasic.get, `${AUTHENTICATIONS_V1}/${token.value}`);
+      yield call(apiBasic.get, `${AUTHENTICATIONS_V1}/${token.access_token}`);
       yield put(logoutSuccess());
     } catch (error) {
       yield put(enqueueError(error));

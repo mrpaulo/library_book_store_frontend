@@ -6,6 +6,7 @@ import * as authenticationsActions from '../../store/ducks/authentications/actio
 import { Route, Redirect } from "react-router-dom";
 
 import { ApplicationState } from "../../store";
+import { LOGIN_URL } from "../api/constants";
 
 interface StateProps {
   component: React.FC;
@@ -28,7 +29,7 @@ const PrivateRoute: React.FC<Props> = (props) => {
 
   return props.isAuthenticated ?
     (<Route path={props.path} exact={props.exact} component={props.component} />) :
-    (<Redirect to="/login" />);
+    (<Redirect to={LOGIN_URL}/>);
 };
 
 const mapStateToProps = (state: ApplicationState) => ({  
