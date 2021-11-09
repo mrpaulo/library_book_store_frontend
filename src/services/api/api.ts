@@ -12,8 +12,7 @@ export const apiBasic = axios.create({
 });
 
 export const apiBearer = axios.create({
-  baseURL: BASE_API_URL,  
-  headers: { Authorization: `Bearer ${getTokenValueStorage()}` }
+  baseURL: BASE_API_URL 
 });
 
 export const apiLogin = axios.create({
@@ -24,3 +23,9 @@ export const apiLogin = axios.create({
   }
 });
 
+export  const getBearerHeader = () =>{
+  let token = getTokenValueStorage();  
+  return {
+    headers: { Authorization: `Bearer ${token}` }
+  }
+}

@@ -9,7 +9,7 @@ export const getTokenStorage = () => {
 
 export const getTokenValueStorage = () => {
   let token = getTokenStorage() || ''
-  return token.value;
+  return token.access_token;
 }
 
 export const removeTokenStorage = () => {

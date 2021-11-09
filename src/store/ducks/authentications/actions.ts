@@ -8,4 +8,4 @@ export const logoutRequest = () => action(Types.LOGOUT_REQUEST);
 export const logoutSuccess = () => action(Types.LOGOUT_SUCCESS);
 
 export const isTokenValidRequest = () => action(Types.IS_VALID_REQUEST);
-export const isTokenValidSuccess = (isAuthenticated: boolean) => action(Types.IS_VALID_SUCCESS, { isAuthenticated });
+export const isTokenValidSuccess = (isAuthenticated: any) => action(Types.IS_VALID_SUCCESS, { isAuthenticated });

@@ -1,6 +1,6 @@
 import { all, call, put,  } from 'redux-saga/effects';
 import * as Eff from 'redux-saga/effects' 
-import {apiBasic, apiBearer } from '../../../services/api/api';
+import {apiBasic, apiBearer, getBearerHeader } from '../../../services/api/api';
 
 import {   
   deleteByIdAddressSuccess, 
@@ -17,7 +17,7 @@ const ADDRESSES_V1 =  'v1/addresses';
 function* deleteById (action: any): Generator<any, any, any>{
   const id:number = action.payload.id;
   try {
-    const reponse = yield call(apiBasic.delete, `${ADDRESSES_V1}/${id}`);
+    const reponse = yield call(apiBearer.delete, `${ADDRESSES_V1}/${id}`, getBearerHeader());
 
     yield put(deleteByIdAddressSuccess(reponse.data));
     yield put(notifierEnqueue({ message: "notifications.deleted" }));    

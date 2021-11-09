@@ -17,16 +17,14 @@ const reducer: Reducer<AuthenticationsState> = (state = INITIAL_STATE, action) =
     case Types.LOGIN_REQUEST:
       return { ...state, loading: true };
     case Types.LOGIN_SUCCESS:
-      let token = action.payload.tokenData;
-      console.log("TOKEn")
-      console.log(token)
+      let token = action.payload.tokenData;      
       saveTokenStorage(token);
       return { ...state, loading: false, isAuthenticated: true, tokenData: token };
     case Types.IS_VALID_REQUEST:
       return { ...state, loading: true };
     case Types.IS_VALID_SUCCESS:
       let tokenStorage = getTokenStorage();  
-      return { ...state, loading: false, isAuthenticated: action.payload.isAuthenticated, tokenData: tokenStorage };
+      return { ...state, loading: false, isAuthenticated: true, tokenData: tokenStorage };
     case Types.LOGOUT_REQUEST:
       return { ...state, loading: true };
     case Types.LOGOUT_SUCCESS:

@@ -1,6 +1,6 @@
 import { all, call, put, select,  } from 'redux-saga/effects';
 import * as Eff from 'redux-saga/effects' 
-import {apiBasic, apiBearer } from '../../../services/api/api';
+import {apiBasic, apiBearer, getBearerHeader } from '../../../services/api/api';
 
 import { 
   loadSuccess, 
@@ -68,7 +68,7 @@ function* findByName(action: any): Generator<any, any, any> {
 function* deleteById (action: any): Generator<any, any, any>{
   const id:number = action.payload.id;
   try {
-    const reponse = yield call(apiBasic.delete, `${AUTHORS_V1}/${id}`);
+    const reponse = yield call(apiBearer.delete, `${AUTHORS_V1}/${id}`, getBearerHeader());
 
     yield put(deleteByIdSuccess(reponse.data));
     yield put(notifierEnqueue({ message: "notifications.deleted" }));
@@ -80,7 +80,7 @@ function* deleteById (action: any): Generator<any, any, any>{
 function* create(action: any): Generator<any, any, any> {
   const author: Author = action.payload.author;
   try {
-    const reponse = yield call(apiBasic.post, AUTHORS_V1, author);
+    const reponse = yield call(apiBearer.post, AUTHORS_V1, author, getBearerHeader());
 
     yield put(createSuccess(reponse.data));
     yield put(notifierEnqueue({ message: "notifications.created" }));
@@ -92,7 +92,7 @@ function* create(action: any): Generator<any, any, any> {
 function* update(action: any): Generator<any, any, any>  {
   const author: Author = action.payload.author;
   try {
-    const reponse = yield call(apiBasic.put, `${AUTHORS_V1}/${author.id}`, author);
+    const reponse = yield call(apiBearer.put, `${AUTHORS_V1}/${author.id}`, author, getBearerHeader());
 
     yield put(updateSuccess(reponse.data));
     yield put(notifierEnqueue({ message: "notifications.updated" }));

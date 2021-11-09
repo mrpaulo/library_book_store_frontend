@@ -1,6 +1,6 @@
 import { all, call, put, select, } from 'redux-saga/effects';
 import * as Eff from 'redux-saga/effects'
-import {apiBasic, apiBearer, apiLogin } from '../../../services/api/api';
+import {apiBasic, apiBearer, apiLogin, getBearerHeader } from '../../../services/api/api';
 
 import {
   isTokenValidSuccess,
@@ -12,7 +12,7 @@ import { enqueueError, enqueue as notifierEnqueue } from '../notifications/actio
 import { selectors } from '.';
 
 const takeEvery: any = Eff.takeEvery;
-const AUTHENTICATIONS_V1 = 'v1/authentiations';
+const AUTHENTICATIONS_V1 = 'v1/authentications';
 
 
 function* login(action: any): Generator<any, any, any> {
@@ -21,10 +21,9 @@ function* login(action: any): Generator<any, any, any> {
   bodyFormData.append('grant_type', 'password');
   bodyFormData.append('username', login.username as string);
   bodyFormData.append('password', login.password as string);
-  try {
-    
-    const reponse = yield call(apiLogin.post, `oauth/token`, bodyFormData);
 
+  try {    
+    const reponse = yield call(apiLogin.post, `oauth/token`, bodyFormData);
     yield put(loginSuccess(reponse.data));
   } catch (error) {
     yield put(enqueueError(error));
@@ -35,10 +34,11 @@ function* logout(): Generator<any, any, any> {
   const token: Token = yield select(selectors.getToken);
   if (token) {
     try {
-      yield call(apiBasic.get, `${AUTHENTICATIONS_V1}/${token.access_token}`);
+      yield call(apiBearer.get, `${AUTHENTICATIONS_V1}/logout`, getBearerHeader());
       yield put(logoutSuccess());
     } catch (error) {
       yield put(enqueueError(error));
+      yield put(logoutSuccess());
     }
   } else {
     yield put(logoutSuccess());
@@ -47,11 +47,12 @@ function* logout(): Generator<any, any, any> {
 
 function* isValidToken(): Generator<any, any, any> {
   const token: Token = yield select(selectors.getToken);
-  console.log("Token  saga")
-  console.log(token)
+  
   if (token) {
     try {
-      const reponse = yield call(apiBasic.post, `${AUTHENTICATIONS_V1}/valid`, token);
+      var bodyFormData = new FormData();
+      bodyFormData.append('token', token.access_token as string);
+      const reponse = yield call(apiLogin.post, `oauth/check_token`, bodyFormData);
 
       yield put(isTokenValidSuccess(reponse.data));
     } catch (error) {
@@ -59,7 +60,7 @@ function* isValidToken(): Generator<any, any, any> {
       yield put(enqueueError(error));
     }
   } else {
-    yield put(isTokenValidSuccess(false));
+    yield put(logoutSuccess());
   }
 }
 
