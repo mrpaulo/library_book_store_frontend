@@ -46,6 +46,8 @@ const TopBar: React.FC<Props> = (props) => {
     isTokenValidRequest();
   }, []);
 
+  
+
   const changeLaguage = (e: any) => {
     e.preventDefault();
     if (languageSelected === languages.en) {
@@ -84,7 +86,9 @@ const TopBar: React.FC<Props> = (props) => {
           <MenuIcon />
         </IconButton>
         <Typography className={classes.title} variant="h6" noWrap>
+          <a href='/'  style={{color: 'inherit', textDecoration:'inherit'}}>
           Library Book Store
+          </a>
         </Typography>
         <div className={classes.grow} />
         <div className={classes.sectionDesktop}>

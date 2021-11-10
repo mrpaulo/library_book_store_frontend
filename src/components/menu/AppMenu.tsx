@@ -9,7 +9,8 @@ import {
   PUBLISHERS_URL,
   ADD_PUBLISHER_URL,
   AUTHORS_URL,
-  ADD_AUTHOR_URL
+  ADD_AUTHOR_URL,
+  ABOUT_URL
 } from '../../services/api/constants';
 
 import List from '@material-ui/core/List'
@@ -83,7 +84,7 @@ const appMenuItems = [
   },
   {
     name: 'menu.about',
-    link: BOOKS_URL,
+    link: ABOUT_URL,
     Icon: InfoIcon,
   }, 
 ]

@@ -7,3 +7,4 @@ export const ADD_PUBLISHER_URL = '/add-publisher';
 export const AUTHORS_URL = '/authors';
 export const ADD_AUTHOR_URL = '/add-author';
 export const LOGIN_URL = '/login';
+export const ABOUT_URL = '/about';

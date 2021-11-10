@@ -42,6 +42,7 @@ const LoginPage: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const { login, token, failure, loginRequest, logoutRequest } = props;
   const [disableLoginBtn, setDisableLoginBtn] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -51,6 +52,16 @@ const LoginPage: React.FC<Props> = (props) => {
       setDisableLoginBtn(true)
     }
   }, [login]);
+
+  useEffect(() => {
+    console.log("token")
+    console.log(token)
+    console.log("submitted")
+    console.log(submitted)
+    if (token && submitted) {
+      window.location.href = "/";
+    } 
+  }, [token, submitted]);
   
   const handleLogout = () => {
     logoutRequest()
@@ -65,6 +76,7 @@ const LoginPage: React.FC<Props> = (props) => {
     console.log(values);
     loginRequest(values as Login)
     actions.setSubmitting(false);
+    setSubmitted(true);
   }
 
   return (

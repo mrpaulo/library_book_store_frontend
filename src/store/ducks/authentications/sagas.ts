@@ -24,7 +24,7 @@ function* login(action: any): Generator<any, any, any> {
 
   try {    
     const reponse = yield call(apiLogin.post, `oauth/token`, bodyFormData);
-    yield put(loginSuccess(reponse.data));
+    yield put(loginSuccess(reponse.data, login.username));
   } catch (error) {
     yield put(enqueueError(error));
   }

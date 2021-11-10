@@ -8,7 +8,8 @@ import {
   ADD_PUBLISHER_URL,
   AUTHORS_URL,
   ADD_AUTHOR_URL,
-  LOGIN_URL
+  LOGIN_URL,
+  ABOUT_URL
 } from './services/api/constants';
 import AppMenu from './components/menu/AppMenu';
 import PageBook from './components/book';
@@ -27,6 +28,8 @@ import { pageMenuStyles } from './styles/Styles';
 
 import Notifier from './components/utils/Notifier';
 import PrivateRoute from './services/security/privateRoute';
+import HomePage from './components/home';
+import AboutPage from './components/about';
 
 const Routes: React.FC = () => {
   const classes = pageMenuStyles()
@@ -46,7 +49,7 @@ const Routes: React.FC = () => {
         <main className={classes.content}>
           <Container maxWidth="lg" className={classes.container}>            
               <Switch>
-                <Route path="/" exact component={PageBook} />
+                <Route path="/" exact component={HomePage} />
                 <Route path={BOOKS_URL} exact component={PageBook} />
                 <PrivateRoute path={ADD_BOOK_URL} exact component={EditBook} />
                 <Route path={PUBLISHERS_URL} exact component={PageCompany} />
@@ -54,6 +57,7 @@ const Routes: React.FC = () => {
                 <Route path={AUTHORS_URL} exact component={PagePerson} />
                 <PrivateRoute path={ADD_AUTHOR_URL} exact component={EditPerson} />
                 <Route path={LOGIN_URL} component={LoginPage} />
+                <Route path={ABOUT_URL} component={AboutPage} />
               </Switch>
               <Notifier />            
           </Container>
