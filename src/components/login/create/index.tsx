@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 
-import * as authenticationsActions from '../../store/ducks/authentications/actions';
+import * as authenticationsActions from '../../../store/ducks/authentications/actions';
+import * as usersActions from '../../../store/ducks/users/actions';
 import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from "react-i18next";
-import "../../services/i18n/i18n";
+import "../../../services/i18n/i18n";
 
 import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
@@ -12,14 +13,13 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
-import { Login, Token } from '../../store/ducks/authentications/types';
+import { Login, NewLogin, Token } from '../../../store/ducks/authentications/types';
 import { connect } from 'react-redux';
-import { ApplicationState } from '../../store';
-import { useStyles } from '../../styles/Styles';
+import { ApplicationState } from '../../../store';
+import { useStyles } from '../../../styles/Styles';
 
 import { Grid, InputLabel } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import { CREATE_LOGIN_URL } from '../../services/api/constants';
+import { User } from '../../../store/ducks/users/types';
 
 interface StateProps {
   login?: Login,
@@ -27,22 +27,22 @@ interface StateProps {
   failure: boolean
 }
 
-interface DispatchProps {
-  loginRequest(login: Login): void,
-  logoutRequest(): void,
+interface DispatchProps {  
+  createRequest(user: User): void
 }
 
 type Props = StateProps & DispatchProps
 
-const INITIAL_VALUES: Login = {
+const INITIAL_VALUES: NewLogin = {
   username: '',
-  password: ''
+  password: '',
+  repeatPassword: '',
 };
 
-const LoginPage: React.FC<Props> = (props) => {
+const LoginCreatePage: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { login, token, failure, loginRequest, logoutRequest } = props;
+  const { login, token, failure, createRequest} = props;
   const [disableLoginBtn, setDisableLoginBtn] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
@@ -55,30 +55,35 @@ const LoginPage: React.FC<Props> = (props) => {
     }
   }, [login]);
 
-  useEffect(() => {
-    console.log("token")
-    console.log(token)
-    console.log("submitted")
-    console.log(submitted)
-    if (token && submitted) {
-      window.location.href = "/";
-    } 
-  }, [token, submitted]);
+  // useEffect(() => {
+  //   console.log("token")
+  //   console.log(token)
+  //   console.log("submitted")
+  //   console.log(submitted)
+  //   if (token && submitted) {
+  //     window.location.href = "/";
+  //   } 
+  // }, [token, submitted]);
   
-  const handleLogout = () => {
-    logoutRequest()
-  };
-
   const handleKeyPress = (event: React.KeyboardEvent) => {
    
   };
 
-  function handleSubmit(values: Login, actions: any) {
+  function handleSubmit(values: NewLogin, actions: any) {
+    if(values.password != values.repeatPassword){
+      alert("Erro senhas dif");
+      return
+    }
     console.log('Form submitted!');
     console.log(values);
-    loginRequest(values as Login)
+    let newUser: User = {
+      username: values.username,
+      email: values.password
+    };
+
+    createRequest(newUser as User)
     actions.setSubmitting(false);
-    setSubmitted(true);
+    //setSubmitted(true);
   }
 
   return (
@@ -88,7 +93,7 @@ const LoginPage: React.FC<Props> = (props) => {
         initialValues={INITIAL_VALUES}
         className={classes.root}
       >
-        {(props: FormikProps<Login>) => {
+        {(props: FormikProps<NewLogin>) => {
           const {
             values,
             handleChange,
@@ -98,7 +103,7 @@ const LoginPage: React.FC<Props> = (props) => {
             <Card className={classes.root} >
               <Form>
                 <CardHeader
-                  title={t("titles.login")}
+                  title={t("titles.create_login")}
                   subheader=""
                   style={{ textAlign: 'center' }}
                 />
@@ -133,6 +138,20 @@ const LoginPage: React.FC<Props> = (props) => {
                         onChange={handleChange}
                         onKeyPress={handleKeyPress}
                       />
+                      <InputLabel className="form-label" >{t("labels.repeat_password")}</InputLabel>
+                      <TextField
+                        error={failure}
+                        name="repeatPassword"
+                        type="password"
+                        className={classes.textField}
+                        InputProps={{
+                          className: classes.input,
+                        }}
+                        variant="outlined"
+                        // helperText={state.helperText}
+                        onChange={handleChange}
+                        onKeyPress={handleKeyPress}
+                      />
                     </Grid>
                   </Grid>
                 </CardContent>
@@ -142,12 +161,12 @@ const LoginPage: React.FC<Props> = (props) => {
                       <Button
                         className={classes.resetButton}
                         type="reset"
-                        onClick={handleLogout}
+                        
                         disabled={isSubmitting}
                         color="secondary"
                         variant="outlined"
                       >
-                        {t("buttons.logout")}
+                        {t("buttons.clear")}
                       </Button>
                       <Button
                         className={classes.submitButton}
@@ -157,20 +176,16 @@ const LoginPage: React.FC<Props> = (props) => {
                         variant="outlined"
 
                       >
-                        {t("buttons.login")}
+                        {t("buttons.submit")}
                       </Button>
-                      <Grid container justify="flex-end" alignItems="flex-end" >
-                        <a href={CREATE_LOGIN_URL}><h3>{t("links.sing_up")}</h3></a>
-                      </Grid>
                     </Grid>
                   </Grid>
                 </CardActions>
               </Form>
-              
             </Card>
           )
         }}
-      </Formik>      
+      </Formik>
     </>
   );
 }
@@ -181,6 +196,7 @@ const mapStateToProps = (state: ApplicationState) => ({
   failure: state.authentications.failure
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(authenticationsActions, dispatch);
+const actions = { ...authenticationsActions, ...usersActions };
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginCreatePage);

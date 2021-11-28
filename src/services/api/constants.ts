@@ -7,4 +7,15 @@ export const ADD_PUBLISHER_URL = '/add-publisher';
 export const AUTHORS_URL = '/authors';
 export const ADD_AUTHOR_URL = '/add-author';
 export const LOGIN_URL = '/login';
+export const CREATE_LOGIN_URL = '/create-login';
 export const ABOUT_URL = '/about';
+export const USERS_URL = '/users';
+export const ADD_USER_URL = '/add-user';
+
+export const ROLE_ADMIN = 'ADMIN';
+export const ROLE_OPERATOR = 'OPERATOR';
+export const ROLE_CLIENT = 'CLIENT';
+export const ROLE_ADM_OPER = [ROLE_ADMIN, ROLE_OPERATOR];
+export const ROLE_ALL = [ROLE_ADMIN, ROLE_OPERATOR, ROLE_CLIENT];
+
+

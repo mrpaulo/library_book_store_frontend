@@ -11,6 +11,7 @@ import { AuthorsState } from './ducks/authors/types';
 import { BooksState } from './ducks/books/types';
 import { NotificationsState } from './ducks/notifications/types';
 import {PublishersState} from './ducks/publishers/types';
+import { UsersState } from './ducks/users/types';
 
 export interface ApplicationState {
   addresses: AddressesState,
@@ -19,6 +20,7 @@ export interface ApplicationState {
   books: BooksState,
   notifications: NotificationsState,
   publishers: PublishersState,
+  users: UsersState,
 }
 
 const sagaMiddleware = createSagaMiddleware();

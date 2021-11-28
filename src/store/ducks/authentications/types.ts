@@ -20,6 +20,12 @@ export interface Login {
   password: String
 }
 
+export interface NewLogin {  
+  username: String, 
+  repeatPassword: String,
+  password: String
+}
+
 export interface Token{    
   userName: String, 
   access_token: String,

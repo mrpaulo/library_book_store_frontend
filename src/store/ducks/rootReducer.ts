@@ -5,6 +5,7 @@ import authors from './authors';
 import books from './books';
 import notifications from './notifications';
 import publishers from './publishers';
+import users from './users';
 
 export default combineReducers({
   addresses,
@@ -13,4 +14,5 @@ export default combineReducers({
   books,
   notifications,
   publishers,
+  users,
 });

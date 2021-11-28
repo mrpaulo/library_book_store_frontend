@@ -41,9 +41,12 @@ export const CustomObjSelect = ({
   };
 
   const getValue = () => {
-    if (options) {
+    if (options) {      
       return isMulti
-        ? options.filter(option => field.value.indexOf(option.name) >= 0)
+      //mudei de  field.value.indexOf(option.name)
+        ? (field.value ? options.filter(option => field.value.find((valueItem: { name: string; }) => {
+          return valueItem.name === option.name;
+        })) : [])
         : options.find(option => option.name === field.value);
     } else {
       return isMulti ? [] : ("" as any);

@@ -279,7 +279,7 @@ const EditAddress: React.FC<Props> = (props) => {
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.referencialPoint")}</InputLabel>
+                      <InputLabel className="form-label" >{t("labels.referencial_point")}</InputLabel>
                       <TextField
                         name="referencialPoint"
                         type="text"

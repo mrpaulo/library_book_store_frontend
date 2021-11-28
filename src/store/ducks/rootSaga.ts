@@ -5,6 +5,7 @@ import AuthenticationSaga from './authentications/sagas'
 import AuthorSaga from './authors/sagas';
 import BookSaga from './books/sagas';
 import PublisherSaga from './publishers/sagas';
+import UserSaga from './users/sagas';
 
 const root = function* run() {
   yield all([
@@ -13,6 +14,7 @@ const root = function* run() {
     fork(AuthorSaga),
     fork(BookSaga),
     fork(PublisherSaga),
+    fork(UserSaga),
   ])
 };
 
