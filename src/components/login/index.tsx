@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
-
+import { useHistory } from "react-router-dom";
 import * as authenticationsActions from '../../store/ducks/authentications/actions';
 import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from "react-i18next";
@@ -24,7 +24,8 @@ import { CREATE_LOGIN_URL } from '../../services/api/constants';
 interface StateProps {
   login?: Login,
   token?: Token,
-  failure: boolean
+  failure: boolean,
+  path?: String
 }
 
 interface DispatchProps {
@@ -42,10 +43,10 @@ const INITIAL_VALUES: Login = {
 const LoginPage: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { login, token, failure, loginRequest, logoutRequest } = props;
+  const { login, token, failure, path, loginRequest, logoutRequest } = props;
   const [disableLoginBtn, setDisableLoginBtn] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
-
+  const history = useHistory();
 
   useEffect(() => {
     if (login && login.username.trim() && login.password.trim()) {
@@ -61,16 +62,22 @@ const LoginPage: React.FC<Props> = (props) => {
     console.log("submitted")
     console.log(submitted)
     if (token && submitted) {
-      window.location.href = "/";
-    } 
+      console.log("Path no login")
+      console.log(path)
+      if (path) {        
+        history.push(path as string);
+      } else {
+        window.location.href = "/";
+      }
+    }
   }, [token, submitted]);
-  
+
   const handleLogout = () => {
     logoutRequest()
   };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
-   
+
   };
 
   function handleSubmit(values: Login, actions: any) {
@@ -166,11 +173,11 @@ const LoginPage: React.FC<Props> = (props) => {
                   </Grid>
                 </CardActions>
               </Form>
-              
+
             </Card>
           )
         }}
-      </Formik>      
+      </Formik>
     </>
   );
 }
@@ -178,7 +185,8 @@ const LoginPage: React.FC<Props> = (props) => {
 const mapStateToProps = (state: ApplicationState) => ({
   login: state.authentications.loginData,
   token: state.authentications.tokenData,
-  failure: state.authentications.failure
+  failure: state.authentications.failure,
+  path: state.authentications.path
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(authenticationsActions, dispatch);

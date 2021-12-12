@@ -10,7 +10,9 @@ export enum AuthenticationsTypes {
   IS_VALID_SUCCESS = '@authentications/IS_VALID_SUCCESS' ,
 
   LOGOUT_REQUEST = '@authentications/LOGOUT_REQUEST',
-  LOGOUT_SUCCESS = '@authentications/LOGOUT_SUCCESS' 
+  LOGOUT_SUCCESS = '@authentications/LOGOUT_SUCCESS' ,
+
+  SAVE_PATH_TO_REDIRECT = '@authentications/SAVE_PATH_TO_REDIRECT' 
 };
 /**
  * Data types
@@ -41,5 +43,7 @@ export interface AuthenticationsState {
   readonly isAuthenticated: boolean
   readonly loading: boolean
   readonly failure: boolean
+  readonly path?: String
+
 }
 

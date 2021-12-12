@@ -28,11 +28,12 @@ export const CustomObjSelect = ({
   isAddress,
   setValueSelected
 }: CustomObjSelectProps) => {
+
   const onChange = (option: ValueType<Option | Option[],  boolean>) => {
     form.setFieldValue(
       field.name,
       isMulti
-        ? (option as Option[]).map((item: Option) => item.name)
+        ? (option as Option[]).map((item: Option) => item)
         : (option as Option).name
     );
     if(isAddress){
@@ -42,6 +43,7 @@ export const CustomObjSelect = ({
 
   const getValue = () => {
     if (options) {      
+      
       return isMulti
       //mudei de  field.value.indexOf(option.name)
         ? (field.value ? options.filter(option => field.value.find((valueItem: { name: string; }) => {
@@ -54,6 +56,9 @@ export const CustomObjSelect = ({
   };
 
   return (
+    <>
+    {
+      console.log(options)}
     <Select
       className={className}
       name={field.name}
@@ -62,8 +67,9 @@ export const CustomObjSelect = ({
       placeholder={placeholder}
       options={options}
       isMulti={isMulti}
-      getOptionLabel ={(option)=>option.name}
+      getOptionLabel ={(option)=>option.name}      
     />
+    </>
   );
 };
 

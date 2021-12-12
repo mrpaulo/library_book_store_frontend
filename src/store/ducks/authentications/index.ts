@@ -8,7 +8,8 @@ const INITIAL_STATE: AuthenticationsState = {
   tokenData: undefined,
   isAuthenticated: false,
   loading: false,
-  failure: false
+  failure: false,
+  path: ""
 };
 
 const reducer: Reducer<AuthenticationsState> = (state = INITIAL_STATE, action) => {
@@ -31,6 +32,8 @@ const reducer: Reducer<AuthenticationsState> = (state = INITIAL_STATE, action) =
     case Types.LOGOUT_SUCCESS:
       removeTokenStorage();
       return { ...state, loading: false, tokenData: undefined, isAuthenticated: false };
+      case Types.SAVE_PATH_TO_REDIRECT:       
+        return { ...state, path: action.payload.path };      
     default:
       return state;
   }

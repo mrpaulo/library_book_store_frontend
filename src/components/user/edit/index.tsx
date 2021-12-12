@@ -44,7 +44,7 @@ const INITIAL_VALUES: User = {
   username: '',
   cpf: '', 
   email: "",      
-  address: undefined
+  roles: []
 };
 
 const EditUser: React.FC<Props> = (props) => {
@@ -117,9 +117,15 @@ const EditUser: React.FC<Props> = (props) => {
             values.address = address;
           }
 
-          const getRolesSelected = (roles: Role[]) => {
-            values.roles = roles;       
-            setRoles(roles) ;
+          const getRolesSelected = (selectedRoles: Role[]) => {
+            if (values.roles && values.roles.length>0){
+              values.roles.push(selectedRoles[0])
+            } else {
+              values.roles = selectedRoles;       
+            }
+            setRoles(values.roles) ;
+            console.log(rolesList)
+            debugger
           }   
 
           return (
@@ -143,6 +149,7 @@ const EditUser: React.FC<Props> = (props) => {
                         placeholder={t("placeholder.select_role")}
                         isObject
                         isMulti
+                        isAddress
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>

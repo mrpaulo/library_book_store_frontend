@@ -17,6 +17,7 @@ interface StateProps {
 
 interface DispatchProps {    
   isTokenValidRequest(): void,
+  savePathToRedirect(path: String): void,
 }
 
 type Props = StateProps & DispatchProps
@@ -27,9 +28,16 @@ const PrivateRoute: React.FC<Props> = (props) => {
     props.isTokenValidRequest()
   }, []);
 
+ const savePath = (path: String) => {
+   props.savePathToRedirect(path)
+ }
+
   return props.isAuthenticated ?
     (<Route path={props.path} exact={props.exact} component={props.component} />) :
-    (<Redirect to={LOGIN_URL}/>);
+    (<>
+    {savePath(props.path)}
+    <Redirect to={LOGIN_URL}/>
+    </>);
 };
 
 const mapStateToProps = (state: ApplicationState) => ({  
