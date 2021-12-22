@@ -34,12 +34,19 @@ export interface Token{
   refresh_token: String
 }
 
+export interface ValidToken{    
+  authorities: String[], 
+  aud: String[],
+  client_id: String
+}
+
 /**
  *  State type
  */
 export interface AuthenticationsState {
   readonly loginData?: Login
   readonly tokenData?: Token
+  readonly validTokenData?: ValidToken
   readonly isAuthenticated: boolean
   readonly loading: boolean
   readonly failure: boolean

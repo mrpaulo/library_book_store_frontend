@@ -21,7 +21,7 @@ import BusinessIcon from '@material-ui/icons/Business';
 import PersonIcon from '@material-ui/icons/Person';
 import GroupIcon from '@material-ui/icons/Group';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 export const menuItems = [
   
@@ -75,7 +75,7 @@ export const menuItems = [
   },
   {
     name: 'menu.authors',
-    Icon: PersonIcon,
+    Icon: AccountBoxIcon,
     visibleToRoles: ROLE_ALL,
     items: [
       {
@@ -94,8 +94,8 @@ export const menuItems = [
   
   {
     name: 'menu.user',    
-    Icon: InfoIcon,
-    visibleToRoles: ROLE_ADMIN,
+    Icon: PersonIcon,
+    visibleToRoles: [ROLE_ADMIN],
     items: [
       {
         name: 'menu.search_users',
