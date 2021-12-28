@@ -18,8 +18,11 @@ import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader } fr
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
 import ModalAddress from '../../address'
+import ModalUser from '../modal'
 import { Address } from '../../../store/ducks/addresses/types';
 import CustomObjSelect from '../../utils/CustomObjSelect';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import { Login } from '../../../store/ducks/authentications/types';
 
 interface StateProps {
   user?: User,
@@ -42,8 +45,8 @@ const INITIAL_VALUES: User = {
   id: 0,
   name: '',
   username: '',
-  cpf: '', 
-  email: "",      
+  cpf: '',
+  email: "",
   roles: []
 };
 
@@ -53,17 +56,18 @@ const EditUser: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const { user, rolesList, changeFlagEditing, cleanUserEdit, createRequest, updateRequest, roleRequest } = props;
-  const [flagEditing, setFlagEditing] = useState(false);  
+  const [flagEditing, setFlagEditing] = useState(false);
+  const [openModalUser, setOpenModalUser] = useState(false);
   const [roles, setRoles] = useState<Role[]>([]);
   const [subtitle, setSubtitle] = useState(t("titles.submit_user"));
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .max(100, t("errors.too_long")),      
+      .max(100, t("errors.too_long")),
     cpf: Yup.string()
-      .max(100, t("errors.too_long")), 
-    email:  Yup.string()
-    .max(100, t("errors.too_long"))
+      .max(100, t("errors.too_long")),
+    email: Yup.string()
+      .max(100, t("errors.too_long"))
   });
 
   useEffect(() => {
@@ -78,12 +82,12 @@ const EditUser: React.FC<Props> = (props) => {
   }, [user]);
 
   useEffect(() => {
-    roleRequest()    
+    roleRequest()
   }, []);
 
   function handleSubmit(values: User, actions: any) {
     actions.setSubmitting(false);
-    
+
     if (flagEditing) {
       updateRequest(values);
     } else {
@@ -94,6 +98,10 @@ const EditUser: React.FC<Props> = (props) => {
   function handleCancel() {
     changeFlagEditing();
     cleanUserEdit();
+
+  }
+  function handleAddUser() {
+    setOpenModalUser(true);
   }
 
   return (
@@ -108,7 +116,7 @@ const EditUser: React.FC<Props> = (props) => {
           const {
             values,
             touched,
-            errors,            
+            errors,
             handleChange,
             isSubmitting,
           } = props
@@ -117,16 +125,21 @@ const EditUser: React.FC<Props> = (props) => {
             values.address = address;
           }
 
+          const handleUserPassword = (login: Login) => {
+            values.username = login.username;
+            values.password = login.password;
+          }
+
           const getRolesSelected = (selectedRoles: Role[]) => {
-            if (values.roles && values.roles.length>0){
+            if (values.roles && values.roles.length > 0) {
               values.roles.push(selectedRoles[0])
             } else {
-              values.roles = selectedRoles;       
+              values.roles = selectedRoles;
             }
-            setRoles(values.roles) ;
+            setRoles(values.roles);
             console.log(rolesList)
             debugger
-          }   
+          }
 
           return (
             <Card className={classes.root}>
@@ -137,7 +150,7 @@ const EditUser: React.FC<Props> = (props) => {
                 />
                 <CardContent>
                   <Grid className="form-containner" container justify="space-around" direction="row">
-                  <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.role")}</InputLabel>
                       <Field
                         className="form-select-field"
@@ -214,7 +227,7 @@ const EditUser: React.FC<Props> = (props) => {
                             : false
                         }
                       />
-                    </Grid>  
+                    </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.address")}</InputLabel>
                       <ModalAddress addressSrc={values.address} addressSetup={handleAddress} typeSrc='user' name={values.name} />
@@ -237,10 +250,22 @@ const EditUser: React.FC<Props> = (props) => {
                         variant="outlined"
                       />
                     </Grid>
-                    
+                    <ModalUser openModal={openModalUser} userSetup={handleUserPassword} handleCloseModal={setOpenModalUser} />
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10}>
+                  <Grid container justify="center" alignItems="center" >
+                    <Button
+                      className={classes.resetButton}                      
+                      onClick={handleAddUser}
+                      disabled={isSubmitting}
+                      color="primary"
+                      variant="outlined"
+                      startIcon={<PersonAddIcon />}
+                    >
+                      {t("buttons.add_login")}
+                    </Button>
+                  </Grid>
                   <Grid container justify="flex-end" alignItems="flex-end" >
                     <Button
                       className={classes.resetButton}

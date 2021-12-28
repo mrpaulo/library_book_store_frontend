@@ -1,6 +1,7 @@
 export const en = {
   buttons: {
     add: "Add",
+    add_login: "Add login",
     cancel: "Cancel",
     clear: "Clear",
     delete: "Delete",
@@ -12,6 +13,7 @@ export const en = {
     submit: "Submit",
     table_next_page: "Next page",
     table_previous_page: "Previous page",
+
   },
   errors: {
     at_least_one: "At least one!",
@@ -151,6 +153,7 @@ export const en = {
 export const pt = {
   buttons: {
     add: "Adicionar",
+    add_login: "Adicionar login",
     cancel: "Cancelar",
     clear: "Limpar",
     delete: "Excluir",

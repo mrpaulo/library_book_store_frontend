@@ -24,11 +24,14 @@ import { User } from '../../../store/ducks/users/types';
 interface StateProps {
   login?: Login,
   token?: Token,
-  failure: boolean
+  failure: boolean,
+  fromModalUser: boolean
 }
 
-interface DispatchProps {  
-  createRequest(user: User): void
+interface DispatchProps {
+  createRequest(user: User): void,
+  submitToModalUser(user: Login): void,
+  handleClose(flag: boolean): void
 }
 
 type Props = StateProps & DispatchProps
@@ -42,7 +45,7 @@ const INITIAL_VALUES: NewLogin = {
 const LoginCreatePage: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { login, token, failure, createRequest} = props;
+  const { login, token, failure, fromModalUser, createRequest, submitToModalUser, handleClose } = props;
   const [disableLoginBtn, setDisableLoginBtn] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
@@ -64,24 +67,36 @@ const LoginCreatePage: React.FC<Props> = (props) => {
   //     window.location.href = "/";
   //   } 
   // }, [token, submitted]);
-  
+
   const handleKeyPress = (event: React.KeyboardEvent) => {
-   
+
+  };
+  const handleModalClose = () => {
+    handleClose(true)
   };
 
   function handleSubmit(values: NewLogin, actions: any) {
-    if(values.password != values.repeatPassword){
+    if (values.password != values.repeatPassword) {
       alert("Erro senhas dif");
       return
     }
     console.log('Form submitted!');
     console.log(values);
-    let newUser: User = {
-      username: values.username,
-      email: values.password
-    };
+    debugger
+    if (fromModalUser) {
+      let newUser: Login = {
+        username: values.username,
+        password: values.password
+      };
+      submitToModalUser(newUser as Login)
+    } else {
+      let newUser: User = {
+        username: values.username,
+        email: values.password
+      };
+      createRequest(newUser as User)
+    }
 
-    createRequest(newUser as User)
     actions.setSubmitting(false);
     //setSubmitted(true);
   }
@@ -104,7 +119,19 @@ const LoginCreatePage: React.FC<Props> = (props) => {
               <Form>
                 <CardHeader
                   title={t("titles.create_login")}
-                  subheader=""
+                  subheader={fromModalUser ?
+                    (<>
+                      <Button
+                        type="reset"
+                        onClick={handleModalClose}
+                        color="secondary"
+                        variant="outlined"
+                      >
+                        X
+                      </Button>
+                    </>) :
+                    <></>
+                  }
                   style={{ textAlign: 'center' }}
                 />
                 <CardContent>
@@ -161,7 +188,7 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                       <Button
                         className={classes.resetButton}
                         type="reset"
-                        
+
                         disabled={isSubmitting}
                         color="secondary"
                         variant="outlined"
