@@ -149,3 +149,25 @@ export const modalStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+
+export const footerStyles = makeStyles(theme =>
+  createStyles({
+    box: {
+      display: 'block',
+      position: 'absolute',
+      width: '100%',
+      bottom: 0,
+      padding: '80px 60px',
+      background: 'black',
+    },
+    navList: {
+      width: drawerWidth,
+    },
+    menuItem: {
+      width: drawerWidth,
+    },
+    menuItemIcon: {
+      color: '#97c05c',
+    },
+  }),
+)

@@ -94,6 +94,7 @@ export const en = {
     user: "Users",
   },
   messages: {
+    developed_by: "Developer by", 
     table_all_itens: "All",
     table_confrm_delete: "Are you sure about delete {{name}}?",
     table_displaying_pagers: "Displaying {{from}}-{{to}} of total {{count}} rows",
@@ -245,6 +246,7 @@ export const pt = {
     user: "Usuários",
   },
   messages: {
+    developed_by: "Desenvolvido por",
     table_all_itens: "Todas",
     table_confrm_delete: "Você tem certeza que deseja excluir {{name}}?",
     table_displaying_pagers: "Mostrando {{from}}-{{to}} do total de {{count}} linhas",
