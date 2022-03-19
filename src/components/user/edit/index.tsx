@@ -137,8 +137,7 @@ const EditUser: React.FC<Props> = (props) => {
               values.roles = selectedRoles;
             }
             setRoles(values.roles);
-            console.log(rolesList)
-            debugger
+            console.log(rolesList)            
           }
 
           return (

@@ -123,7 +123,7 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                   subheader={fromModalUser ?
                     (<>
                       <IconButton
-                        aria-label="Close"
+                        aria-label={t("buttons.close")}
                         className={classes.closeModalButton}
                         onClick={handleModalClose}>
                         <CloseIcon />

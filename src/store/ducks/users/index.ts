@@ -37,11 +37,11 @@ const reducer: Reducer<UsersState> = (state = INITIAL_STATE, action) => {
     case Types.UPDATE_REQUEST:
       return { ...state, loading: true };
     case Types.UPDATE_SUCCESS:
-      return { ...state, loading: false, error: false, userData: action.payload.userData };    
+      return { ...state, loading: false, error: false, flagEditing: !state.flagEditing, userData: undefined };    
     case Types.CREATE_REQUEST:
       return { ...state, loading: true };
     case Types.CREATE_SUCCESS:
-      return { ...state, loading: false, error: false, userData: action.payload.userData };    
+      return { ...state, loading: false, error: false, flagEditing: !state.flagEditing, userData: undefined };    
     case Types.DELETE_BY_ID_REQUEST:
       return { ...state, loading: true };
     case Types.DELETE_BY_ID_SUCCESS:
