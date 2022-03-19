@@ -18,8 +18,9 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../store';
 import { useStyles } from '../../../styles/Styles';
 
-import { Grid, InputLabel } from '@material-ui/core';
+import { Grid, IconButton, InputLabel } from '@material-ui/core';
 import { User } from '../../../store/ducks/users/types';
+import CloseIcon from '@material-ui/icons/Close'
 
 interface StateProps {
   login?: Login,
@@ -121,14 +122,12 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                   title={t("titles.create_login")}
                   subheader={fromModalUser ?
                     (<>
-                      <Button
-                        type="reset"
-                        onClick={handleModalClose}
-                        color="secondary"
-                        variant="outlined"
-                      >
-                        X
-                      </Button>
+                      <IconButton
+                        aria-label="Close"
+                        className={classes.closeModalButton}
+                        onClick={handleModalClose}>
+                        <CloseIcon />
+                      </IconButton>
                     </>) :
                     <></>
                   }

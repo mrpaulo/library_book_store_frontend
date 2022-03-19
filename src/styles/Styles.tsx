@@ -112,6 +112,12 @@ export const useStyles = makeStyles({
   resetButton: {
     marginLeft: '10px',
     marginBottom: '20px'
+  },
+  closeModalButton: {
+    position: 'absolute',
+    right: '10px',
+    top: '10px',
+    color: 'grey',
   }
 });
 

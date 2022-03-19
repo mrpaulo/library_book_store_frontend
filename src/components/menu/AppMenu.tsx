@@ -35,7 +35,7 @@ const AppMenu: React.FC<Props> = (props) => {
   function checkRoles(visibleToRoles: string[]) {    
     let visible = false;
     if (validToken) {
-      if (validToken.authorities.length > 0) {
+      if (validToken.authorities && validToken.authorities.length > 0) {
         visible = visibleToRoles.some(visibleToRole => validToken.authorities.includes(visibleToRole));
       } else {
         visible = checkRoleClient(visibleToRoles)
