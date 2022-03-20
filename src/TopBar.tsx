@@ -20,9 +20,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import { useHistory } from "react-router-dom";
 //Types, constants and local components
 import { LOGIN_URL } from './services/api/constants';
 import { Token } from './store/ducks/authentications/types';
+import { UPDATE_PASSWORD_URL } from './services/api/constants';
 //Actions and store
 import * as authenticationsActions from './store/ducks/authentications/actions';
 import { ApplicationState } from './store';
@@ -52,6 +54,7 @@ type Props = StateProps & DispatchProps
 const TopBar: React.FC<Props> = (props) => {
   const classes = pageMenuStyles()
   const { t } = useTranslation();
+  const history = useHistory();
   const { token, isAuthenticated, logoutRequest, isTokenValidRequest } = props;
   const [languageSelected, setLanguageSelect] = useState(languages.en);
   const [showMenuUser, setShowMenuUser] = useState(false);
@@ -77,6 +80,14 @@ const TopBar: React.FC<Props> = (props) => {
 
   const handleLogout = () => {
     logoutRequest();    
+  };
+
+  const handleUpdatePassword = () => {
+    if(history){
+      history.push(UPDATE_PASSWORD_URL as string);
+    } else {
+      window.location.href = UPDATE_PASSWORD_URL;
+    }
   };
 
   const handleLogin = () => {
@@ -141,6 +152,17 @@ const TopBar: React.FC<Props> = (props) => {
                             <AccountCircle />
                             {token?.userName}
                           </p>
+                        </li>
+                        <li>
+                          <Button
+                            className={classes.menuBarButton}
+                            type="submit"
+                            color="primary"
+                            variant="outlined"
+                            onClick={handleUpdatePassword}
+                          >
+                            {t("menu.update_password")}
+                          </Button>
                         </li>
                         <li>
                           <Button

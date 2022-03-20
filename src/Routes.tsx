@@ -12,7 +12,8 @@ import {
   ABOUT_URL,
   USERS_URL,  
   ADD_USER_URL,
-  CREATE_LOGIN_URL
+  CREATE_LOGIN_URL,
+  UPDATE_PASSWORD_URL
 } from './services/api/constants';
 import AppMenu from './components/menu/AppMenu';
 import PageBook from './components/book';
@@ -23,6 +24,7 @@ import PagePerson from './components/author';
 import EditPerson from './components/author/edit';
 import LoginPage from './components/login'
 import LoginCreatePage from './components/login/create'
+import UpdatePasswordPage from './components/login/update-password'
 import PageUser from './components/user'
 import EditUser from './components/user/edit';
 
@@ -66,6 +68,7 @@ const Routes: React.FC = () => {
                 <PrivateRoute path={ADD_USER_URL} exact component={EditUser} />
                 <Route path={LOGIN_URL} component={LoginPage} />
                 <Route path={CREATE_LOGIN_URL} component={LoginCreatePage} />
+                <Route path={UPDATE_PASSWORD_URL} component={UpdatePasswordPage} />
                 <Route path={ABOUT_URL} component={AboutPage} />
               </Switch>
               <Notifier />            

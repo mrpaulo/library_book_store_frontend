@@ -28,6 +28,13 @@ export interface NewLogin {
   password: String
 }
 
+export interface UpdatePassword {  
+  username: String, 
+  currentPassword: String, 
+  repeatPassword: String,
+  newPassword: String
+}
+
 export interface Token{    
   userName: String, 
   access_token: String,

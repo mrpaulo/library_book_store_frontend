@@ -11,6 +11,7 @@ export const CREATE_LOGIN_URL = '/create-login';
 export const ABOUT_URL = '/about';
 export const USERS_URL = '/users';
 export const ADD_USER_URL = '/add-user';
+export const UPDATE_PASSWORD_URL = '/update-password';
 
 export const ROLE_ADMIN = 'ADMIN';
 export const ROLE_OPERATOR = 'OPERATOR';
