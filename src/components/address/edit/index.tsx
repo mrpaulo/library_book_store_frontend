@@ -1,25 +1,45 @@
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { ApplicationState } from '../../../store';
-
+//Actions and store
 import * as addressesActions from '../../../store/ducks/addresses/actions';
+import { ApplicationState } from '../../../store';
+//Types and local components
 import { Address, City, Country, StateCountry } from '../../../store/ducks/addresses/types';
 import CustomSelect from '../../utils/CustomSelect';
-
-
+import { CustomEnum } from '../../utils/constants';
+import CustomObjSelect from '../../utils/CustomObjSelect';
+//Third party
 import { Formik, Form, FormikProps, Field } from 'formik';
 import * as Yup from 'yup';
+//Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
-
+//Style
 import '../../../styles/global.css';
 import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
-import { CustomEnum } from '../../utils/constants';
-import CustomObjSelect from '../../utils/CustomObjSelect';
 
 interface StateProps {
   address?: Address,
@@ -28,7 +48,6 @@ interface StateProps {
   statesList?: StateCountry[],
   citiesList?: City[],
   logradourosList?: CustomEnum[],
-
   name?: String
 }
 
@@ -89,6 +108,7 @@ const EditAddress: React.FC<Props> = (props) => {
       setInitialValues(address);      
       setSubtitle(t("titles.edit_address"))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
   useEffect(() => {
@@ -110,6 +130,7 @@ const EditAddress: React.FC<Props> = (props) => {
       console.log(addressSrc)
       setInitialValues(addressSrc);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addressSrc]);
 
   useEffect(() => {
@@ -121,6 +142,7 @@ const EditAddress: React.FC<Props> = (props) => {
         cityRequest(countrySelected.id, stateSelected.id)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countrySelected, stateSelected]);
 
 

@@ -1,24 +1,45 @@
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { ApplicationState } from '../../../store';
-
+//Actions and store
 import * as publishersActions from '../../../store/ducks/publishers/actions';
 import * as addressesActions from '../../../store/ducks/addresses/actions';
+import { ApplicationState } from '../../../store';
+//Types and local components
 import { Publisher } from '../../../store/ducks/publishers/types';
-
+import { Address, Country } from '../../../store/ducks/addresses/types';
+import ModalAddress from '../../address'
+//Third party
 import { Formik, Form, FormikProps } from 'formik';
 import * as Yup from 'yup';
+//Tranlation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
-
+//Style
 import '../../../styles/global.css';
 import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
-import ModalAddress from '../../address'
-import { Address, Country } from '../../../store/ducks/addresses/types';
 
 interface StateProps {
   publisher?: Publisher,
@@ -73,10 +94,12 @@ const EditPublisher: React.FC<Props> = (props) => {
       setFlagEditing(true);
       setSubtitle(t("titles.edit_publisher"))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publisher]);
 
   useEffect(() => {
     countryRequest()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleSubmit(values: Publisher, actions: any) {
@@ -170,7 +193,7 @@ const EditPublisher: React.FC<Props> = (props) => {
 
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.address")}</InputLabel>
-                      <ModalAddress addressSrc={values.address} addressSetup={handleAddress} typeSrc='publisher' name={values.name} />
+                      <ModalAddress addressSrc={values.address} addressSetup={handleAddress} name={values.name} />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.create_date")}</InputLabel>

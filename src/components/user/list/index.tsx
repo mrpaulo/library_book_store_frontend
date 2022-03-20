@@ -1,14 +1,35 @@
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
 import React, { useEffect, useState, MouseEvent, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { ApplicationState } from '../../../store';
-
+//Actions and store
 import * as usersActions from '../../../store/ducks/users/actions';
+import { ApplicationState } from '../../../store';
+//Types and local components
 import {  UserDTO, UserRequestFilter as Filter } from '../../../store/ducks/users/types';
-import { formatCNPJ, formatCPF } from '../../utils/formatUtil';
+import { formatCPF } from '../../utils/formatUtil';
+//Translations
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
-
+//Style
 import { StyledTableCell, useStyles } from '../../../styles/Styles';
 import { Card, CardContent, CardHeader, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography, Tooltip } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
@@ -41,6 +62,7 @@ const UsersList: React.FC<Props> = (props) => {
   useEffect(() => {
     updateRequestFilter({currentPage: 1, rowsPerPage: 10} as Filter);
     searchRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function addUser() {

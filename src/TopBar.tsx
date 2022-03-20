@@ -1,25 +1,41 @@
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
 import React, { useEffect, useRef, useState } from 'react';
-
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+//Types, constants and local components
 import { LOGIN_URL } from './services/api/constants';
-
-import { pageMenuStyles } from './styles/Styles';
-
+import { Token } from './store/ducks/authentications/types';
+//Actions and store
+import * as authenticationsActions from './store/ducks/authentications/actions';
+import { ApplicationState } from './store';
+//Translation
 import { i18n } from './services/i18n/i18n';
 import { languages } from './services/i18n/constants';
 import { useTranslation } from "react-i18next";
-
-import { Button, IconButton, Toolbar, Typography } from '@material-ui/core';
-import { AppBar } from '@material-ui/core';
+//Style
+import { AppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LanguageIcon from '@material-ui/icons/Language';
-import { ApplicationState } from './store';
-import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
-
-import * as authenticationsActions from './store/ducks/authentications/actions';
-import { Token } from './store/ducks/authentications/types';
-import { createHashHistory } from 'history'
+import { pageMenuStyles } from './styles/Styles';
 
 interface StateProps {
   token?: Token,
@@ -37,13 +53,13 @@ const TopBar: React.FC<Props> = (props) => {
   const classes = pageMenuStyles()
   const { t } = useTranslation();
   const { token, isAuthenticated, logoutRequest, isTokenValidRequest } = props;
-  const history = createHashHistory()
   const [languageSelected, setLanguageSelect] = useState(languages.en);
   const [showMenuUser, setShowMenuUser] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
     isTokenValidRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   

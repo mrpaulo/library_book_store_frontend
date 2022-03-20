@@ -1,7 +1,5 @@
 import { action } from 'typesafe-actions';
 import { AuthorsTypes as Types, Author, AuthorRequestFilter as Filter, AuthorDTO } from './types';
-import { selectors } from '.';
-import { select } from 'redux-saga/effects';
 
 export const loadRequest = () => action(Types.LOAD_REQUEST);
 export const loadSuccess = (authorsData: Author[]) => action(Types.LOAD_SUCCESS,  { authorsData });

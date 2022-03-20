@@ -1,23 +1,37 @@
-import React, { useState, useEffect } from 'react';
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { ApplicationState } from '../../../store';
-
+//Actions and store
 import * as usersActions from '../../../store/ducks/users/actions';
-
-
-import '../../../styles/global.css';
-import { modalStyles, useStyles } from '../../../styles/Styles';
-import { TextField, InputAdornment, IconButton, Button } from '@material-ui/core';
-
-import Modal from '@material-ui/core/Modal';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { useTranslation } from 'react-i18next';
-import "../../../services/i18n/i18n";
-import LoginCreatePage from '../../login/create'
+import { ApplicationState } from '../../../store';
+//Types and local components
 import { Login } from '../../../store/ducks/authentications/types';
+import LoginCreatePage from '../../login/create'
+//Tranlation
+import "../../../services/i18n/i18n";
+//Style
+import '../../../styles/global.css';
+import { modalStyles } from '../../../styles/Styles';
+import Modal from '@material-ui/core/Modal';
 
 function getModalStyle() {
   return {
@@ -39,9 +53,7 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps
 
 const ModalUser: React.FC<Props> = (props) => {
-  const { t } = useTranslation();
   const classes = modalStyles();
-  const defaulStyle = useStyles();
   const { openModal, userSetup, handleCloseModal } = props;
   const [modalStyle] = useState(getModalStyle);
 

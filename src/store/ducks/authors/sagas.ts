@@ -12,7 +12,7 @@ import {
   findByNameSuccess,
   updateTotalRows
  } from './actions'
-import { Author, AuthorRequestFilter, AuthorsTypes as types } from './types';
+import { Author, AuthorsTypes as types } from './types';
 import { enqueueError, enqueue as notifierEnqueue } from '../notifications/actions';
 import { selectors } from '.';
 

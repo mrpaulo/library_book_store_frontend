@@ -1,24 +1,40 @@
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
 import React, { useEffect, useState } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
+//Actions and store
 import * as authenticationsActions from '../../store/ducks/authentications/actions';
+import { ApplicationState } from '../../store';
+//Types, constants and local components
+import { Login, Token } from '../../store/ducks/authentications/types';
+import { CREATE_LOGIN_URL } from '../../services/api/constants';
+//Third party
 import { Formik, Form, FormikProps } from 'formik';
+//Translation
 import { useTranslation } from "react-i18next";
 import "../../services/i18n/i18n";
-
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardHeader from '@material-ui/core/CardHeader';
-import Button from '@material-ui/core/Button';
-import { Login, Token } from '../../store/ducks/authentications/types';
-import { connect } from 'react-redux';
-import { ApplicationState } from '../../store';
+//Style
 import { useStyles } from '../../styles/Styles';
-
-import { Grid, InputLabel } from '@material-ui/core';
-import { CREATE_LOGIN_URL } from '../../services/api/constants';
+import { Button, Grid, InputLabel, TextField, Card, CardContent, CardActions, CardHeader } from '@material-ui/core';
 
 interface StateProps {
   login?: Login,
@@ -42,18 +58,9 @@ const INITIAL_VALUES: Login = {
 const LoginPage: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { login, token, failure, path, loginRequest, logoutRequest } = props;
-  const [disableLoginBtn, setDisableLoginBtn] = useState<boolean>(false);
+  const { token, failure, path, loginRequest, logoutRequest } = props;
   const [submitted, setSubmitted] = useState<boolean>(false);
   const history = useHistory();
-
-  useEffect(() => {
-    if (login && login.username.trim() && login.password.trim()) {
-      setDisableLoginBtn(false)
-    } else {
-      setDisableLoginBtn(true)
-    }
-  }, [login]);
 
   useEffect(() => {
     console.log("token")
@@ -69,6 +76,7 @@ const LoginPage: React.FC<Props> = (props) => {
         window.location.href = "/";
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, submitted]);
 
   const handleLogout = () => {
@@ -96,7 +104,6 @@ const LoginPage: React.FC<Props> = (props) => {
       >
         {(props: FormikProps<Login>) => {
           const {
-            values,
             handleChange,
             isSubmitting,
           } = props

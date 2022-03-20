@@ -1,16 +1,37 @@
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+//Actions and store
 import { ApplicationState } from '../../../store';
-
 import * as booksActions from '../../../store/ducks/books/actions';
+//Types and local components
 import { Book, BookRequestFilter as Filter, BookSubject } from '../../../store/ducks/books/types';
 import CustomObjSelect from '../../utils/CustomObjSelect';
-
+//Third party
 import { Formik, Form, FormikProps, Field } from 'formik';
+//Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
-
+//Style
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -48,6 +69,7 @@ const FilterBook: React.FC<Props> = (props) => {
 
   useEffect(() => {
     bookSubjectRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleSubmit(values: Filter, actions: any) {

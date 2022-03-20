@@ -1,9 +1,29 @@
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { ApplicationState } from '../../../store';
-
+//Actions and store
 import * as booksActions from '../../../store/ducks/books/actions';
+import { ApplicationState } from '../../../store';
+//Types and local components
 import { Book, BookLanguage, BookSubject } from '../../../store/ducks/books/types';
 import AutoCompleteAuthor from '../../utils/AutoCompleteAuthor';
 import AutoCompletePublisher from '../../utils/AutoCompletePublisher';
@@ -12,12 +32,13 @@ import CustomSelect from '../../utils/CustomSelect';
 import { PublisherDTO } from '../../../store/ducks/publishers/types';
 import { CustomEnum } from '../../utils/constants';
 import { AuthorDTO } from '../../../store/ducks/authors/types';
-
+//Third party
 import { Formik, Form, FormikProps, Field } from 'formik';
 import * as Yup from 'yup';
+//Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
-
+//Style
 import '../../../styles/global.css';
 import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
@@ -65,9 +86,9 @@ const INITIAL_VALUES: Book = {
   length: 0,
 };
 
-const EditBook: React.FC<Props> = (props) => {  
+const EditBook: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { t } = useTranslation();  
+  const { t } = useTranslation();
   const { book, booksFormat, booksCondition, bookSubjectList, languageList, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest, bookConditionRequest, bookSubjectRequest, bookLanguageRequest } = props;
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const [flagEditing, setFlagEditing] = useState(false);
@@ -101,6 +122,7 @@ const EditBook: React.FC<Props> = (props) => {
       setFlagEditing(true);
       setSubtitle(t("titles.edit_book"))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [book]);
 
   useEffect(() => {
@@ -108,6 +130,7 @@ const EditBook: React.FC<Props> = (props) => {
     bookFormatRequest();
     bookSubjectRequest();
     bookLanguageRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleSubmit(values: Book, actions: any) {
@@ -152,16 +175,16 @@ const EditBook: React.FC<Props> = (props) => {
             handleChange,
             isSubmitting,
           } = props
-         
-          const getPublisherSelected = (publisher: PublisherDTO) => {            
-            values.publisher = publisher;   
+
+          const getPublisherSelected = (publisher: PublisherDTO) => {
+            values.publisher = publisher;
             setPublisher(publisher);
           }
-        
+
           const getAuthorsSelected = (authors: AuthorDTO[]) => {
-            values.authors = authors;       
-            setAuthors(authors) ;
-          }          
+            values.authors = authors;
+            setAuthors(authors);
+          }
 
           return (
             <Card className={classes.root}>

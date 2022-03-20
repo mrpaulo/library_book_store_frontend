@@ -1,6 +1,6 @@
 import { all, call, put, select, } from 'redux-saga/effects';
 import * as Eff from 'redux-saga/effects'
-import {apiBasic, apiBearer, apiLogin, getBearerHeader } from '../../../services/api/api';
+import { apiBearer, apiLogin, getBearerHeader } from '../../../services/api/api';
 
 import {
   isTokenValidSuccess,
@@ -8,7 +8,7 @@ import {
   logoutSuccess
 } from './actions'
 import { Login, AuthenticationsTypes as types, Token } from './types';
-import { enqueueError, enqueue as notifierEnqueue } from '../notifications/actions';
+import { enqueueError } from '../notifications/actions';
 import { selectors } from '.';
 
 const takeEvery: any = Eff.takeEvery;
