@@ -28,7 +28,7 @@ export enum UsersTypes {
 
   CHANGE_FLAG_EDITING = '@users/CHANGE_FLAG_EDITING',
   CHANGE_FLAG_DETAIL = '@users/CHANGE_FLAG_DETAIL',
-  CLEAN_BOOK_EDIT = '@users/CLEAN_BOOK_EDIT',
+  CLEAN_USER_EDIT = '@users/CLEAN_USER_EDIT',
   
   UPDATE_FILTER= '@users/UPDATE_FILTER',
   CLEAN_FILTER= '@users/CLEAN_FILTER',
@@ -87,5 +87,6 @@ export interface UsersState {
   readonly rolesListData?: Role[]
   readonly requestFilter?: UserRequestFilter
   readonly responseTotalRows: number
+  readonly createdSuccess: boolean
 }
 

@@ -12,7 +12,8 @@ const INITIAL_STATE: UsersState = {
   flagEditing: false,
   flagDetail: false,
   requestFilter: undefined,
-  responseTotalRows: 0
+  responseTotalRows: 0,
+  createdSuccess: false
 };
 
 const reducer: Reducer<UsersState> = (state = INITIAL_STATE, action) => {
@@ -41,7 +42,7 @@ const reducer: Reducer<UsersState> = (state = INITIAL_STATE, action) => {
     case Types.CREATE_REQUEST:
       return { ...state, loading: true };
     case Types.CREATE_SUCCESS:
-      return { ...state, loading: false, error: false, flagEditing: !state.flagEditing, userData: undefined };    
+      return { ...state, loading: false, error: false, flagEditing: !state.flagEditing, userData: undefined, createdSuccess: true };    
     case Types.DELETE_BY_ID_REQUEST:
       return { ...state, loading: true };
     case Types.DELETE_BY_ID_SUCCESS:
@@ -50,8 +51,8 @@ const reducer: Reducer<UsersState> = (state = INITIAL_STATE, action) => {
       return { ...state, flagEditing: !state.flagEditing };
     case Types.CHANGE_FLAG_DETAIL:
       return { ...state, flagDetail: !state.flagDetail };
-    case Types.CLEAN_BOOK_EDIT:
-      return { ...state, userData: undefined };    
+    case Types.CLEAN_USER_EDIT:
+      return { ...state, userData: undefined, createdSuccess: false };    
       case Types.UPDATE_FILTER:
         return { ...state, requestFilter: action.payload.requestFilter };
       case Types.CLEAN_FILTER:

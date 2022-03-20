@@ -18,7 +18,6 @@ import { ApplicationState } from '../../store';
 import { useStyles } from '../../styles/Styles';
 
 import { Grid, InputLabel } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import { CREATE_LOGIN_URL } from '../../services/api/constants';
 
 interface StateProps {

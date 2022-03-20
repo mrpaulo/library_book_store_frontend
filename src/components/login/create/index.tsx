@@ -13,7 +13,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
-import { Login, NewLogin, Token } from '../../../store/ducks/authentications/types';
+import { Login, NewLogin } from '../../../store/ducks/authentications/types';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../store';
 import { useStyles } from '../../../styles/Styles';
@@ -21,18 +21,18 @@ import { useStyles } from '../../../styles/Styles';
 import { Grid, IconButton, InputLabel } from '@material-ui/core';
 import { User } from '../../../store/ducks/users/types';
 import CloseIcon from '@material-ui/icons/Close'
+import { LOGIN_URL } from '../../../services/api/constants';
 
-interface StateProps {
-  login?: Login,
-  token?: Token,
-  failure: boolean,
-  fromModalUser: boolean
+interface StateProps {  
+  fromModalUser: boolean,
+  createdSuccess: boolean
 }
 
 interface DispatchProps {
   createRequest(user: User): void,
   submitToModalUser(user: Login): void,
-  handleClose(flag: boolean): void
+  handleClose(flag: boolean): void,
+  cleanUserEdit(): void,
 }
 
 type Props = StateProps & DispatchProps
@@ -46,32 +46,23 @@ const INITIAL_VALUES: NewLogin = {
 const LoginCreatePage: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { login, token, failure, fromModalUser, createRequest, submitToModalUser, handleClose } = props;
-  const [disableLoginBtn, setDisableLoginBtn] = useState<boolean>(false);
+  const { fromModalUser, createdSuccess, createRequest, submitToModalUser, handleClose, cleanUserEdit } = props;
+  
   const [submitted, setSubmitted] = useState<boolean>(false);
 
-
   useEffect(() => {
-    if (login && login.username.trim() && login.password.trim()) {
-      setDisableLoginBtn(false)
-    } else {
-      setDisableLoginBtn(true)
+    if (!fromModalUser) {
+      cleanUserEdit()
     }
-  }, [login]);
+  }, [fromModalUser]);
 
-  // useEffect(() => {
-  //   console.log("token")
-  //   console.log(token)
-  //   console.log("submitted")
-  //   console.log(submitted)
-  //   if (token && submitted) {
-  //     window.location.href = "/";
-  //   } 
-  // }, [token, submitted]);
+  useEffect(() => {    
+    if (createdSuccess && submitted) {
+      window.location.href = LOGIN_URL;
+      setSubmitted(false)
+    } 
+  }, [createdSuccess, submitted]);
 
-  const handleKeyPress = (event: React.KeyboardEvent) => {
-
-  };
   const handleModalClose = () => {
     handleClose(true)
   };
@@ -82,8 +73,7 @@ const LoginCreatePage: React.FC<Props> = (props) => {
       return
     }
     console.log('Form submitted!');
-    console.log(values);
-    debugger
+    console.log(values);    
     if (fromModalUser) {
       let newUser: Login = {
         username: values.username,
@@ -93,13 +83,13 @@ const LoginCreatePage: React.FC<Props> = (props) => {
     } else {
       let newUser: User = {
         username: values.username,
-        email: values.password
+        password: values.password
       };
       createRequest(newUser as User)
     }
 
     actions.setSubmitting(false);
-    //setSubmitted(true);
+    setSubmitted(true);
   }
 
   return (
@@ -138,7 +128,6 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                     <Grid item lg={6} md={6} sm={6} xs={6}>
                       <InputLabel className="form-label" >{t("labels.user_name")}</InputLabel>
                       <TextField
-                        error={failure}
                         name="username"
                         type="text"
                         className={classes.textField}
@@ -148,11 +137,9 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                         variant="outlined"
                         // helperText={state.helperText}
                         onChange={handleChange}
-                        onKeyPress={handleKeyPress}
                       />
                       <InputLabel className="form-label" >{t("labels.password")}</InputLabel>
                       <TextField
-                        error={failure}
                         name="password"
                         type="password"
                         className={classes.textField}
@@ -162,11 +149,9 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                         variant="outlined"
                         // helperText={state.helperText}
                         onChange={handleChange}
-                        onKeyPress={handleKeyPress}
                       />
                       <InputLabel className="form-label" >{t("labels.repeat_password")}</InputLabel>
                       <TextField
-                        error={failure}
                         name="repeatPassword"
                         type="password"
                         className={classes.textField}
@@ -176,7 +161,6 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                         variant="outlined"
                         // helperText={state.helperText}
                         onChange={handleChange}
-                        onKeyPress={handleKeyPress}
                       />
                     </Grid>
                   </Grid>
@@ -187,7 +171,6 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                       <Button
                         className={classes.resetButton}
                         type="reset"
-
                         disabled={isSubmitting}
                         color="secondary"
                         variant="outlined"
@@ -200,7 +183,6 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                         disabled={isSubmitting}
                         color="primary"
                         variant="outlined"
-
                       >
                         {t("buttons.submit")}
                       </Button>
@@ -219,7 +201,7 @@ const LoginCreatePage: React.FC<Props> = (props) => {
 const mapStateToProps = (state: ApplicationState) => ({
   login: state.authentications.loginData,
   token: state.authentications.tokenData,
-  failure: state.authentications.failure
+  createdSuccess: state.users.createdSuccess
 });
 
 const actions = { ...authenticationsActions, ...usersActions };

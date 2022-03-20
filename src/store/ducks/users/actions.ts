@@ -24,7 +24,7 @@ export const createSuccess = (userData: User) => action(Types.CREATE_SUCCESS,  {
 
 export const changeFlagEditing = () => action(Types.CHANGE_FLAG_EDITING);
 export const changeFlagDetail = () => action(Types.CHANGE_FLAG_DETAIL);
-export const cleanUserEdit = () => action(Types.CLEAN_BOOK_EDIT);
+export const cleanUserEdit = () => action(Types.CLEAN_USER_EDIT);
 
 export const updateRequestFilter = (requestFilter: Filter) => action(Types.UPDATE_FILTER,  { requestFilter });
 export const cleanRequestFilter = () => action(Types.CLEAN_FILTER);
