@@ -41,18 +41,7 @@ export const menuItems = [
         link: ADD_BOOK_URL,
         Icon: AddIcon,
         visibleToRoles: ROLE_ADM_OPER,
-      },
-      {
-        name: 'Level 2',
-        items: [
-          {
-            name: 'Level 3',
-          },
-          {
-            name: 'Level 3',
-          },
-        ],
-      },
+      }     
     ],
   },
   {
