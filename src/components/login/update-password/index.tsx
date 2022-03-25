@@ -25,8 +25,7 @@ import * as authenticationsActions from '../../../store/ducks/authentications/ac
 import * as usersActions from '../../../store/ducks/users/actions';
 import { ApplicationState } from '../../../store';
 //Types, constants and local components
-import { Login, UpdatePassword } from '../../../store/ducks/authentications/types';
-import { User } from '../../../store/ducks/users/types';
+import {  Token, UpdatePassword } from '../../../store/ducks/authentications/types';
 import { LOGIN_URL } from '../../../services/api/constants';
 //Third party
 import { Formik, Form, FormikProps } from 'formik';
@@ -34,20 +33,17 @@ import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 //Style
-import { Button, Grid, InputLabel, IconButton, TextField, Card, CardContent, CardActions, CardHeader } from '@material-ui/core';
+import { Button, Grid, InputLabel, TextField, Card, CardContent, CardActions, CardHeader } from '@material-ui/core';
 import { useStyles } from '../../../styles/Styles';
-import CloseIcon from '@material-ui/icons/Close'
 
 interface StateProps {  
-  fromModalUser: boolean,
+  token?: Token,
   createdSuccess: boolean
 }
 
 interface DispatchProps {
-  createRequest(user: User): void,
-  submitToModalUser(user: Login): void,
-  handleClose(flag: boolean): void,
-  cleanUserEdit(): void,
+  changeUserPasswordRequest(updatePassword: UpdatePassword): void,
+  isTokenValidRequest(): void,    
 }
 
 type Props = StateProps & DispatchProps
@@ -62,9 +58,26 @@ const INITIAL_VALUES: UpdatePassword = {
 const UpdatePasswordPage: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { fromModalUser, createdSuccess, createRequest, submitToModalUser, handleClose, cleanUserEdit } = props;
-  
+  const { createdSuccess, token, changeUserPasswordRequest, isTokenValidRequest } = props;
+  const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const [submitted, setSubmitted] = useState<boolean>(false);
+
+  useEffect(() => {
+    isTokenValidRequest();
+
+    let newValue: UpdatePassword = {
+      username: token?.userName as String,
+      currentPassword: '',
+      newPassword: '',
+      repeatPassword: ''
+    };    
+    console.log("NEW initial")
+    console.log(newValue)
+    console.log("TOKEN")
+    console.log(token)
+    setInitialValues(newValue)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {    
     if (createdSuccess && submitted) {
@@ -74,9 +87,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [createdSuccess, submitted]);
 
-  const handleModalClose = () => {
-    handleClose(true)
-  };
+  
 
   function handleSubmit(values: UpdatePassword, actions: any) {
     if (values.newPassword !== values.repeatPassword) {
@@ -85,14 +96,8 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
     }
     console.log('Form submitted!');
     console.log(values);    
-    
-      let newUser: Login = {
-        username: values.username,
-        password: values.newPassword
-      };
-      submitToModalUser(newUser as Login)
    
-      createRequest(newUser as User)
+      changeUserPasswordRequest(values as UpdatePassword)
     
     actions.setSubmitting(false);
     setSubmitted(true);
@@ -102,7 +107,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
     <>
       <Formik
         onSubmit={handleSubmit}
-        initialValues={INITIAL_VALUES}
+        initialValues={initialValues}
         className={classes.root}
       >
         {(props: FormikProps<UpdatePassword>) => {
@@ -114,18 +119,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
             <Card className={classes.root} >
               <Form>
                 <CardHeader
-                  title={t("titles.update_password")}
-                  subheader={fromModalUser ?
-                    (<>
-                      <IconButton
-                        aria-label={t("buttons.close")}
-                        className={classes.closeModalButton}
-                        onClick={handleModalClose}>
-                        <CloseIcon />
-                      </IconButton>
-                    </>) :
-                    <></>
-                  }
+                  title={t("titles.update_password")}                  
                   style={{ textAlign: 'center' }}
                 />
                 <CardContent>

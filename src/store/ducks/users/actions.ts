@@ -1,4 +1,5 @@
 import { action } from 'typesafe-actions';
+import { UpdatePassword } from '../authentications/types';
 import { UsersTypes as Types, User, UserRequestFilter as Filter, UserDTO, Role } from './types';
 
 export const loadRequest = () => action(Types.LOAD_REQUEST);
@@ -25,6 +26,9 @@ export const createSuccess = (userData: User) => action(Types.CREATE_SUCCESS,  {
 export const changeFlagEditing = () => action(Types.CHANGE_FLAG_EDITING);
 export const changeFlagDetail = () => action(Types.CHANGE_FLAG_DETAIL);
 export const cleanUserEdit = () => action(Types.CLEAN_USER_EDIT);
+
+export const changeUserPasswordRequest = (updatePassword: UpdatePassword) => action(Types.UPDATE_PASSWORD_REQUEST,  { updatePassword });
+export const changeUserPasswordSuccess = () => action(Types.UPDATE_PASSWORD_SUCCESS);
 
 export const updateRequestFilter = (requestFilter: Filter) => action(Types.UPDATE_FILTER,  { requestFilter });
 export const cleanRequestFilter = () => action(Types.CLEAN_FILTER);

@@ -15,6 +15,7 @@ import {
 import { User, UsersTypes as types } from './types';
 import { enqueueError, enqueue as notifierEnqueue } from '../notifications/actions';
 import { selectors } from '.';
+import { UpdatePassword } from '../authentications/types';
 
 const takeEvery: any = Eff.takeEvery;
 const USERS_V1 =  'v1/users';
@@ -100,6 +101,18 @@ function* update(action: any): Generator<any, any, any>  {
   }
 }
 
+function* changeUserPassword(action: any): Generator<any, any, any>  {
+  const updatePassword: UpdatePassword = action.payload.updatePassword;
+  try {
+    const reponse = yield call(apiBearer.post, `${USERS_V1}/update`, updatePassword, getBearerHeader());
+
+    yield put(updateSuccess(reponse.data));
+    yield put(notifierEnqueue({ message: "notifications.updated" }));
+  } catch (error) {
+    yield put(enqueueError(error));
+  }
+}
+
 function* getAllRoles(): Generator<any, any, any> {
   
   try {
@@ -119,5 +132,6 @@ export default function* root() {
   yield all([takeEvery(types.DELETE_BY_ID_REQUEST, deleteById)]);
   yield all([takeEvery(types.CREATE_REQUEST, create)]);
   yield all([takeEvery(types.UPDATE_REQUEST, update)]); 
+  yield all([takeEvery(types.UPDATE_PASSWORD_REQUEST, changeUserPassword)]); 
   yield all([takeEvery(types.ROLE_REQUEST, getAllRoles)]); 
 }
