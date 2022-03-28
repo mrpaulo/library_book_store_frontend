@@ -65,8 +65,6 @@ const TopBar: React.FC<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
-
   const changeLaguage = (e: any) => {
     e.preventDefault();
     if (languageSelected === languages.en) {
@@ -79,11 +77,11 @@ const TopBar: React.FC<Props> = (props) => {
   }
 
   const handleLogout = () => {
-    logoutRequest();    
+    logoutRequest();
   };
 
   const handleUpdatePassword = () => {
-    if(history){
+    if (history) {
       history.push(UPDATE_PASSWORD_URL as string);
     } else {
       window.location.href = UPDATE_PASSWORD_URL;
@@ -113,8 +111,8 @@ const TopBar: React.FC<Props> = (props) => {
           <MenuIcon />
         </IconButton>
         <Typography className={classes.title} variant="h6" noWrap>
-          <a href='/'  style={{color: 'inherit', textDecoration:'inherit'}}>
-          Library Book Store
+          <a href='/' style={{ color: 'inherit', textDecoration: 'inherit' }}>
+            Library Book Store
           </a>
         </Typography>
         <div className={classes.grow} />
@@ -145,8 +143,7 @@ const TopBar: React.FC<Props> = (props) => {
               <nav ref={dropdownRef} className={`menu ${showMenuUser ? 'active' : 'inactive'}`}>
                 <ul>
                   {isAuthenticated ?
-                    (
-                      <>
+                    (<>
                         <li>
                           <p>
                             <AccountCircle />

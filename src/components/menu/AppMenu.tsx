@@ -36,9 +36,7 @@ interface StateProps {
   validToken?: ValidToken
 }
 
-interface DispatchProps {
-
-}
+interface DispatchProps {}
 
 type Props = StateProps & DispatchProps
 
@@ -71,18 +69,16 @@ const AppMenu: React.FC<Props> = (props) => {
   return (
     <List component="nav" className={classes.appMenu} disablePadding>
       {menuItems.map((item, index) => (
-        <>
+        <div key={index}>
           {checkRoles(item.visibleToRoles) ?
             <AppMenuItem {...item} key={index} /> :
             <></>
           }
-        </>
+        </div>
       ))}
     </List>
   )
 }
-
-
 
 const mapStateToProps = (state: ApplicationState) => ({
   validToken: state.authentications.validTokenData

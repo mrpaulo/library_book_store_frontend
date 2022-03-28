@@ -25,7 +25,7 @@ import * as authenticationsActions from '../../../store/ducks/authentications/ac
 import * as usersActions from '../../../store/ducks/users/actions';
 import { ApplicationState } from '../../../store';
 //Types, constants and local components
-import {  Token, UpdatePassword } from '../../../store/ducks/authentications/types';
+import { Token, UpdatePassword } from '../../../store/ducks/authentications/types';
 import { LOGIN_URL } from '../../../services/api/constants';
 //Third party
 import { Formik, Form, FormikProps } from 'formik';
@@ -36,14 +36,13 @@ import "../../../services/i18n/i18n";
 import { Button, Grid, InputLabel, TextField, Card, CardContent, CardActions, CardHeader } from '@material-ui/core';
 import { useStyles } from '../../../styles/Styles';
 
-interface StateProps {  
+interface StateProps {
   token?: Token,
   createdSuccess: boolean
 }
 
 interface DispatchProps {
-  changeUserPasswordRequest(updatePassword: UpdatePassword): void,
-  isTokenValidRequest(): void,    
+  changeUserPasswordRequest(updatePassword: UpdatePassword): void
 }
 
 type Props = StateProps & DispatchProps
@@ -58,36 +57,30 @@ const INITIAL_VALUES: UpdatePassword = {
 const UpdatePasswordPage: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { createdSuccess, token, changeUserPasswordRequest, isTokenValidRequest } = props;
+  const { createdSuccess, token, changeUserPasswordRequest } = props;
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
-    isTokenValidRequest();
-
     let newValue: UpdatePassword = {
       username: token?.userName as String,
       currentPassword: '',
       newPassword: '',
       repeatPassword: ''
-    };    
-    console.log("NEW initial")
-    console.log(newValue)
-    console.log("TOKEN")
-    console.log(token)
+    };  
     setInitialValues(newValue)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [token]);
 
-  useEffect(() => {    
+  useEffect(() => {
     if (createdSuccess && submitted) {
       window.location.href = LOGIN_URL;
       setSubmitted(false)
-    } 
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [createdSuccess, submitted]);
 
-  
+
 
   function handleSubmit(values: UpdatePassword, actions: any) {
     if (values.newPassword !== values.repeatPassword) {
@@ -95,10 +88,10 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
       return
     }
     console.log('Form submitted!');
-    console.log(values);    
-   
-      changeUserPasswordRequest(values as UpdatePassword)
-    
+    console.log(values);
+
+    changeUserPasswordRequest(values as UpdatePassword)
+
     actions.setSubmitting(false);
     setSubmitted(true);
   }
@@ -106,20 +99,22 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
   return (
     <>
       <Formik
+        enableReinitialize
         onSubmit={handleSubmit}
         initialValues={initialValues}
         className={classes.root}
       >
         {(props: FormikProps<UpdatePassword>) => {
-          const {           
+          const {
             handleChange,
             isSubmitting,
+            values
           } = props
           return (
             <Card className={classes.root} >
               <Form>
                 <CardHeader
-                  title={t("titles.update_password")}                  
+                  title={t("titles.update_password")}
                   style={{ textAlign: 'center' }}
                 />
                 <CardContent>
@@ -129,6 +124,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
                       <TextField
                         name="username"
                         type="text"
+                        value={values.username || ""}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
