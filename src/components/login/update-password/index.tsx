@@ -80,7 +80,16 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [createdSuccess, submitted]);
 
-
+  function handleClear() {
+    console.log('clear button');
+    let newValue: UpdatePassword = {
+      username: token?.userName as String,
+      currentPassword: '',
+      newPassword: '',
+      repeatPassword: ''
+    };  
+    setInitialValues(newValue)
+  }
 
   function handleSubmit(values: UpdatePassword, actions: any) {
     if (values.newPassword !== values.repeatPassword) {
@@ -108,7 +117,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
           const {
             handleChange,
             isSubmitting,
-            values
+            values            
           } = props
           return (
             <Card className={classes.root} >
@@ -137,6 +146,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
                       <TextField
                         name="currentPassword"
                         type="password"
+                        value={values.currentPassword || ""}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
@@ -148,6 +158,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
                       <TextField
                         name="newPassword"
                         type="password"
+                        value={values.newPassword || ""}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
@@ -159,6 +170,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
                       <TextField
                         name="repeatPassword"
                         type="password"
+                        value={values.repeatPassword || ""}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
@@ -178,7 +190,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
                         type="reset"
                         disabled={isSubmitting}
                         color="secondary"
-                        variant="outlined"
+                        variant="outlined"                        
                       >
                         {t("buttons.clear")}
                       </Button>
