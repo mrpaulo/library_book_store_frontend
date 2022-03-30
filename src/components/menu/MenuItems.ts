@@ -19,7 +19,6 @@ import AddIcon from '@material-ui/icons/Add';
 import InfoIcon from '@material-ui/icons/Info';
 import BusinessIcon from '@material-ui/icons/Business';
 import PersonIcon from '@material-ui/icons/Person';
-import GroupIcon from '@material-ui/icons/Group';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
@@ -70,7 +69,7 @@ export const menuItems = [
       {
         name: 'menu.search_authors',
         link: AUTHORS_URL,
-        Icon: GroupIcon,
+        Icon: SearchIcon,
         visibleToRoles: ROLE_ALL,
       },
       {
@@ -89,7 +88,7 @@ export const menuItems = [
       {
         name: 'menu.search_users',
         link: USERS_URL,
-        Icon: GroupIcon,
+        Icon: SearchIcon,
         visibleToRoles: ROLE_ALL,
       },
       {
