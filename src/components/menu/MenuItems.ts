@@ -81,7 +81,7 @@ export const menuItems = [
   },
   
   {
-    name: 'menu.user',    
+    name: 'menu.users',    
     Icon: PersonIcon,
     visibleToRoles: [ROLE_ADMIN],
     items: [
