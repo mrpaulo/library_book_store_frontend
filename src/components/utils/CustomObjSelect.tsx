@@ -76,7 +76,7 @@ export const CustomObjSelect = ({
 
   return (
     <>
-    {console.log(options)}
+    {/**console.log(options)*/}
     <Select
       className={className}
       name={field.name}

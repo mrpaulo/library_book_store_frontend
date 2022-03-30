@@ -117,7 +117,7 @@ const FilterBook: React.FC<Props> = (props) => {
                         name="title"
                         type="text"
                         placeholder=""
-                        value={values.title}
+                        value={values.title || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -132,7 +132,7 @@ const FilterBook: React.FC<Props> = (props) => {
                         name="author"
                         type="text"
                         placeholder=""
-                        value={values.author}
+                        value={values.author || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -147,7 +147,7 @@ const FilterBook: React.FC<Props> = (props) => {
                         name="publisher"
                         type="text"
                         placeholder=""
-                        value={values.publisher}
+                        value={values.publisher || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -173,7 +173,7 @@ const FilterBook: React.FC<Props> = (props) => {
                         <TextField
                           name="startDate"
                           type="date"
-                          value={values.startDate}
+                          value={values.startDate || ""}
                           onChange={handleChange}
                           className={classes.textFieldDate}
                           defaultValue=""
@@ -191,7 +191,7 @@ const FilterBook: React.FC<Props> = (props) => {
                         <TextField
                           name="finalDate"
                           type="date"
-                          value={values.finalDate}
+                          value={values.finalDate || ""}
                           onChange={handleChange}
                           className={classes.textFieldDate}
                           defaultValue=""

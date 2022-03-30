@@ -222,7 +222,7 @@ const EditAddress: React.FC<Props> = (props) => {
                         name="name"
                         type="text"
                         placeholder=""
-                        value={values.name}
+                        value={values.name || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -243,7 +243,7 @@ const EditAddress: React.FC<Props> = (props) => {
                         name="number"
                         type="text"
                         placeholder=""
-                        value={values.number}
+                        value={values.number || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -264,7 +264,7 @@ const EditAddress: React.FC<Props> = (props) => {
                         name="cep"
                         type="text"
                         placeholder=""
-                        value={values.cep}
+                        value={values.cep || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -285,7 +285,7 @@ const EditAddress: React.FC<Props> = (props) => {
                         name="neighborhood"
                         type="text"
                         placeholder=""
-                        value={values.neighborhood}
+                        value={values.neighborhood || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -306,7 +306,7 @@ const EditAddress: React.FC<Props> = (props) => {
                         name="referencialPoint"
                         type="text"
                         placeholder=""
-                        value={values.referencialPoint}
+                        value={values.referencialPoint || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{

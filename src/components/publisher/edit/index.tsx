@@ -153,7 +153,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                         name="name"
                         type="text"
                         placeholder=""
-                        value={values.name}
+                        value={values.name || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -174,7 +174,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                         name="cnpj"
                         type="text"
                         placeholder=""
-                        value={values.cnpj}
+                        value={values.cnpj || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -200,7 +200,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                       <TextField
                         name="createDate"
                         type="date"
-                        value={values.createDate}
+                        value={values.createDate || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         defaultValue=""
@@ -219,7 +219,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                         name="description"
                         type="text"
                         placeholder=""
-                        value={values.description}
+                        value={values.description || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{

@@ -201,7 +201,7 @@ const EditBook: React.FC<Props> = (props) => {
                         name="title"
                         type="text"
                         placeholder=""
-                        value={values.title}
+                        value={values.title || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -222,7 +222,7 @@ const EditBook: React.FC<Props> = (props) => {
                         name="subtitle"
                         type="text"
                         placeholder=""
-                        value={values.subtitle}
+                        value={values.subtitle || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -277,7 +277,7 @@ const EditBook: React.FC<Props> = (props) => {
                         name="review"
                         type="text"
                         placeholder=""
-                        value={values.review}
+                        value={values.review || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -344,7 +344,7 @@ const EditBook: React.FC<Props> = (props) => {
                         name="link"
                         type="text"
                         placeholder=""
-                        value={values.link}
+                        value={values.link || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -365,7 +365,7 @@ const EditBook: React.FC<Props> = (props) => {
                         name="edition"
                         type="number"
                         placeholder=""
-                        value={values.edition}
+                        value={values.edition || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -379,7 +379,7 @@ const EditBook: React.FC<Props> = (props) => {
                       <TextField
                         name="length"
                         type="number"
-                        value={values.length}
+                        value={values.length || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -393,7 +393,7 @@ const EditBook: React.FC<Props> = (props) => {
                       <TextField
                         name="publishDate"
                         type="date"
-                        value={values.publishDate}
+                        value={values.publishDate || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         defaultValue=""

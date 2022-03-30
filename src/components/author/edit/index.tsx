@@ -167,7 +167,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                         name="name"
                         type="text"
                         placeholder=""
-                        value={values.name}
+                        value={values.name || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -188,7 +188,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                         name="email"
                         type="text"
                         placeholder=""
-                        value={values.email}
+                        value={values.email || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -224,7 +224,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                       <TextField
                         name="birthdate"
                         type="date"
-                        value={values.birthdate}
+                        value={values.birthdate || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         defaultValue=""
@@ -257,7 +257,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                         name="description"
                         type="text"
                         placeholder=""
-                        value={values.description}
+                        value={values.description || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{

@@ -107,7 +107,7 @@ const AuthorFilter: React.FC<Props> = (props) => {
                         name="name"
                         type="text"
                         placeholder=""
-                        value={values.name}
+                        value={values.name || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -133,7 +133,7 @@ const AuthorFilter: React.FC<Props> = (props) => {
                         <TextField
                           name="startDate"
                           type="date"
-                          value={values.startDate}
+                          value={values.startDate || ""}
                           onChange={handleChange}
                           className={classes.textFieldDate}
                           defaultValue=""
@@ -151,7 +151,7 @@ const AuthorFilter: React.FC<Props> = (props) => {
                         <TextField
                           name="finalDate"
                           type="date"
-                          value={values.finalDate}
+                          value={values.finalDate || ""}
                           onChange={handleChange}
                           className={classes.textFieldDate}
                           defaultValue=""
