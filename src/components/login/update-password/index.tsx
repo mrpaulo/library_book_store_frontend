@@ -80,17 +80,6 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [createdSuccess, submitted]);
 
-  function handleClear() {
-    console.log('clear button');
-    let newValue: UpdatePassword = {
-      username: token?.userName as String,
-      currentPassword: '',
-      newPassword: '',
-      repeatPassword: ''
-    };  
-    setInitialValues(newValue)
-  }
-
   function handleSubmit(values: UpdatePassword, actions: any) {
     if (values.newPassword !== values.repeatPassword) {
       alert("Erro senhas dif");
