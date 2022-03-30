@@ -128,7 +128,7 @@ const PublisherFilter: React.FC<Props> = (props) => {
                         variant="outlined"
                       />
                     </Grid>   
-                    <Grid className="form-grid" container lg={10} md={10} sm={10} xs={10}>                    
+                    <Grid item className="form-grid" container lg={10} md={10} sm={10} xs={10}>                    
                       <Grid item lg={6} md={6} sm={6} xs={6}>
                         <InputLabel className="form-label" >{t("labels.start_date_create")}</InputLabel>
                         <TextField
@@ -137,7 +137,6 @@ const PublisherFilter: React.FC<Props> = (props) => {
                           value={values.startDate || ""}
                           onChange={handleChange}
                           className={classes.textFieldDate}
-                          defaultValue=""
                           InputProps={{
                             className: classes.input,
                           }}
@@ -155,7 +154,6 @@ const PublisherFilter: React.FC<Props> = (props) => {
                           value={values.finalDate || ""}
                           onChange={handleChange}
                           className={classes.textFieldDate}
-                          defaultValue=""
                           InputProps={{
                             className: classes.input,
                           }}

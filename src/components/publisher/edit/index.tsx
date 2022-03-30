@@ -203,7 +203,6 @@ const EditPublisher: React.FC<Props> = (props) => {
                         value={values.createDate || ""}
                         onChange={handleChange}
                         className={classes.textField}
-                        defaultValue=""
                         InputProps={{
                           className: classes.input,
                         }}

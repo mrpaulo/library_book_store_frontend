@@ -263,7 +263,6 @@ const EditUser: React.FC<Props> = (props) => {
                         value={values.birthdate || ""}
                         onChange={handleChange}
                         className={classes.textField}
-                        defaultValue=""
                         InputProps={{
                           className: classes.input,
                         }}

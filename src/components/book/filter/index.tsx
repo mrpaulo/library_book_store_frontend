@@ -167,7 +167,7 @@ const FilterBook: React.FC<Props> = (props) => {
                         isObject
                       />
                     </Grid>
-                    <Grid className="form-grid" container lg={10} md={10} sm={10} xs={10}>                    
+                    <Grid item className="form-grid" container lg={10} md={10} sm={10} xs={10}>                    
                       <Grid item lg={6} md={6} sm={6} xs={6}>
                         <InputLabel className="form-label" >{t("labels.start_date_publish")}</InputLabel>
                         <TextField
@@ -176,7 +176,6 @@ const FilterBook: React.FC<Props> = (props) => {
                           value={values.startDate || ""}
                           onChange={handleChange}
                           className={classes.textFieldDate}
-                          defaultValue=""
                           InputProps={{
                             className: classes.input,
                           }}
@@ -194,7 +193,6 @@ const FilterBook: React.FC<Props> = (props) => {
                           value={values.finalDate || ""}
                           onChange={handleChange}
                           className={classes.textFieldDate}
-                          defaultValue=""
                           InputProps={{
                             className: classes.input,
                           }}

@@ -396,7 +396,6 @@ const EditBook: React.FC<Props> = (props) => {
                         value={values.publishDate || ""}
                         onChange={handleChange}
                         className={classes.textField}
-                        defaultValue=""
                         InputProps={{
                           className: classes.input,
                         }}
