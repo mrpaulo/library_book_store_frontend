@@ -63,9 +63,6 @@ const UserFilter: React.FC<Props> = (props) => {
   const { searchRequest, updateRequestFilter, cleanRequestFilter } = props;
 
   function handleSubmit(values: Filter, actions: any) {
-    console.log('Form submitted!');
-    console.log(values);
-
     actions.setSubmitting(false);
     cleanRequestFilter();
     updateRequestFilter(values);

@@ -65,9 +65,6 @@ const AuthorFilter: React.FC<Props> = (props) => {
   const { searchRequest, updateRequestFilter, cleanRequestFilter } = props;
 
   function handleSubmit(values: Filter, actions: any) {
-    console.log('Form submitted!');
-    console.log(values);
-
     actions.setSubmitting(false);
     cleanRequestFilter();
     updateRequestFilter(values);
@@ -75,7 +72,6 @@ const AuthorFilter: React.FC<Props> = (props) => {
   }
 
   function handleClear() {
-    console.log('clear button');
     cleanRequestFilter();
   }
 
@@ -124,10 +120,9 @@ const AuthorFilter: React.FC<Props> = (props) => {
                         options={SexList}
                         component={CustomSelect}
                         placeholder={t("placeholder.select_sex")}
-                        isMulti={false}
                       />
-                    </Grid>                    
-                    <Grid item className="form-grid" container lg={10} md={10} sm={10} xs={10}>                    
+                    </Grid>
+                    <Grid item className="form-grid" container lg={10} md={10} sm={10} xs={10}>
                       <Grid item lg={6} md={6} sm={6} xs={6}>
                         <InputLabel className="form-label" >{t("labels.start_date_birth")}</InputLabel>
                         <TextField
@@ -163,38 +158,38 @@ const AuthorFilter: React.FC<Props> = (props) => {
                         />
                       </Grid>
                     </Grid>
-                  </Grid>                
-              </CardContent>
-              <Grid item lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>
-                <Grid container justify="flex-end" alignItems="flex-end" >
-                  <Button
-                    className={classes.resetButton}
-                    type="reset"
-                    onClick={handleClear}
-                    disabled={isSubmitting}
-                    color="secondary"
-                    variant="outlined"
-                    startIcon={<ClearIcon />}
-                  >
-                    {t("buttons.clear")}
-                  </Button>
-                  <Button
-                    className={classes.submitButton}
-                    type="submit"
-                    disabled={isSubmitting}
-                    color="primary"
-                    variant="outlined"
-                    startIcon={<SearchIcon />}
-                  >
-                    {t("buttons.search")}
-                  </Button>
+                  </Grid>
+                </CardContent>
+                <Grid item lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>
+                  <Grid container justify="flex-end" alignItems="flex-end" >
+                    <Button
+                      className={classes.resetButton}
+                      type="reset"
+                      onClick={handleClear}
+                      disabled={isSubmitting}
+                      color="secondary"
+                      variant="outlined"
+                      startIcon={<ClearIcon />}
+                    >
+                      {t("buttons.clear")}
+                    </Button>
+                    <Button
+                      className={classes.submitButton}
+                      type="submit"
+                      disabled={isSubmitting}
+                      color="primary"
+                      variant="outlined"
+                      startIcon={<SearchIcon />}
+                    >
+                      {t("buttons.search")}
+                    </Button>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Form>
+              </Form>
             </Card>
-      )
+          )
         }}
-    </Formik>
+      </Formik>
     </>
 
   );

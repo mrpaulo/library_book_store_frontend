@@ -93,9 +93,7 @@ const EditAuthor: React.FC<Props> = (props) => {
       .max(100, t("errors.too_long"))
   });
 
-  useEffect(() => {
-    console.log("Author")
-    console.log(author)
+  useEffect(() => {    
     if (author) {
       author.birthCountryName = author.birthCountry ? author.birthCountry.name : "" ;
       setInitialValues(author);
@@ -212,7 +210,6 @@ const EditAuthor: React.FC<Props> = (props) => {
                         options={SexList}
                         component={CustomSelect}
                         placeholder={t("placeholder.select_sex")}
-                        isMulti={false}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -245,9 +242,8 @@ const EditAuthor: React.FC<Props> = (props) => {
                         component={CustomObjSelect}
                         setValueSelected={getCountrySelected}
                         placeholder={t("placeholder.select_country")}
-                        isMulti={false}
-                        isObject={true}
-                        isAddress={true}
+                        isObject
+                        isAddress
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>

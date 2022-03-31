@@ -87,8 +87,6 @@ const EditPublisher: React.FC<Props> = (props) => {
   });
 
   useEffect(() => {
-    console.log("Publisher")
-    console.log(publisher)
     if (publisher) {
       setInitialValues(publisher);
       setFlagEditing(true);

@@ -63,13 +63,7 @@ const LoginPage: React.FC<Props> = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log("token")
-    console.log(token)
-    console.log("submitted")
-    console.log(submitted)
     if (token && submitted) {
-      console.log("Path no login")
-      console.log(path)
       if (path) {        
         history.push(path as string);
       } else {
@@ -87,9 +81,7 @@ const LoginPage: React.FC<Props> = (props) => {
 
   };
 
-  function handleSubmit(values: Login, actions: any) {
-    console.log('Form submitted!');
-    console.log(values);
+  function handleSubmit(values: Login, actions: any) {    
     loginRequest(values as Login)
     actions.setSubmitting(false);
     setSubmitted(true);

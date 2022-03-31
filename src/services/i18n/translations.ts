@@ -26,7 +26,7 @@ export const en = {
     too_long: "Too long!",
   },
   formats: {
-    date_format: "{{date, YYY-MM-DD}}"
+    date_format: "{{date, YYYY-MM-DD}}"
   },
   labels: {
     address: "Address",
@@ -183,7 +183,7 @@ export const pt = {
     too_long: "Muito longo!",
   },
   formats: {
-    date_format: "{{date, DD-MM-YYYY}}"
+    date_format: "{{date, DD/MM/YYYY}}"
   },
   labels: {
     address: "Endereço",

@@ -143,19 +143,15 @@ const EditBook: React.FC<Props> = (props) => {
     if (authors.length > 0) {
       values.authors = authors;
     }
-    console.log('Form submitted!');
-    console.log(values);
-
+    
     if (flagEditing) {
       updateRequest(values);
-      console.log('Update!');
     } else {
       createRequest(values);
-      console.log('Created!');
     }
   }
+  
   function handleCancel() {
-    console.log('cancel button');
     changeFlagEditing();
     cleanBookEdit();
   }
@@ -300,8 +296,7 @@ const EditBook: React.FC<Props> = (props) => {
                         options={languageList}
                         component={CustomObjSelect}
                         placeholder={t("placeholder.select_language")}
-                        isMulti={false}
-                        isObject={true}
+                        isObject
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -312,8 +307,7 @@ const EditBook: React.FC<Props> = (props) => {
                         options={bookSubjectList}
                         component={CustomObjSelect}
                         placeholder={t("placeholder.select_book_subject")}
-                        isMulti={false}
-                        isObject={true}
+                        isObject
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -324,7 +318,6 @@ const EditBook: React.FC<Props> = (props) => {
                         options={booksFormat}
                         component={CustomSelect}
                         placeholder={t("placeholder.select_book_format")}
-                        isMulti={false}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -335,7 +328,6 @@ const EditBook: React.FC<Props> = (props) => {
                         options={booksCondition}
                         component={CustomSelect}
                         placeholder={t("placeholder.select_book_condition")}
-                        isMulti={false}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>

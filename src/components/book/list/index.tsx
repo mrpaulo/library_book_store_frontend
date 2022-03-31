@@ -152,7 +152,7 @@ const BookList: React.FC<Props> = (props) => {
                           {book.subtitle}
                         </TableCell>
                         <TableCell style={{ width: 160 }} align="right">
-                          {t("formats.date_format", { date: book.publishDate })}
+                          {t("formats.date_format", { date: book.publishDate as Date })}
                           {/* {t("formats.date_format", { date: new Date() })} */}
                         </TableCell>
                         <TableCell style={{ width: 100 }} align="right">

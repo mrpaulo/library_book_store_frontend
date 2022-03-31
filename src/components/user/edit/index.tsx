@@ -93,8 +93,6 @@ const EditUser: React.FC<Props> = (props) => {
   });
 
   useEffect(() => {
-    console.log("User")
-    console.log(user)
     if (user) {
       setInitialValues(user);
       setFlagEditing(true);
@@ -161,7 +159,6 @@ const EditUser: React.FC<Props> = (props) => {
               values.roles = selectedRoles;
             }
             setRoles(values.roles);
-            console.log(rolesList)            
           }
 
           return (

@@ -73,9 +73,6 @@ const FilterBook: React.FC<Props> = (props) => {
   }, []);
 
   function handleSubmit(values: Filter, actions: any) {
-    console.log('Form submitted!');
-    console.log(values);
-
     actions.setSubmitting(false);
     cleanRequestFilter();
     updateRequestFilter(values);
@@ -83,7 +80,6 @@ const FilterBook: React.FC<Props> = (props) => {
   }
   
   function handleClear() {
-    console.log('clear button'); 
     cleanRequestFilter();  
   }
   

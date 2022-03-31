@@ -130,7 +130,7 @@ const PublishersList: React.FC<Props> = (props) => {
                   <TableHead>
                     <TableRow>
                       <StyledTableCell>{t("labels.name")}</StyledTableCell>
-                      <StyledTableCell align="right">{t("labels.cnpj")}</StyledTableCell>
+                      <StyledTableCell align="center">{t("labels.cnpj")}</StyledTableCell>
                       <StyledTableCell align="right">{t("labels.create_date")}</StyledTableCell>                      
                       <StyledTableCell align="right"></StyledTableCell>
                       <StyledTableCell align="right">
@@ -148,7 +148,7 @@ const PublishersList: React.FC<Props> = (props) => {
                         <TableCell style={{ width: 300 }} component="th" scope="row">
                           {publisher.name}
                         </TableCell>
-                        <TableCell style={{ width: 200 }} align="right">
+                        <TableCell style={{ width: 200 }} align="center">
                           {formatCNPJ(publisher.cnpj as string)}
                         </TableCell>
                         <TableCell style={{ width: 160 }} align="right">

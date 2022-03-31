@@ -68,9 +68,7 @@ const ModalAddress: React.FC<Props> = (props) => {
   const [edit, setEdit] = useState(false);
   const [addressId, setAddressId] = useState(0);
 
-  useEffect(() => {
-    console.log("Address")
-    console.log(addressSrc)
+  useEffect(() => {   
     if (addressSrc) {
       setAddressId(addressSrc.id as number);
       setEdit(true);
@@ -113,8 +111,7 @@ const ModalAddress: React.FC<Props> = (props) => {
     }
   }
 
-  const eraseAddress = () => {
-    console.log("deleteAddress")
+  const eraseAddress = () => {    
     if (addressId > 0) {
       deleteByIdAddressRequest(addressId);
     } else {

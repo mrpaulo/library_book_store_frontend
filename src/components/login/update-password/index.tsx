@@ -82,12 +82,12 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
 
   function handleSubmit(values: UpdatePassword, actions: any) {
     if (values.newPassword !== values.repeatPassword) {
+      //TODO: Create a alert modal
       alert("Erro senhas dif");
+      setSubmitted(false);
       return
     }
-    console.log('Form submitted!');
-    console.log(values);
-
+    
     changeUserPasswordRequest(values as UpdatePassword)
 
     actions.setSubmitting(false);

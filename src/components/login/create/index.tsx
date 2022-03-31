@@ -86,11 +86,11 @@ const LoginCreatePage: React.FC<Props> = (props) => {
 
   function handleSubmit(values: NewLogin, actions: any) {
     if (values.password !== values.repeatPassword) {
+      //TODO: Create a alert modal
       alert("Erro senhas dif");
       return
     }
-    console.log('Form submitted!');
-    console.log(values);    
+     
     if (fromModalUser) {
       let newUser: Login = {
         username: values.username,

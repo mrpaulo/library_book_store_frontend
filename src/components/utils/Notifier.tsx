@@ -95,9 +95,7 @@ const Notifier: React.FC<Props> = (props) => {
         setAlertMessage(notification.message);
       setState({ ...state, open: true });
       }
-
-      console.log("Notificator")
-      console.log(notification)
+      
     })
 // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications, remove]);

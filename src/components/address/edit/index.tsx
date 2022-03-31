@@ -101,9 +101,7 @@ const EditAddress: React.FC<Props> = (props) => {
       .max(8, t("errors.too_long")),
   });
 
-  useEffect(() => {
-    console.log("Address")
-    console.log(address)
+  useEffect(() => {    
     if (address) {
       setInitialValues(address);      
       setSubtitle(t("titles.edit_address"))
@@ -111,9 +109,7 @@ const EditAddress: React.FC<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
-  useEffect(() => {
-    console.log("Address")
-    console.log(addressSrc)
+  useEffect(() => {    
     if (addressSrc) {
       if (addressSrc.city) {        
         if (addressSrc.city.state) {
@@ -125,9 +121,7 @@ const EditAddress: React.FC<Props> = (props) => {
           }
           addressSrc.cityName = addressSrc.city.name;
         }
-      }
-      console.log("addressSrc")
-      console.log(addressSrc)
+      }      
       setInitialValues(addressSrc);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -213,7 +207,6 @@ const EditAddress: React.FC<Props> = (props) => {
                         options={logradourosList}
                         component={CustomSelect}
                         placeholder={t("placeholder.select_logradouro")}
-                        isMulti={false}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -327,13 +320,11 @@ const EditAddress: React.FC<Props> = (props) => {
                         className="form-select-field"
                         name="countryName"
                         options={countriesList}
-                        onBlur={(e: any) => console.log("ooosososos" + e)}
                         component={CustomObjSelect}
                         setValueSelected={getCountrySelected}
                         placeholder={t("placeholder.select_country")}
-                        isMulti={false}
-                        isObject={true}
-                        isAddress={true}
+                        isObject
+                        isAddress
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -346,9 +337,8 @@ const EditAddress: React.FC<Props> = (props) => {
                         setValueSelected={getStateSelected}
                         placeholder={t("placeholder.select_state")}
                         disable={countrySelected == null}
-                        isMulti={false}
-                        isObject={true}
-                        isAddress={true}
+                        isObject
+                        isAddress
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -361,9 +351,8 @@ const EditAddress: React.FC<Props> = (props) => {
                         setValueSelected={getCitySelected}
                         placeholder={t("placeholder.select_city")}
                         disable={countrySelected == null && stateSelected == null}
-                        isMulti={false}
-                        isObject={true}
-                        isAddress={true}
+                        isObject
+                        isAddress
                       />
                     </Grid>
                   </Grid>

@@ -42,9 +42,7 @@ type Props = StateProps & DispatchProps
 
 const AppMenu: React.FC<Props> = (props) => {
   const { validToken } = props;
-
-  console.log("Valid Token")
-  console.log(validToken)
+  
   const classes = menuStyles()
 
   function checkRoleClient(visibleToRoles: string[]) {
