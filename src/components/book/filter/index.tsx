@@ -36,6 +36,7 @@ import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } f
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
 import { useStyles } from '../../../styles/Styles';
+import '../../../styles/global.css';
 
 interface StateProps {
   books?: Book[],

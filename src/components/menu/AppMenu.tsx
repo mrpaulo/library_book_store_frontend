@@ -27,10 +27,10 @@ import { ApplicationState } from '../../store'
 import { ValidToken } from '../../store/ducks/authentications/types'
 import AppMenuItem from './AppMenuItem'
 import { menuItems } from './MenuItems'
-import { ROLE_CLIENT } from '../../services/api/constants'
 //Styles
 import { List } from '@material-ui/core'
 import { menuStyles } from '../../styles/Styles'
+import { checkRoles } from '../../services/security/visibleRoles';
 
 interface StateProps {
   validToken?: ValidToken
@@ -45,30 +45,11 @@ const AppMenu: React.FC<Props> = (props) => {
   
   const classes = menuStyles()
 
-  function checkRoleClient(visibleToRoles: string[]) {
-    return visibleToRoles.some(visibleToRole => visibleToRole === ROLE_CLIENT);
-  }
-
-  function checkRoles(visibleToRoles: string[]) {    
-    let visible = false;
-    if (validToken) {
-      if (validToken.authorities && validToken.authorities.length > 0) {
-        visible = visibleToRoles.some(visibleToRole => validToken.authorities.includes(visibleToRole));
-      } else {
-        visible = checkRoleClient(visibleToRoles)
-      }
-    } else {
-      visible = checkRoleClient(visibleToRoles)
-    }
-
-    return visible;
-  }
-
   return (
     <List component="nav" className={classes.appMenu} disablePadding>
       {menuItems.map((item, index) => (
         <div key={index}>
-          {checkRoles(item.visibleToRoles) ?
+          {checkRoles(item.visibleToRoles, validToken) ?
             <AppMenuItem {...item} key={index} /> :
             <></>
           }

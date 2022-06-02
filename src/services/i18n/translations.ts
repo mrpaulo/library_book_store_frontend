@@ -98,7 +98,7 @@ export const en = {
     users: "Users",
   },
   messages: {
-    developed_by: "Developer by", 
+    developed_by: "Developed by", 
     table_all_itens: "All",
     table_confrm_delete: "Are you sure about delete {{name}}?",
     table_displaying_pagers: "Displaying {{from}}-{{to}} of total {{count}} rows",

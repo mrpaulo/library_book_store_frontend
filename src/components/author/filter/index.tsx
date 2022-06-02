@@ -37,6 +37,7 @@ import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SearchIcon from '@material-ui/icons/Search';
+import '../../../styles/global.css';
 
 interface StateProps {
   authors?: Author[]

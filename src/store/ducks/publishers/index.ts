@@ -44,7 +44,13 @@ const reducer: Reducer<PublishersState> = (state = INITIAL_STATE, action) => {
     case Types.DELETE_BY_ID_REQUEST:
       return { ...state, loading: true };
     case Types.DELETE_BY_ID_SUCCESS:
-      return { ...state, loading: false, error: false, publisherData: action.payload.publisherData };    
+      return {
+        ...state,
+        loading: false,
+        publishersData: state.publishersData.filter(
+          (publisher) => publisher.id !== action.payload.data.id
+        )
+      };      
     case Types.CHANGE_FLAG_EDITING:
       return { ...state, flagEditing: !state.flagEditing };
     case Types.CHANGE_FLAG_DETAIL:

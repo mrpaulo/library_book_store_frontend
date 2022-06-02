@@ -45,8 +45,14 @@ const reducer: Reducer<UsersState> = (state = INITIAL_STATE, action) => {
       return { ...state, loading: false, error: false, flagEditing: !state.flagEditing, userData: undefined, createdSuccess: true };
     case Types.DELETE_BY_ID_REQUEST:
       return { ...state, loading: true };
-    case Types.DELETE_BY_ID_SUCCESS:
-      return { ...state, loading: false, error: false, userData: action.payload.userData };
+    case Types.DELETE_BY_ID_SUCCESS:      
+      return {
+        ...state,
+        loading: false,
+        usersData: state.usersData.filter(
+          (user) => user.id !== action.payload.data.id
+        )
+      };
     case Types.CHANGE_FLAG_EDITING:
       return { ...state, flagEditing: !state.flagEditing };
     case Types.CHANGE_FLAG_DETAIL:

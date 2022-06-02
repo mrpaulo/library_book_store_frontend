@@ -86,3 +86,11 @@ footer p {
   text-align: center;
   
 }
+
+/* Remove the date placeholder mm/dd/yyyy */
+input[type="date"]:in-range::-webkit-datetime-edit-year-field,
+input[type="date"]:in-range::-webkit-datetime-edit-month-field,
+input[type="date"]:in-range::-webkit-datetime-edit-day-field,
+input[type="date"]:in-range::-webkit-datetime-edit-text { 
+     	color: transparent; 
+    }
