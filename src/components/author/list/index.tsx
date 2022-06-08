@@ -24,7 +24,8 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as authorsActions from '../../../store/ducks/authors/actions';
 import { ApplicationState } from '../../../store';
 //Types and local components
-import { AuthorDTO, AuthorRequestFilter as Filter} from '../../../store/ducks/authors/types';
+import { AuthorDTO, AuthorRequestFilter as Filter } from '../../../store/ducks/authors/types';
+import { AlertDialog } from '../../utils/AlertDialog';
 //Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -41,7 +42,7 @@ interface StateProps {
   responseTotalRows: number
 }
 
-interface DispatchProps {  
+interface DispatchProps {
   changeFlagEditing(): void,
   changeFlagDetail(): void,
   findByIdRequest(id: number): void
@@ -53,13 +54,16 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps
 
 const AuthorsList: React.FC<Props> = (props) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const { authors, filter, responseTotalRows, searchRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest, updateRequestFilter } = props;
-  const { t } = useTranslation();
   const tooltipTitle = t("tooltip.add_author");
-  
+  const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+  const [contentDeleteConfirm, setContentDeleteConfirm] = useState("");
+  const [idDeleteConfirm, setIdDeleteConfirm] = useState(0);
+
   useEffect(() => {
-    updateRequestFilter({currentPage: 1, rowsPerPage: 10} as Filter);
+    updateRequestFilter({ currentPage: 1, rowsPerPage: 10 } as Filter);
     searchRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -74,13 +78,9 @@ const AuthorsList: React.FC<Props> = (props) => {
   }
 
   function confirmEraseAuthor(id: number, name: String) {
-    if (window.confirm(t("messages.table_confrm_delete", { name }))) {
-      eraseAuthor(id)
-    }
-  }
-
-  function eraseAuthor(id: number) {
-    deleteByIdRequest(id);
+    setOpenDeleteConfirm(true);
+    setContentDeleteConfirm(t("messages.table_confrm_delete", { name }) as string);
+    setIdDeleteConfirm(id);
   }
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -90,9 +90,9 @@ const AuthorsList: React.FC<Props> = (props) => {
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setCurrentPage(newPage);
-        
+
     if (filter) {
-      filter.currentPage = newPage +1;
+      filter.currentPage = newPage + 1;
     }
 
     updateRequestFilter(filter as Filter);
@@ -204,6 +204,19 @@ const AuthorsList: React.FC<Props> = (props) => {
           ))}
         </CardContent>
       </Card>
+      <AlertDialog
+        title={t("messages.action_confirmation")}
+        content={contentDeleteConfirm}
+        agreeBtnLabel={t("buttons.delete")}
+        disagreeBtnLabel={t("buttons.cancel")}
+        isOpen={openDeleteConfirm}
+        setAgreed={() => {
+          deleteByIdRequest(idDeleteConfirm)
+          setOpenDeleteConfirm(false)
+        }
+        }
+        handleClose={() => setOpenDeleteConfirm(false)}
+      />
     </>)
 };
 

@@ -98,6 +98,7 @@ export const en = {
     users: "Users",
   },
   messages: {
+    action_confirmation: "Action confirmation!",
     developed_by: "Developed by", 
     table_all_itens: "All",
     table_confrm_delete: "Are you sure about delete {{name}}?",
@@ -255,6 +256,7 @@ export const pt = {
     users: "Usuários",
   },
   messages: {
+    action_confirmation: "Confirme sua ação!",
     developed_by: "Desenvolvido por",
     table_all_itens: "Todas",
     table_confrm_delete: "Você tem certeza que deseja excluir {{name}}?",

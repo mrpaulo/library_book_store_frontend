@@ -25,6 +25,7 @@ import * as booksActions from '../../../store/ducks/books/actions';
 import { ApplicationState } from '../../../store';
 //Types and local components
 import { Book, BookRequestFilter as Filter } from '../../../store/ducks/books/types';
+import { AlertDialog } from '../../utils/AlertDialog';
 //Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -53,10 +54,13 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps
 
 const BookList: React.FC<Props> = (props) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const { books, filter, responseTotalRows, updateRequestFilter, searchRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
-  const { t } = useTranslation();
   const tooltipTitle = t("tooltip.add_book");
+  const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+  const [contentDeleteConfirm, setContentDeleteConfirm] = useState("");
+  const [idDeleteConfirm, setIdDeleteConfirm] = useState(0);
 
   useEffect(() => {
     updateRequestFilter({currentPage: 1, rowsPerPage: 10} as Filter);
@@ -74,13 +78,9 @@ const BookList: React.FC<Props> = (props) => {
   }
 
   function confirmEraseBook(id: number, title: String) {
-    if (window.confirm(t("messages.table_confrm_delete", { name: title }))) {
-      eraseBook(id);
-    }
-  }
-
-  function eraseBook(id: number) {    
-    deleteByIdRequest(id);    
+    setOpenDeleteConfirm(true);
+    setContentDeleteConfirm(t("messages.table_confrm_delete", { name: title }) as string);
+    setIdDeleteConfirm(id);   
   }
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -208,6 +208,19 @@ const BookList: React.FC<Props> = (props) => {
           ))}
         </CardContent>
       </Card>
+      <AlertDialog
+        title={t("messages.action_confirmation")}
+        content={contentDeleteConfirm}
+        agreeBtnLabel={t("buttons.delete")}
+        disagreeBtnLabel={t("buttons.cancel")}
+        isOpen={openDeleteConfirm}
+        setAgreed={() => {
+          deleteByIdRequest(idDeleteConfirm)
+          setOpenDeleteConfirm(false)
+        }
+        }
+        handleClose={() => setOpenDeleteConfirm(false)}
+      />
     </>)
 };
 

@@ -26,6 +26,7 @@ import { ApplicationState } from '../../../store';
 //Types and local components
 import {  PublisherDTO, PublisherRequestFilter as Filter } from '../../../store/ducks/publishers/types';
 import { formatCNPJ } from '../../utils/formatUtil';
+import { AlertDialog } from '../../utils/AlertDialog';
 //Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -54,10 +55,13 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps
 
 const PublishersList: React.FC<Props> = (props) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const { publishers, filter, responseTotalRows, updateRequestFilter, searchRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
-  const { t } = useTranslation();
   const tooltipTitle = t("tooltip.add_publisher");
+  const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+  const [contentDeleteConfirm, setContentDeleteConfirm] = useState("");
+  const [idDeleteConfirm, setIdDeleteConfirm] = useState(0);
 
   useEffect(() => {
     updateRequestFilter({currentPage: 1, rowsPerPage: 10} as Filter);
@@ -74,14 +78,10 @@ const PublishersList: React.FC<Props> = (props) => {
     changeFlagEditing();
   }
 
-  function confirmErasePublisher(id: number, name: String) {
-    if (window.confirm(t("messages.table_confrm_delete", { name }))) {
-      erasePublisher(id)
-    }
-  }
-
-  function erasePublisher(id: number) {
-    deleteByIdRequest(id); 
+  function confirmErasePublisher(id: number, name: String) {    
+    setOpenDeleteConfirm(true);
+    setContentDeleteConfirm(t("messages.table_confrm_delete", { name }) as string);
+    setIdDeleteConfirm(id);
   }
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -205,6 +205,19 @@ const PublishersList: React.FC<Props> = (props) => {
           ))}
         </CardContent>
       </Card>
+      <AlertDialog
+        title={t("messages.action_confirmation")}
+        content={contentDeleteConfirm}
+        agreeBtnLabel={t("buttons.delete")}
+        disagreeBtnLabel={t("buttons.cancel")}
+        isOpen={openDeleteConfirm}
+        setAgreed={() => {
+          deleteByIdRequest(idDeleteConfirm)
+          setOpenDeleteConfirm(false)
+        }
+        }
+        handleClose={() => setOpenDeleteConfirm(false)}
+      />
     </>)
 };
 
