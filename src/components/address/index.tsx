@@ -106,7 +106,7 @@ const ModalAddress: React.FC<Props> = (props) => {
 
   function confirmEraseAddress() {
     let addressLabel = t("tooltip.address")
-    if (window.confirm(t("messages.table_confrm_delete", { name: addressLabel }))) {
+    if (window.confirm(t("messages.table_confirm_delete", { name: addressLabel }))) {
       eraseAddress();
     }
   }

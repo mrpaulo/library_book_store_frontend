@@ -59,8 +59,8 @@ const BookList: React.FC<Props> = (props) => {
   const { books, filter, responseTotalRows, updateRequestFilter, searchRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
   const tooltipTitle = t("tooltip.add_book");
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
-  const [contentDeleteConfirm, setContentDeleteConfirm] = useState("");
-  const [idDeleteConfirm, setIdDeleteConfirm] = useState(0);
+  const [msgConfirmDelete, setMsgConfirmDelete] = useState("");
+  const [idToDelete, setIdToDelete] = useState(0);
 
   useEffect(() => {
     updateRequestFilter({currentPage: 1, rowsPerPage: 10} as Filter);
@@ -79,8 +79,8 @@ const BookList: React.FC<Props> = (props) => {
 
   function confirmEraseBook(id: number, title: String) {
     setOpenDeleteConfirm(true);
-    setContentDeleteConfirm(t("messages.table_confrm_delete", { name: title }) as string);
-    setIdDeleteConfirm(id);   
+    setMsgConfirmDelete(t("messages.table_confirm_delete", { name: title }) as string);
+    setIdToDelete(id);   
   }
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -210,12 +210,12 @@ const BookList: React.FC<Props> = (props) => {
       </Card>
       <AlertDialog
         title={t("messages.action_confirmation")}
-        content={contentDeleteConfirm}
+        content={msgConfirmDelete}
         agreeBtnLabel={t("buttons.delete")}
         disagreeBtnLabel={t("buttons.cancel")}
         isOpen={openDeleteConfirm}
         setAgreed={() => {
-          deleteByIdRequest(idDeleteConfirm)
+          deleteByIdRequest(idToDelete)
           setOpenDeleteConfirm(false)
         }
         }
