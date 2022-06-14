@@ -1,6 +1,6 @@
 import { all, call, put,  } from 'redux-saga/effects';
 import * as Eff from 'redux-saga/effects' 
-import api from '../../../services/api/api';
+import {apiBasic, apiBearer, getBearerHeader } from '../../../services/api/api';
 
 import {   
   deleteByIdAddressSuccess, 
@@ -17,7 +17,7 @@ const ADDRESSES_V1 =  'v1/addresses';
 function* deleteById (action: any): Generator<any, any, any>{
   const id:number = action.payload.id;
   try {
-    const reponse = yield call(api.delete, `${ADDRESSES_V1}/${id}`);
+    const reponse = yield call(apiBearer.delete, `${ADDRESSES_V1}/${id}`, getBearerHeader());
 
     yield put(deleteByIdAddressSuccess(reponse.data));
     yield put(notifierEnqueue({ message: "notifications.deleted" }));    
@@ -31,7 +31,7 @@ function* deleteById (action: any): Generator<any, any, any>{
 function* getAllLogradouros(): Generator<any, any, any> {
   
    try {
-     const reponse = yield call(api.get, `${ADDRESSES_V1}/logradouros`);
+     const reponse = yield call(apiBasic.get, `${ADDRESSES_V1}/logradouros`);
  
      yield put(logradouroSuccess(reponse.data));    
    } catch (error) {
@@ -42,7 +42,7 @@ function* getAllLogradouros(): Generator<any, any, any> {
 function* getAllCoutries(): Generator<any, any, any> {
   
    try {
-     const reponse = yield call(api.get, `${ADDRESSES_V1}/countries`);
+     const reponse = yield call(apiBasic.get, `${ADDRESSES_V1}/countries`);
  
      yield put(countrySuccess(reponse.data));    
    } catch (error) {
@@ -53,7 +53,7 @@ function* getAllCoutries(): Generator<any, any, any> {
  function* getAllStates(action: any): Generator<any, any, any> {
   const country:number = action.payload.countryId;
    try {
-     const reponse = yield call(api.get, `${ADDRESSES_V1}/${country}/states`);
+     const reponse = yield call(apiBasic.get, `${ADDRESSES_V1}/${country}/states`);
  
      yield put(stateSuccess(reponse.data));    
    } catch (error) {
@@ -65,7 +65,7 @@ function* getAllCoutries(): Generator<any, any, any> {
   const country:number = action.payload.countryId;
   const state:number = action.payload.stateId;
    try {
-     const reponse = yield call(api.get, `${ADDRESSES_V1}/${country}/${state}/cities`);
+     const reponse = yield call(apiBasic.get, `${ADDRESSES_V1}/${country}/${state}/cities`);
  
      yield put(citySuccess(reponse.data));    
    } catch (error) {

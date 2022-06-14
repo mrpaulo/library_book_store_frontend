@@ -1,20 +1,42 @@
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+//Actions and store
 import { ApplicationState } from '../../../store';
-
 import * as booksActions from '../../../store/ducks/books/actions';
-import { Book, BookFilter, BookSubject } from '../../../store/ducks/books/types';
+//Types and local components
+import { Book, BookRequestFilter as Filter, BookSubject } from '../../../store/ducks/books/types';
 import CustomObjSelect from '../../utils/CustomObjSelect';
-
+//Third party
 import { Formik, Form, FormikProps, Field } from 'formik';
+//Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
-
+//Style
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
 import { useStyles } from '../../../styles/Styles';
+import '../../../styles/global.css';
 
 interface StateProps {
   books?: Book[],
@@ -22,13 +44,15 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  searchRequest(filter: BookFilter): void
+  searchRequest(): void
   bookSubjectRequest(): void  
+  updateRequestFilter(requestFilter: Filter): void
+  cleanRequestFilter(): void
 }
 
 type Props = StateProps & DispatchProps
 
-const INITIAL_VALUES: BookFilter = {
+const INITIAL_VALUES: Filter = {
   rowsPerPage: 10,
   currentPage: 1,
   title: '',
@@ -42,21 +66,22 @@ const INITIAL_VALUES: BookFilter = {
 const FilterBook: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();  
-  const { searchRequest, bookSubjectRequest, bookSubjectList } = props;
+  const { bookSubjectList, searchRequest, bookSubjectRequest,  updateRequestFilter, cleanRequestFilter } = props;
 
   useEffect(() => {
     bookSubjectRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function handleSubmit(values: BookFilter, actions: any) {
-    console.log('Form submitted!');
-    console.log(values);
-
+  function handleSubmit(values: Filter, actions: any) {
     actions.setSubmitting(false);
-    searchRequest(values);
+    cleanRequestFilter();
+    updateRequestFilter(values);
+    searchRequest();
   }
+  
   function handleClear() {
-    console.log('clear button');   
+    cleanRequestFilter();  
   }
   
   return (
@@ -65,12 +90,14 @@ const FilterBook: React.FC<Props> = (props) => {
         onSubmit={handleSubmit}
         initialValues={INITIAL_VALUES}
         className={classes.root}
+        
       >
-        {(props: FormikProps<BookFilter>) => {
+        {(props: FormikProps<Filter>) => {
           const {
             values,          
             handleChange,
             isSubmitting,
+            resetForm            
           } = props
           return (
             <Card className={classes.root}>
@@ -87,7 +114,7 @@ const FilterBook: React.FC<Props> = (props) => {
                         name="title"
                         type="text"
                         placeholder=""
-                        value={values.title}
+                        value={values.title || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -102,7 +129,7 @@ const FilterBook: React.FC<Props> = (props) => {
                         name="author"
                         type="text"
                         placeholder=""
-                        value={values.author}
+                        value={values.author || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -117,7 +144,7 @@ const FilterBook: React.FC<Props> = (props) => {
                         name="publisher"
                         type="text"
                         placeholder=""
-                        value={values.publisher}
+                        value={values.publisher || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -133,10 +160,45 @@ const FilterBook: React.FC<Props> = (props) => {
                         name="subjectName"
                         options={bookSubjectList}
                         component={CustomObjSelect}
-                        placeholder={t("placeholder.select_book_subject")}
-                        isMulti={false}
-                        isObject={true}
+                        placeholder={t("placeholder.select_book_subject")}                        
+                        isObject
                       />
+                    </Grid>
+                    <Grid item className="form-grid" container lg={10} md={10} sm={10} xs={10}>                    
+                      <Grid item lg={6} md={6} sm={6} xs={6}>
+                        <InputLabel className="form-label" >{t("labels.start_date_publish")}</InputLabel>
+                        <TextField
+                          name="startDate"
+                          type="date"
+                          value={values.startDate || ""}
+                          onChange={handleChange}
+                          className={classes.textFieldDate}
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item lg={6} md={6} sm={6} xs={6}>
+                        <InputLabel className="form-label" >{t("labels.final_date")}</InputLabel>
+                        <TextField
+                          name="finalDate"
+                          type="date"
+                          value={values.finalDate || ""}
+                          onChange={handleChange}
+                          className={classes.textFieldDate}
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                        />
+                      </Grid>
                     </Grid>
                   </Grid>
                 </CardContent>
@@ -145,7 +207,11 @@ const FilterBook: React.FC<Props> = (props) => {
                     <Button
                       className={classes.resetButton}
                       type="reset"
-                      onClick={handleClear}
+                      onClick={
+                        () => {
+                          resetForm()
+                          handleClear()
+                        }}
                       disabled={isSubmitting}
                       color="secondary"
                       variant="outlined"

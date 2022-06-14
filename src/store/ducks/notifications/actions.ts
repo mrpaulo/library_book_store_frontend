@@ -12,8 +12,7 @@ export const enqueue = (notificationData: any) => {
     dismissed: false,
     position: 'bottom'
   };
-  console.log("notification actions:")
-  console.log(notificationData)
+  
   return action(NotificationsTypes.ENQUEUE, { notification });
 }
 
@@ -25,7 +24,7 @@ export const enqueueError = (notificationData: any) => {
 
   if (notificationData && notificationData.response && notificationData.response.data) {
     let error = notificationData.response.data;
-    message = error.error;
+    message = getErrorMessage(error)
     code = error.status;  
     date = error.timestamp;
   }
@@ -38,10 +37,18 @@ export const enqueueError = (notificationData: any) => {
       dismissed: false,
       position: 'bottom'
     };
-  
-    console.log("notification actions:")
-    console.log(notificationData)
+      
     return action(NotificationsTypes.ENQUEUE, { notification });
   }
   export const close = (key: number, dismissAll: boolean) => action(NotificationsTypes.CLOSE, { key, dismissAll });
   export const remove = (key: number,) => action(NotificationsTypes.REMOVE, { key });
+
+  function getErrorMessage(error: any){
+    if(error.message){
+      return error.message
+    }
+    if(error.error_description){
+      return error.error_description
+    }
+    return error.error
+  }

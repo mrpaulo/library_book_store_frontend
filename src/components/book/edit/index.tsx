@@ -1,23 +1,44 @@
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { ApplicationState } from '../../../store';
-
+//Actions and store
 import * as booksActions from '../../../store/ducks/books/actions';
+import { ApplicationState } from '../../../store';
+//Types and local components
 import { Book, BookLanguage, BookSubject } from '../../../store/ducks/books/types';
 import AutoCompleteAuthor from '../../utils/AutoCompleteAuthor';
-import AutoCompleteCompany from '../../utils/AutoCompleteCompany';
+import AutoCompletePublisher from '../../utils/AutoCompletePublisher';
 import CustomObjSelect from '../../utils/CustomObjSelect';
 import CustomSelect from '../../utils/CustomSelect';
-import { CompanyDTO } from '../../../store/ducks/companies/types';
+import { PublisherDTO } from '../../../store/ducks/publishers/types';
 import { CustomEnum } from '../../utils/constants';
-import { PersonDTO } from '../../../store/ducks/people/types';
-
+import { AuthorDTO } from '../../../store/ducks/authors/types';
+//Third party
 import { Formik, Form, FormikProps, Field } from 'formik';
 import * as Yup from 'yup';
+//Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
-
+//Style
 import '../../../styles/global.css';
 import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
@@ -65,15 +86,15 @@ const INITIAL_VALUES: Book = {
   length: 0,
 };
 
-const EditBook: React.FC<Props> = (props) => {  
+const EditBook: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { t } = useTranslation();  
+  const { t } = useTranslation();
   const { book, booksFormat, booksCondition, bookSubjectList, languageList, changeFlagEditing, cleanBookEdit, createRequest, updateRequest, bookFormatRequest, bookConditionRequest, bookSubjectRequest, bookLanguageRequest } = props;
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const [flagEditing, setFlagEditing] = useState(false);
   const [subtitle, setSubtitle] = useState(t("titles.submit_book"));
-  const [publisher, setPublisher] = useState<CompanyDTO | null>(null);
-  const [authors, setAuthors] = useState<PersonDTO[]>([]);
+  const [publisher, setPublisher] = useState<PublisherDTO | null>(null);
+  const [authors, setAuthors] = useState<AuthorDTO[]>([]);
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()
@@ -95,12 +116,13 @@ const EditBook: React.FC<Props> = (props) => {
     if (book) {
       book.subjectName = book.subject ? book.subject.name : "";
       book.languageName = book.language ? book.language.name : "";
-      setAuthors(book.authors as PersonDTO[]);
-      setPublisher(book.publisher as CompanyDTO);
+      setAuthors(book.authors as AuthorDTO[]);
+      setPublisher(book.publisher as PublisherDTO);
       setInitialValues(book);
       setFlagEditing(true);
       setSubtitle(t("titles.edit_book"))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [book]);
 
   useEffect(() => {
@@ -108,6 +130,7 @@ const EditBook: React.FC<Props> = (props) => {
     bookFormatRequest();
     bookSubjectRequest();
     bookLanguageRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleSubmit(values: Book, actions: any) {
@@ -120,19 +143,15 @@ const EditBook: React.FC<Props> = (props) => {
     if (authors.length > 0) {
       values.authors = authors;
     }
-    console.log('Form submitted!');
-    console.log(values);
-
+    
     if (flagEditing) {
       updateRequest(values);
-      console.log('Update!');
     } else {
       createRequest(values);
-      console.log('Created!');
     }
   }
+  
   function handleCancel() {
-    console.log('cancel button');
     changeFlagEditing();
     cleanBookEdit();
   }
@@ -152,16 +171,16 @@ const EditBook: React.FC<Props> = (props) => {
             handleChange,
             isSubmitting,
           } = props
-         
-          const getPublisherSelected = (company: CompanyDTO) => {            
-            values.publisher = company;   
-            setPublisher(company);
+
+          const getPublisherSelected = (publisher: PublisherDTO) => {
+            values.publisher = publisher;
+            setPublisher(publisher);
           }
-        
-          const getAuthorsSelected = (authors: PersonDTO[]) => {
-            values.authors = authors;       
-            setAuthors(authors) ;
-          }          
+
+          const getAuthorsSelected = (authors: AuthorDTO[]) => {
+            values.authors = authors;
+            setAuthors(authors);
+          }
 
           return (
             <Card className={classes.root}>
@@ -178,7 +197,7 @@ const EditBook: React.FC<Props> = (props) => {
                         name="title"
                         type="text"
                         placeholder=""
-                        value={values.title}
+                        value={values.title || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -199,7 +218,7 @@ const EditBook: React.FC<Props> = (props) => {
                         name="subtitle"
                         type="text"
                         placeholder=""
-                        value={values.subtitle}
+                        value={values.subtitle || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -237,7 +256,7 @@ const EditBook: React.FC<Props> = (props) => {
                         className="form-select-field"
                         name="publisher"
                         valueSelected={publisher}
-                        component={AutoCompleteCompany}
+                        component={AutoCompletePublisher}
                         onChange={handleChange}
                         publisherSelected={getPublisherSelected}
                         helperText={errors.publisher}
@@ -254,7 +273,7 @@ const EditBook: React.FC<Props> = (props) => {
                         name="review"
                         type="text"
                         placeholder=""
-                        value={values.review}
+                        value={values.review || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -277,8 +296,7 @@ const EditBook: React.FC<Props> = (props) => {
                         options={languageList}
                         component={CustomObjSelect}
                         placeholder={t("placeholder.select_language")}
-                        isMulti={false}
-                        isObject={true}
+                        isObject
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -289,8 +307,7 @@ const EditBook: React.FC<Props> = (props) => {
                         options={bookSubjectList}
                         component={CustomObjSelect}
                         placeholder={t("placeholder.select_book_subject")}
-                        isMulti={false}
-                        isObject={true}
+                        isObject
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -301,7 +318,6 @@ const EditBook: React.FC<Props> = (props) => {
                         options={booksFormat}
                         component={CustomSelect}
                         placeholder={t("placeholder.select_book_format")}
-                        isMulti={false}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -312,7 +328,6 @@ const EditBook: React.FC<Props> = (props) => {
                         options={booksCondition}
                         component={CustomSelect}
                         placeholder={t("placeholder.select_book_condition")}
-                        isMulti={false}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
@@ -321,7 +336,7 @@ const EditBook: React.FC<Props> = (props) => {
                         name="link"
                         type="text"
                         placeholder=""
-                        value={values.link}
+                        value={values.link || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -342,7 +357,7 @@ const EditBook: React.FC<Props> = (props) => {
                         name="edition"
                         type="number"
                         placeholder=""
-                        value={values.edition}
+                        value={values.edition || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -356,7 +371,7 @@ const EditBook: React.FC<Props> = (props) => {
                       <TextField
                         name="length"
                         type="number"
-                        value={values.length}
+                        value={values.length || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
@@ -370,10 +385,9 @@ const EditBook: React.FC<Props> = (props) => {
                       <TextField
                         name="publishDate"
                         type="date"
-                        value={values.publishDate}
+                        value={values.publishDate || ""}
                         onChange={handleChange}
                         className={classes.textField}
-                        defaultValue=""
                         InputProps={{
                           className: classes.input,
                         }}

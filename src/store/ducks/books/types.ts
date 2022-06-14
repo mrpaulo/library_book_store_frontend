@@ -1,7 +1,7 @@
 import { CustomEnum } from "../../../components/utils/constants";
 import { PageableFilter } from "../../../components/utils/PageableFilter";
-import { CompanyDTO } from "../companies/types";
-import { PersonDTO } from "../people/types";
+import { PublisherDTO } from "../publishers/types";
+import { AuthorDTO } from "../authors/types";
 
 /**
 * Action types 
@@ -39,7 +39,11 @@ export enum BooksTypes {
 
   CHANGE_FLAG_EDITING = '@books/CHANGE_FLAG_EDITING',
   CHANGE_FLAG_DETAIL = '@books/CHANGE_FLAG_DETAIL',
-  CLEAN_BOOK_EDIT = '@books/CLEAN_BOOK_EDIT'  
+  CLEAN_BOOK_EDIT = '@books/CLEAN_BOOK_EDIT',
+
+  UPDATE_FILTER= '@books/UPDATE_FILTER',
+  CLEAN_FILTER= '@books/CLEAN_FILTER',
+  UPDATE_RESPONSE_TOTAL_ROWS= '@books/UPDATE_RESPONSE_TOTAL_ROWS' 
 };
 /**
  * Data types
@@ -47,10 +51,10 @@ export enum BooksTypes {
 export interface Book {
   id: number,
   title: String,
-  authors?: PersonDTO[],
+  authors?: AuthorDTO[],
   languageName?: String,
   language?: BookLanguage,
-  publisher?: CompanyDTO,
+  publisher?: PublisherDTO,
   subject?: BookSubject,
   subjectName?: String,
   subtitle?: String,
@@ -64,7 +68,7 @@ export interface Book {
   length?: Number,
 }
 
-export interface BookFilter extends PageableFilter{  
+export interface BookRequestFilter extends PageableFilter{  
   title: String,
   author?: String,  
   publisher?: String,
@@ -96,4 +100,6 @@ export interface BooksState {
   readonly booksConditionData: CustomEnum[],
   readonly bookSubjectListData: BookSubject[],
   readonly languageListData: BookLanguage[],
+  readonly requestFilter?: BookRequestFilter
+  readonly responseTotalRows: number
 }

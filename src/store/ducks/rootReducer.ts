@@ -1,14 +1,18 @@
 import {combineReducers} from 'redux';
 import addresses from './addresses';
+import authentications from './authentications';
+import authors from './authors';
 import books from './books';
-import companies from './companies';
 import notifications from './notifications';
-import people from './people';
+import publishers from './publishers';
+import users from './users';
 
 export default combineReducers({
   addresses,
+  authentications,
+  authors,
   books,
-  companies,
   notifications,
-  people
+  publishers,
+  users,
 });

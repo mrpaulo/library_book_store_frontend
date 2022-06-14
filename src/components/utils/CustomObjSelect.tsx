@@ -1,7 +1,26 @@
-import { FieldProps } from "formik";
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
 import React from "react";
-import Select from "react-select";
-import { OptionsType, ValueType } from "react-select";
+import Select, { OptionsType, ValueType } from "react-select";
+//Third party
+import { FieldProps } from "formik";
 
 interface Option {
   name: string;
@@ -28,11 +47,12 @@ export const CustomObjSelect = ({
   isAddress,
   setValueSelected
 }: CustomObjSelectProps) => {
+
   const onChange = (option: ValueType<Option | Option[],  boolean>) => {
     form.setFieldValue(
       field.name,
       isMulti
-        ? (option as Option[]).map((item: Option) => item.name)
+        ? (option as Option[]).map((item: Option) => item)
         : (option as Option).name
     );
     if(isAddress){
@@ -41,9 +61,12 @@ export const CustomObjSelect = ({
   };
 
   const getValue = () => {
-    if (options) {
+    if (options) {            
       return isMulti
-        ? options.filter(option => field.value.indexOf(option.name) >= 0)
+      //mudei de  field.value.indexOf(option.name)
+        ? (field.value ? options.filter(option => field.value.find((valueItem: { name: string; }) => {
+          return valueItem.name === option.name;
+        })) : [])
         : options.find(option => option.name === field.value);
     } else {
       return isMulti ? [] : ("" as any);
@@ -51,6 +74,8 @@ export const CustomObjSelect = ({
   };
 
   return (
+    <>
+    {/**console.log(options)*/}
     <Select
       className={className}
       name={field.name}
@@ -59,8 +84,9 @@ export const CustomObjSelect = ({
       placeholder={placeholder}
       options={options}
       isMulti={isMulti}
-      getOptionLabel ={(option)=>option.name}
+      getOptionLabel ={(option)=>option.name}      
     />
+    </>
   );
 };
 

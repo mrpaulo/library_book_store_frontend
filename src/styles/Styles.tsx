@@ -9,6 +9,11 @@ export const pageMenuStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  menuBarButton: {
+    marginRight: theme.spacing(2),
+    border: 'none',
+    width: '100%'
+  },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
@@ -85,10 +90,18 @@ export const useStyles = makeStyles({
     marginTop: 0,
     fontWeight: 300
   },
+  textFieldDate: {
+    width: '80%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    paddingBottom: 0,
+    marginTop: 0,
+    fontWeight: 300
+  },
   input: {
     marginBottom: '2%',
     height: '2.5em'
-  },
+  }, 
   table: {
     width: '82%',    
   },
@@ -99,6 +112,12 @@ export const useStyles = makeStyles({
   resetButton: {
     marginLeft: '10px',
     marginBottom: '20px'
+  },
+  closeModalButton: {
+    position: 'absolute',
+    right: '10px',
+    top: '10px',
+    color: 'grey',
   }
 });
 
@@ -136,3 +155,25 @@ export const modalStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+
+export const footerStyles = makeStyles(theme =>
+  createStyles({
+    box: {
+      display: 'block',
+      position: 'absolute',
+      width: '100%',
+      bottom: 0,
+      padding: '80px 60px',
+      background: 'black',
+    },
+    navList: {
+      width: drawerWidth,
+    },
+    menuItem: {
+      width: drawerWidth,
+    },
+    menuItemIcon: {
+      color: '#97c05c',
+    },
+  }),
+)

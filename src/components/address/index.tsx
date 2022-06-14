@@ -1,22 +1,41 @@
+/**
+ * Copyright (C) 2021 paulo.rodrigues
+ * Profile: <https://github.com/mrpaulo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//React
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { ApplicationState } from '../../store';
-
+//Actions and store
 import * as addressesActions from '../../store/ducks/addresses/actions';
+import { ApplicationState } from '../../store';
+//Types and local components
 import { Address } from '../../store/ducks/addresses/types';
-
-import '../../styles/global.css';
-import { modalStyles, useStyles } from '../../styles/Styles';
-import { TextField, InputAdornment, IconButton } from '@material-ui/core';
-
-import Modal from '@material-ui/core/Modal';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
 import EditAddress from '../address/edit'
-import DeleteIcon from '@material-ui/icons/Delete';
+//Translation
 import { useTranslation } from 'react-i18next';
 import "../../services/i18n/i18n";
+//Style
+import '../../styles/global.css';
+import { modalStyles, useStyles } from '../../styles/Styles';
+import { TextField, InputAdornment, IconButton, Modal } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 function getModalStyle() {
   return {
@@ -27,8 +46,7 @@ function getModalStyle() {
 }
 
 interface StateProps {
-  addressSrc?: Address
-  typeSrc?: String,
+  addressSrc?: Address  
   name?: String
 }
 
@@ -43,26 +61,23 @@ const ModalAddress: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const classes = modalStyles();
   const defaulStyle = useStyles();
-  const { addressSrc, typeSrc, name, addressSetup, deleteByIdAddressRequest } = props;
+  const { addressSrc, name, addressSetup, deleteByIdAddressRequest } = props;
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
   const [fmtAddress, setFmtAddress] = useState("");
-  const [address, setAddress] = useState<Address | null>(null);
   const [edit, setEdit] = useState(false);
   const [addressId, setAddressId] = useState(0);
 
-  useEffect(() => {
-    console.log("Address")
-    console.log(addressSrc)
+  useEffect(() => {   
     if (addressSrc) {
       setAddressId(addressSrc.id as number);
       setEdit(true);
       setFmtAddress(formatAddress(addressSrc))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addressSrc]);
 
   const handleAddress = (addressPar: Address) => {
-    setAddress(addressPar);
     addressSetup(addressPar);
     setFmtAddress(formatAddress(addressPar));
     setEdit(true);
@@ -91,17 +106,15 @@ const ModalAddress: React.FC<Props> = (props) => {
 
   function confirmEraseAddress() {
     let addressLabel = t("tooltip.address")
-    if (window.confirm(t("messages.table_confrm_delete", { name: addressLabel }))) {
+    if (window.confirm(t("messages.table_confirm_delete", { name: addressLabel }))) {
       eraseAddress();
     }
   }
 
-  const eraseAddress = () => {
-    console.log("deleteAddress")
+  const eraseAddress = () => {    
     if (addressId > 0) {
       deleteByIdAddressRequest(addressId);
     } else {
-      setAddress(null);
       setFmtAddress("");
       setEdit(false);
     }    

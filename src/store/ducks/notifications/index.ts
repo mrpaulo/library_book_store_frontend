@@ -10,8 +10,7 @@ const reducer: Reducer<NotificationsState> = (state = INITIAL_STATE, action) => 
   switch (action.type) {
     case NotificationsTypes.ENQUEUE:
       var notificationData = action.payload.notification;
-      console.log("notification index")
-      console.log(notificationData)      
+      
       return {
         ...state,
         notificationsData: [
