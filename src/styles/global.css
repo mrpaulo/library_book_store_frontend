@@ -3,71 +3,21 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Fixed select field large than the text fields */
 .form-select-field{
   font-weight: 500;
   width: 90%;
   margin-bottom: 2%;
-  font: icon;
-  
+  font: icon;  
 }
-.css-2613qy-menu{  
-  position: fixed;
-}
+
+/* To center tables */
 .MuiTableContainer-root {  
   display: flex;
   justify-content: space-around;
   overflow-x: auto;
   padding-bottom: 60px;
-}
-.MuiOutlinedInput-input {
-  padding: 8.5px 14px;
-}
-.MuiFormHelperText-root {
-  color: rgb(255 0 0 / 54%) !important;
-}
-
-.menu-container {
-  position: relative;
-}
-
-.menu {
-  background: #ffffff;
-  border-radius: 8px;
-  position: absolute;
-  top: 60px;
-  right: 0;
-  width: 300px;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-20px);
-  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-}
-
-.menu.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.menu li {
-  border-bottom: 1px solid #dddddd;
-}
-
-.menu li p {
-  text-decoration: none;
-  color: #333333;
-  padding: 15px 20px;
-  display: block;
-  text-transform: uppercase;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  text-align: center;
 }
 
 footer {
@@ -83,8 +33,7 @@ footer h3 {
 
 footer p {
   color: white;
-  text-align: center;
-  
+  text-align: center;  
 }
 
 /* Remove the date placeholder mm/dd/yyyy */
@@ -92,5 +41,5 @@ input[type="date"]:in-range::-webkit-datetime-edit-year-field,
 input[type="date"]:in-range::-webkit-datetime-edit-month-field,
 input[type="date"]:in-range::-webkit-datetime-edit-day-field,
 input[type="date"]:in-range::-webkit-datetime-edit-text { 
-     	color: transparent; 
-    }
+  color: transparent; 
+}
