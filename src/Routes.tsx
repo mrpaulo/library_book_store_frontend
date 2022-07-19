@@ -38,6 +38,7 @@ import Notifier from './components/utils/Notifier';
 import PrivateRoute from './services/security/privateRoute';
 import HomePage from './components/home';
 import AboutPage from './components/about';
+import './styles/global.css';
 
 const Routes: React.FC = () => {
   const classes = pageMenuStyles()
@@ -49,7 +50,7 @@ const Routes: React.FC = () => {
         <Drawer
           variant="permanent"
           classes={{
-            paper: classes.drawerPaper,
+            paper: 'drawerPaper-5'//classes.drawerPaper
           }}
         >
           <AppMenu />

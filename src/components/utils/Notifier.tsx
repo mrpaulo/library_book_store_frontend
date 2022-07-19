@@ -54,7 +54,6 @@ const Notifier: React.FC<Props> = (props) => {
   const [alertMessage, setAlertMessage] = useState<string>("");
   const [alertSeverity, setAlertSeverity] = useState<Color>('success');
   const [duration, setDuration] = useState<number>(5000);
-  const [isError, setIsError] = useState<boolean>(false);
 
   const [state, setState] = useState<StateSnack>({
     open: false,
@@ -89,13 +88,13 @@ const Notifier: React.FC<Props> = (props) => {
           case NotificationTypesEnums.ERROR:
             setAlertSeverity('error');
             setAlertTitle(t('notifications.error'));
-            setDuration(8000);
-            setIsError(true)
+            setDuration(8000);            
             break
           default:
         }
+        
         setAlertMessage(notification.message);
-      setState({ ...state, open: true });
+        setState({ ...state, open: true });
       }
       
     })
@@ -124,7 +123,7 @@ const Notifier: React.FC<Props> = (props) => {
       >
         <Alert variant="filled" onClose={handleClose} severity={alertSeverity}>
           <AlertTitle>{alertTitle}</AlertTitle>
-          {isError ? alertMessage : t(alertMessage)}
+          {alertMessage.startsWith('notifications') ? t(alertMessage) : alertMessage}
         </Alert>
       </Snackbar>
     </>);

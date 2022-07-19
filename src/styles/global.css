@@ -95,3 +95,14 @@ input[type="date"]:in-range::-webkit-datetime-edit-day-field,
 input[type="date"]:in-range::-webkit-datetime-edit-text { 
   color: transparent; 
 }
+
+/* To apply main menu style on Prod */
+.drawerPaper-5 {
+  color: #fff !important;
+  width: 240px;
+  position: relative !important;
+  background: #535454 !important;
+  padding-top: 32px;
+  white-space: nowrap;
+  padding-bottom: 32px;
+}

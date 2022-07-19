@@ -66,7 +66,7 @@ function* findByName(action: any): Generator<any, any, any> {
 function* deleteById (action: any): Generator<any, any, any>{
   const id:number = action.payload.id;
   try {
-    const reponse = yield call(apiBearer.delete, `${PUBLISHERS_V1}/${id}`, getBearerHeader());
+    const reponse = yield call(apiBearer.delete, `${PUBLISHERS_V1}/${id}` );
 
     yield put(deleteByIdSuccess(reponse.data));
     yield put(notifierEnqueue({ message: "notifications.deleted" }));   
@@ -91,7 +91,7 @@ function* create(action: any): Generator<any, any, any> {
 function* update(action: any): Generator<any, any, any>  {
   const publisher: Publisher = action.payload.publisher;
   try {
-    const reponse = yield call(apiBearer.put, `${PUBLISHERS_V1}/${publisher.id}`, publisher);
+    const reponse = yield call(apiBearer.put, `${PUBLISHERS_V1}/${publisher.id}`, publisher, getBearerHeader());
 
     yield put(updateSuccess(reponse.data));
     yield put(notifierEnqueue({ message: "notifications.updated" }));

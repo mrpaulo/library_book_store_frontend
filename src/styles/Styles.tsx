@@ -20,6 +20,7 @@ export const pageMenuStyles = makeStyles(theme => ({
       display: 'block',
     },
   },
+  //isn't working on prod, doenst load
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
