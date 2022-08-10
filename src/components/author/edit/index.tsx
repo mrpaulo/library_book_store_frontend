@@ -214,7 +214,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.address")}</InputLabel>
-                      <ModalAddress addressSrc={values.address} addressSetup={handleAddress} name={values.name} />
+                      <ModalAddress addressSrc={values.address} addressSetup={handleAddress} name={values.name} flagEditing={flagEditing} />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.birthdate")}</InputLabel>
@@ -302,7 +302,6 @@ const EditAuthor: React.FC<Props> = (props) => {
     </div>
   );
 }
-//);
 
 EditAuthor.displayName = 'EditAuthor';
 

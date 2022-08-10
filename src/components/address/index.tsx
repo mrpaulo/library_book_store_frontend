@@ -48,6 +48,7 @@ function getModalStyle() {
 interface StateProps {
   addressSrc?: Address  
   name?: String
+  flagEditing?: Boolean
 }
 
 interface DispatchProps {
@@ -61,7 +62,7 @@ const ModalAddress: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const classes = modalStyles();
   const defaulStyle = useStyles();
-  const { addressSrc, name, addressSetup, deleteByIdAddressRequest } = props;
+  const { addressSrc, name, flagEditing, addressSetup, deleteByIdAddressRequest } = props;
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
   const [fmtAddress, setFmtAddress] = useState("");
@@ -169,7 +170,7 @@ const ModalAddress: React.FC<Props> = (props) => {
         aria-describedby="simple-modal-description"
       >
         <div style={modalStyle} className={classes.paper}>
-          <EditAddress name={name} closeModal={handleClose} setAddress={handleAddress} addressSrc={addressSrc} />
+          <EditAddress name={name} closeModal={handleClose} setAddress={handleAddress} addressSrc={addressSrc} flagEditing={flagEditing} />
         </div>
       </Modal>
     </>

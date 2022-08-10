@@ -7,8 +7,9 @@ import {
   logradouroSuccess,
   countrySuccess,
   stateSuccess,
-  citySuccess} from './actions'
-import { AddressesTypes as types } from './types';
+  citySuccess,
+  updateAddressSuccess} from './actions'
+import { Address, AddressesTypes as types } from './types';
 import { enqueueError, enqueue as notifierEnqueue } from '../notifications/actions';
 
 const takeEvery: any = Eff.takeEvery;
@@ -25,8 +26,6 @@ function* deleteById (action: any): Generator<any, any, any>{
     yield put(enqueueError(error));
   }
 }
-
-
 
 function* getAllLogradouros(): Generator<any, any, any> {
   
@@ -73,10 +72,23 @@ function* getAllCoutries(): Generator<any, any, any> {
    }
  }
 
+ function* update(action: any): Generator<any, any, any> {
+  const address: Address = action.payload.address;
+  try {
+    const reponse = yield call(apiBearer.put, `${ADDRESSES_V1}/${address.id}`, address, getBearerHeader());
+
+    yield put(updateAddressSuccess(reponse.data));
+    yield put(notifierEnqueue({ message: "notifications.updated" }));
+  } catch (error) {
+    yield put(enqueueError(error));
+  }
+}
+
 export default function* root() {
   yield all([takeEvery(types.DELETE_BY_ID_REQUEST, deleteById)]);
   yield all([takeEvery(types.LOGRADOURO_REQUEST, getAllLogradouros)]); 
   yield all([takeEvery(types.CITY_REQUEST, getAllCities)]); 
   yield all([takeEvery(types.STATE_REQUEST, getAllStates)]); 
   yield all([takeEvery(types.COUNTRY_REQUEST, getAllCoutries)]); 
+  yield all([takeEvery(types.UPDATE_REQUEST, update)]);
 }

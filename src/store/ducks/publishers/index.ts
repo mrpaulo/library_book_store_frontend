@@ -36,7 +36,7 @@ const reducer: Reducer<PublishersState> = (state = INITIAL_STATE, action) => {
     case Types.UPDATE_REQUEST:
       return { ...state, loading: true };
     case Types.UPDATE_SUCCESS:
-      return { ...state, loading: false, error: false, publisherData: action.payload.publisherData };    
+      return { ...state, loading: false, error: false, flagEditing: !state.flagEditing, publisherData: undefined };    
     case Types.CREATE_REQUEST:
       return { ...state, loading: true };
     case Types.CREATE_SUCCESS:

@@ -63,7 +63,7 @@ const AuthorsList: React.FC<Props> = (props) => {
   const [idToDelete, setIdToDelete] = useState(0);
 
   useEffect(() => {
-    updateRequestFilter({ currentPage: 1, rowsPerPage: 10 } as Filter);
+    updateRequestFilter({ currentPage: 1, rowsPerPage: 10, sortColumn: "name" } as Filter);
     searchRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

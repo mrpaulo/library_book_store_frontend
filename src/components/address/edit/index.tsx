@@ -48,17 +48,19 @@ interface StateProps {
   statesList?: StateCountry[],
   citiesList?: City[],
   logradourosList?: CustomEnum[],
-  name?: String
+  name?: String,
+  flagEditing?: Boolean
 }
 
 interface DispatchProps {  
-  cleanAddressEdit(): void,  
-  countryRequest(): void,
-  stateRequest(countryId: number): void,
-  cityRequest(countryId: number, stateId: number): void,
+  cleanAddressEdit(): void 
+  countryRequest(): void
+  stateRequest(countryId: number): void
+  cityRequest(countryId: number, stateId: number): void
   logradouroRequest(): void
   closeModal(): void
   setAddress(address: Address): void
+  updateAddressRequest(address: Address): void
 }
 
 type Props = StateProps & DispatchProps
@@ -81,7 +83,7 @@ const EditAddress: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
-  const { address, addressSrc, countriesList, statesList, citiesList, logradourosList, name, closeModal, setAddress, logradouroRequest, cityRequest, stateRequest, countryRequest, cleanAddressEdit } = props;  
+  const { address, addressSrc, countriesList, statesList, citiesList, logradourosList, name, flagEditing, closeModal, setAddress, logradouroRequest, cityRequest, stateRequest, countryRequest, cleanAddressEdit, updateAddressRequest } = props;  
   const [subtitle, setSubtitle] = useState(t("titles.submit_address") + " " + name);
   const [countrySelected, setCountrySelected] = useState<Country | null>(null);
   const [stateSelected, setStateSelected] = useState<StateCountry | null>(null);
@@ -149,9 +151,13 @@ const EditAddress: React.FC<Props> = (props) => {
     console.log("On submit values for address")
     console.log(values);
     setAddress(values as Address);
+    
+    if (flagEditing) {
+      updateAddressRequest(values);      
+    }
     closeModal();
     // if (flagEditing) {
-    //   updateRequest(values);      
+    //   updateAddressRequest(values);      
     // } else {
     //   createRequest(values);      
     // }
