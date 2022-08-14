@@ -32,6 +32,8 @@ import { Address } from '../../../store/ducks/addresses/types';
 import CustomObjSelect from '../../utils/CustomObjSelect';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { Login } from '../../../store/ducks/authentications/types';
+import CustomSelect from '../../utils/CustomSelect';
+import { SexList } from '../../utils/constants';
 //Third party
 import { Formik, Form, FormikProps, Field } from 'formik';
 import * as Yup from 'yup';
@@ -67,6 +69,7 @@ const INITIAL_VALUES: User = {
   id: 0,
   name: '',
   username: '',
+  sex: '',
   cpf: '',
   email: "",
   roles: []
@@ -246,6 +249,16 @@ const EditUser: React.FC<Props> = (props) => {
                             ? true
                             : false
                         }
+                      />
+                    </Grid>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{t("labels.sex")}</InputLabel>
+                      <Field
+                        className="form-select-field"
+                        name="sex"
+                        options={SexList}
+                        component={CustomSelect}
+                        placeholder={t("placeholder.select_sex")}
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>

@@ -73,33 +73,42 @@ const ModalAddress: React.FC<Props> = (props) => {
     if (addressSrc) {
       setAddressId(addressSrc.id as number);
       setEdit(true);
-      setFmtAddress(formatAddress(addressSrc))
+      setFmtAddress(formatAddress(addressSrc) as string)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addressSrc]);
 
   const handleAddress = (addressPar: Address) => {
     addressSetup(addressPar);
-    setFmtAddress(formatAddress(addressPar));
+    setFmtAddress(formatAddress(addressPar) as string);
     setEdit(true);
   };
 
   const formatAddress = (addressPar: Address) => {
+
+    let formatedAddress: String = "";
     if (addressPar.city) {
+      formatedAddress = addressPar.city.name;
       if (addressPar.city.state) {
-        addressPar.stateName = addressPar.city.state.name;
+        formatedAddress = formatedAddress + " - " + addressPar.city.state.name;
+        
         if (addressPar.city.state.country) {
-          addressPar.countryName = addressPar.city.state.country.name;
-        }
-        addressPar.cityName = addressPar.city.name;
+          formatedAddress = formatedAddress + " - " + addressPar.city.state.country.name;
+        }        
       }
     }
-    return (addressPar.logradouro + " " +
-      addressPar.name + ", " +
-      addressPar.number + ". " +
-      addressPar.cityName + " - " +
-      addressPar.stateName + " - " +
-      addressPar.countryName)
+    
+    if(addressPar.number){
+      formatedAddress = addressPar.number + ". " + formatedAddress;
+    }
+    if(addressPar.name){
+      formatedAddress = addressPar.name + ", " + formatedAddress;
+    }
+    if(addressPar.logradouro){
+      formatedAddress = addressPar.logradouro + " " + formatedAddress;
+    }
+    
+    return formatedAddress;
   }
   const handleOpen = () => {
     setOpen(true);

@@ -26,7 +26,7 @@ import * as addressesActions from '../../../store/ducks/addresses/actions';
 import { ApplicationState } from '../../../store';
 //Types, constants and local components
 import { Author } from '../../../store/ducks/authors/types';
-import { Address, Country } from '../../../store/ducks/addresses/types';
+import { Address, City, Country, StateCountry } from '../../../store/ducks/addresses/types';
 import CustomSelect from '../../utils/CustomSelect';
 import { SexList } from '../../utils/constants';
 import ModalAddress from '../../address'
@@ -47,6 +47,8 @@ import SaveIcon from '@material-ui/icons/Save';
 interface StateProps {
   author?: Author,
   countriesList?: Country[],
+  statesList?: StateCountry[],
+  citiesList?: City[],
 }
 
 interface DispatchProps {
@@ -57,6 +59,8 @@ interface DispatchProps {
   cleanAuthorEdit(): void,
   findByIdRequest(id: number): void,
   countryRequest(): void
+  stateRequest(countryId: number): void
+  cityRequest(countryId: number, stateId: number): void
 }
 
 type Props = StateProps & DispatchProps
@@ -67,6 +71,7 @@ const INITIAL_VALUES: Author = {
   sex: '',
   email: '',
   birthdate: undefined,
+  birthStateName: '',
   birthCity: undefined,
   birthCountry: undefined,
   address: undefined,
@@ -78,9 +83,11 @@ const EditAuthor: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
-  const { author, countriesList, changeFlagEditing, cleanAuthorEdit, createRequest, updateRequest, countryRequest } = props;
+  const { author, statesList, citiesList, countriesList, changeFlagEditing, cleanAuthorEdit, createRequest, updateRequest, cityRequest, stateRequest, countryRequest } = props;
   const [flagEditing, setFlagEditing] = useState(false);
   const [countrySelected, setCountrySelected] = useState<Country | null>(null);
+  const [stateSelected, setStateSelected] = useState<StateCountry | null>(null);
+  const [citySelected, setCitySelected] = useState<City | null>(null);
   const [subtitle, setSubtitle] = useState(t("titles.submit_author"));
 
   const validationSchema = Yup.object().shape({
@@ -95,24 +102,45 @@ const EditAuthor: React.FC<Props> = (props) => {
 
   useEffect(() => {    
     if (author) {
-      author.birthCountryName = author.birthCountry ? author.birthCountry.name : "" ;
-      setInitialValues(author);
       setFlagEditing(true);
       setSubtitle(t("titles.edit_author"))
+      if(author.birthCountry){
+        setCountrySelected(author.birthCountry);
+        author.birthCountryName = author.birthCountry.name;
+      }
+      if (author.birthCity) {        
+        setCitySelected(author.birthCity)
+        author.birthCityName = author.birthCity.name;
+
+        if (author.birthCity.state) {
+          setStateSelected(author.birthCity.state);
+          author.birthStateName = author.birthCity.state.name;        
+        }
+      } 
+      setInitialValues(author);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [author]);
 
   useEffect(() => {
-    countryRequest()
+    countryRequest();
+    if (countrySelected) {
+      stateRequest(countrySelected.id);
+      if (stateSelected) {
+        cityRequest(countrySelected.id, stateSelected.id)
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [countrySelected, stateSelected]);
 
   function handleSubmit(values: Author, actions: any) {
     actions.setSubmitting(false);
 
     if (countrySelected) {
       values.birthCountry = countrySelected;
+    }
+    if (citySelected) {
+      values.birthCity = citySelected;
     }
     if (flagEditing) {
       updateRequest(values);
@@ -150,6 +178,15 @@ const EditAuthor: React.FC<Props> = (props) => {
           const getCountrySelected = (country: Country) => {
             setCountrySelected(country);
           }
+
+          const getStateSelected = (state: StateCountry) => {
+            setStateSelected(state);
+          }
+
+          const getCitySelected = (city: City) => {
+            setCitySelected(city);
+          }
+
           return (
             <Card className={classes.root}>
               <Form>
@@ -201,7 +238,6 @@ const EditAuthor: React.FC<Props> = (props) => {
                         }
                       />
                     </Grid>
-
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.sex")}</InputLabel>
                       <Field
@@ -242,6 +278,34 @@ const EditAuthor: React.FC<Props> = (props) => {
                         component={CustomObjSelect}
                         setValueSelected={getCountrySelected}
                         placeholder={t("placeholder.select_country")}
+                        isObject
+                        isAddress
+                      />
+                    </Grid>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{t("labels.birth_state")}</InputLabel>
+                      <Field
+                        className="form-select-field"
+                        name="birthStateName"
+                        options={statesList}
+                        component={CustomObjSelect}
+                        setValueSelected={getStateSelected}
+                        placeholder={t("placeholder.select_state")}
+                        disable={countrySelected == null}
+                        isObject
+                        isAddress
+                      />
+                    </Grid>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{t("labels.birth_place")}</InputLabel>
+                      <Field
+                        className="form-select-field"
+                        name="birthCityName"
+                        options={citiesList}
+                        component={CustomObjSelect}
+                        setValueSelected={getCitySelected}
+                        placeholder={t("placeholder.select_city")}
+                        disable={countrySelected == null && stateSelected == null}
                         isObject
                         isAddress
                       />
@@ -308,6 +372,8 @@ EditAuthor.displayName = 'EditAuthor';
 const mapStateToProps = (state: ApplicationState) => ({
   author: state.authors.authorData,
   countriesList: state.addresses.countriesListData,
+  statesList: state.addresses.statesListData,
+  citiesList: state.addresses.citiesListData,
 });
 const actions = { ...authorsActions, ...addressesActions };
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actions, dispatch);

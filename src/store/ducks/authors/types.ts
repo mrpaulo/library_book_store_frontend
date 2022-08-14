@@ -45,6 +45,8 @@ export interface Author {
   sex: String,
   email: String,
   birthCity?: City,
+  birthCityName?: String,
+  birthStateName?: String,
   birthCountry?: Country,
   birthCountryName?: String,
   address?: Address,
@@ -63,6 +65,7 @@ export interface AuthorDTO {
   sex: String,
   email: String,
   birthCity: String,
+  birthState: String,
   birthCountry: String,
   address: AddressDTO,
   description?: String
