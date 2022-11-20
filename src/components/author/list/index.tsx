@@ -148,8 +148,7 @@ const AuthorsList: React.FC<Props> = (props) => {
                           {author.name}
                         </TableCell>
                         <TableCell style={{ width: 160 }} align="right">
-                          {t("formats.date_format", { date: author.birthdate })}
-                          {/* {t("formats.date_format", { date: new Date() })} */}
+                          {t("formats.date_format", { date: new Date(author.birthdate as Date) })}
                         </TableCell>
                         <TableCell style={{ width: 100 }} align="right">
                           {author.email}

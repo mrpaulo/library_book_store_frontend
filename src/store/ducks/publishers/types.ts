@@ -42,7 +42,7 @@ export interface Publisher {
   name: String, 
   cnpj: String, 
   description?: String, 
-  createDate?:Date,
+  foundationDate?:Date,
   address?: Address
 }
 
@@ -56,7 +56,7 @@ export interface PublisherDTO {
   name: string, 
   cnpj: String, 
   description: String, 
-  createDate:Date
+  foundationDate:Date
 }
 
 /**

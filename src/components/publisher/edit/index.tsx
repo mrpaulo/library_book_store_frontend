@@ -196,9 +196,9 @@ const EditPublisher: React.FC<Props> = (props) => {
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.create_date")}</InputLabel>
                       <TextField
-                        name="createDate"
+                        name="foundationDate"
                         type="date"
-                        value={values.createDate || ""}
+                        value={values.foundationDate || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
