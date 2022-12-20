@@ -152,7 +152,7 @@ const PublishersList: React.FC<Props> = (props) => {
                           {formatCNPJ(publisher.cnpj as string)}
                         </TableCell>
                         <TableCell style={{ width: 160 }} align="right">
-                          {t("formats.date_format", { date: new Date(publisher.foundationDate as Date) })}
+                          {t("formats.date_format", { date: publisher.foundationDate ? new Date(publisher.foundationDate as Date) : "" })}
                         </TableCell>                        
                         <TableCell style={{ width: 80 }} align="right">
                           <IconButton onClick={() => editPublisher(publisher.id)} aria-label={t("buttons.edit")}>

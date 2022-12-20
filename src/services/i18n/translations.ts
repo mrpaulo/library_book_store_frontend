@@ -19,7 +19,7 @@ export const en = {
   errors: {
     at_least_one: "At least one!",
     name_required: "Name is required!",
-    birhdate_required: "Birthdate is required!",
+    birthdate_required: "Birthdate is required!",
     cnpj_required: "CNPJ is required!",
     cpf_required: "CPF is required!",
     title_required: "Title is required!",
@@ -178,7 +178,7 @@ export const pt = {
   errors: {
     at_least_one: "Pelo menos um!",
     name_required: "Nome é obrigatório!",
-    birhdate_required: "Data de nascimento é obrigatório!",
+    birthdate_required: "Data de nascimento é obrigatório!",
     cnpj_required: "CNPJ é obrigatório!",
     cpf_required: "CPF é obrigatório!",
     title_required: "Título é obrigatório!",

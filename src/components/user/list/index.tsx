@@ -153,7 +153,7 @@ const UsersList: React.FC<Props> = (props) => {
                           {formatCPF(user.cpf as string)}
                         </TableCell>
                         <TableCell style={{ width: 160 }} align="right">
-                          {t("formats.date_format", { date: new Date(user.birthdate as Date) })}
+                          {t("formats.date_format", { date: user.birthdate ? new Date(user.birthdate as Date) : "" })}
                         </TableCell>   
                         <TableCell style={{ width: 150 }} align="right">
                           {user.email}

@@ -267,6 +267,12 @@ const EditAuthor: React.FC<Props> = (props) => {
                           shrink: true,
                         }}
                         variant="outlined"
+                        helperText={errors.birthdate}
+                        error={
+                          errors.birthdate && touched.birthdate
+                            ? true
+                            : false
+                        }
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
