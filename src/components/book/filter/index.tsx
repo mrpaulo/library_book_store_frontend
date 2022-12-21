@@ -32,7 +32,7 @@ import { Formik, Form, FormikProps, Field } from 'formik';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 //Style
-import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
+import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, Switch, } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
 import { useStyles } from '../../../styles/Styles';
@@ -199,6 +199,14 @@ const FilterBook: React.FC<Props> = (props) => {
                           variant="outlined"
                         />
                       </Grid>
+                    </Grid>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{t("labels.adults_only")}</InputLabel>
+                      <Switch
+                        name="adultsOnly"
+                        checked={values.adultsOnly as boolean}
+                        onChange={handleChange}                        
+                      />
                     </Grid>
                   </Grid>
                 </CardContent>

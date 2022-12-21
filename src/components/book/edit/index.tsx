@@ -41,7 +41,7 @@ import "../../../services/i18n/i18n";
 //Style
 import '../../../styles/global.css';
 import { useStyles } from '../../../styles/Styles';
-import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
+import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, Switch } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
 
@@ -84,6 +84,7 @@ const INITIAL_VALUES: Book = {
   publishDate: undefined,
   rating: 0,
   length: 0,
+  adultsOnly: false
 };
 
 const EditBook: React.FC<Props> = (props) => {
@@ -395,6 +396,14 @@ const EditBook: React.FC<Props> = (props) => {
                           shrink: true,
                         }}
                         variant="outlined"
+                      />
+                    </Grid>
+                    <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
+                      <InputLabel className="form-label" >{t("labels.adults_only")}</InputLabel>
+                      <Switch
+                        name="adultsOnly"
+                        checked={values.adultsOnly as boolean}
+                        onChange={handleChange}                        
                       />
                     </Grid>
                   </Grid>

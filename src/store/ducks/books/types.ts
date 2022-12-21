@@ -66,13 +66,15 @@ export interface Book {
   publishDate?: Date,
   rating?: Number,
   length?: Number,
+  adultsOnly?: Boolean
 }
 
 export interface BookRequestFilter extends PageableFilter{  
   title: String,
   author?: String,  
   publisher?: String,
-  subject?: String 
+  subject?: String,
+  adultsOnly?: Boolean 
 }
 
 export interface BookSubject {

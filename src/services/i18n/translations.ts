@@ -30,6 +30,7 @@ export const en = {
   },
   labels: {
     address: "Address",
+    adults_only: "Adults only",
     author: "Author",
     authors: "Authors",
     birthdate: "Birthdate",
@@ -189,6 +190,7 @@ export const pt = {
   },
   labels: {
     address: "Endereço",
+    adults_only: "Somente para adultos",
     author: "Autor",
     authors: "Autores",    
     birth_country: "País natal",
