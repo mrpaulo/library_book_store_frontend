@@ -6,6 +6,7 @@ const INITIAL_STATE: PublishersState = {
   publisherData: undefined,
   publishersData: [],
   publishersAutoComplete: [],
+  booksWillBeDeleted: [],
   error: false,
   loading: false,
   flagEditing: false,
@@ -41,12 +42,22 @@ const reducer: Reducer<PublishersState> = (state = INITIAL_STATE, action) => {
       return { ...state, loading: true };
     case Types.CREATE_SUCCESS:
       return { ...state, loading: false, error: false, publisherData: action.payload.publisherData };    
+    case Types.SAFE_DELETE_BY_ID_REQUEST:
+      return { ...state, safeDeleteChecked: true };
+    case Types.SAFE_DELETE_BY_ID_SUCCESS:
+      return {
+        ...state,
+        loading: false,          
+        booksWillBeDeleted: action.payload.booksData
+      };      
     case Types.DELETE_BY_ID_REQUEST:
       return { ...state, loading: true };
     case Types.DELETE_BY_ID_SUCCESS:
       return {
         ...state,
         loading: false,
+        safeDeleteChecked: false,
+        booksWillBeDeleted: [],
         publishersData: state.publishersData.filter(
           (publisher) => publisher.id !== action.payload.data.id
         )

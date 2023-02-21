@@ -17,6 +17,9 @@ export enum PublishersTypes {
   FIND_BY_NAME_REQUEST = '@publishers/FIND_BY_NAME_REQUEST',
   FIND_BY_NAME_SUCCESS = '@publishers/FIND_BY_NAME_SUCCESS',
 
+  SAFE_DELETE_BY_ID_REQUEST = '@publishers/SAFE_DELETE_BY_ID_REQUEST',
+  SAFE_DELETE_BY_ID_SUCCESS = '@publishers/SAFE_DELETE_BY_ID_SUCCESS',
+
   DELETE_BY_ID_REQUEST = '@publishers/DELETE_BY_ID_REQUEST',
   DELETE_BY_ID_SUCCESS = '@publishers/DELETE_BY_ID_SUCCESS',
 
@@ -66,6 +69,7 @@ export interface PublishersState {
   readonly publisherData?: Publisher
   readonly publishersData: PublisherDTO[]
   readonly publishersAutoComplete?: PublisherDTO[]
+  readonly booksWillBeDeleted: String[]
   readonly loading: boolean
   readonly error: boolean
   readonly flagEditing: boolean

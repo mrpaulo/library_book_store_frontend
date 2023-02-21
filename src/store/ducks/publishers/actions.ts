@@ -16,6 +16,9 @@ export const findByNameSuccess = (publishersData: PublisherDTO) => action(Types.
 export const updateRequest = (publisher: Publisher) => action(Types.UPDATE_REQUEST,  { publisher });
 export const updateSuccess = (publisherData: Publisher) => action(Types.UPDATE_SUCCESS,  { publisherData });
 
+export const safeDeleteByIdRequest = (id: number) => action(Types.SAFE_DELETE_BY_ID_REQUEST,  { id });
+export const safeDeleteByIdSuccess = (booksData: String[]) => action(Types.SAFE_DELETE_BY_ID_SUCCESS,  { booksData });
+
 export const deleteByIdRequest = (id: number) => action(Types.DELETE_BY_ID_REQUEST,  { id });
 export const deleteByIdSuccess = (data: boolean) => action(Types.DELETE_BY_ID_SUCCESS,  { data });
 

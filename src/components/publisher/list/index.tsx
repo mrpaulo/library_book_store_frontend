@@ -39,6 +39,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 interface StateProps {
   publishers: PublisherDTO[],
+  booksWillBeDeleted: String[],
   filter?: Filter,
   responseTotalRows: number
 }
@@ -47,6 +48,7 @@ interface DispatchProps {
   changeFlagEditing(): void,
   changeFlagDetail(): void,
   findByIdRequest(id: number): void
+  safeDeleteByIdRequest(id: number): void,
   deleteByIdRequest(id: number): void,
   updateRequestFilter(requestFilter: Filter): void,
   searchRequest(): void,
@@ -57,9 +59,10 @@ type Props = StateProps & DispatchProps
 const PublishersList: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { publishers, filter, responseTotalRows, updateRequestFilter, searchRequest, changeFlagEditing, findByIdRequest, deleteByIdRequest } = props;
+  const { publishers, booksWillBeDeleted, filter, responseTotalRows, updateRequestFilter, searchRequest, changeFlagEditing, findByIdRequest, safeDeleteByIdRequest, deleteByIdRequest } = props;
   const tooltipTitle = t("tooltip.add_publisher");
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+  const [openSafeDeleteConfirm, setOpenSafeDeleteConfirm] = useState(false);
   const [msgConfirmDelete, setMsgConfirmDelete] = useState("");
   const [idToDelete, setIdToDelete] = useState(0);
 
@@ -68,6 +71,13 @@ const PublishersList: React.FC<Props> = (props) => {
     searchRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (booksWillBeDeleted.length > 0) {
+      confirmEraseBooks()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [booksWillBeDeleted]);
 
   function addPublisher() {
     changeFlagEditing();
@@ -82,6 +92,22 @@ const PublishersList: React.FC<Props> = (props) => {
     setOpenDeleteConfirm(true);
     setMsgConfirmDelete(t("messages.table_confirm_delete", { name }) as string);
     setIdToDelete(id);
+  }
+
+  function safeDeletePublisher() {
+    if(openSafeDeleteConfirm){
+      deleteByIdRequest(idToDelete) 
+      setOpenSafeDeleteConfirm(false);       
+    } else {
+      safeDeleteByIdRequest(idToDelete)
+    }     
+  }
+
+  function confirmEraseBooks() {    
+    setOpenDeleteConfirm(true);
+    setOpenSafeDeleteConfirm(true);
+    let name = booksWillBeDeleted.join(", ")
+    setMsgConfirmDelete(t("messages.table_safe_delete_publisher", { name }) as string);
   }
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -211,7 +237,7 @@ const PublishersList: React.FC<Props> = (props) => {
         disagreeBtnLabel={t("buttons.cancel")}
         isOpen={openDeleteConfirm}
         setAgreed={() => {
-          deleteByIdRequest(idToDelete)
+          safeDeletePublisher()
           setOpenDeleteConfirm(false)
         }
         }
@@ -222,6 +248,7 @@ const PublishersList: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state: ApplicationState) => ({
   publishers: state.publishers.publishersData,
+  booksWillBeDeleted: state.publishers.booksWillBeDeleted,
   filter: state.publishers.requestFilter,
   responseTotalRows: state.publishers.responseTotalRows
 });

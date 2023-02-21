@@ -10,7 +10,9 @@ import {
   deleteByIdSuccess, 
   searchSuccess,  
   findByNameSuccess, 
-  updateTotalRows} from './actions'
+  updateTotalRows,
+  safeDeleteByIdSuccess,
+  deleteByIdRequest} from './actions'
 import { Publisher, PublishersTypes as types } from './types';
 import { enqueueError, enqueue as notifierEnqueue } from '../notifications/actions';
 import { selectors } from '.';
@@ -63,10 +65,26 @@ function* findByName(action: any): Generator<any, any, any> {
   }
 }
 
-function* deleteById (action: any): Generator<any, any, any>{
+function* safeDeleteById (action: any): Generator<any, any, any>{
   const id:number = action.payload.id;
   try {
-    const reponse = yield call(apiBearer.delete, `${PUBLISHERS_V1}/${id}` );
+    const reponse = yield call(apiBearer.delete, `${PUBLISHERS_V1}/safe/${id}`, getBearerHeader() );
+   
+    if(reponse.data && reponse.data.length > 0){
+      yield put(safeDeleteByIdSuccess(reponse.data));
+    } else if(reponse.data.length === 0){      
+      yield put(deleteByIdRequest(id));
+    }
+  } catch (error) {    
+    yield put(enqueueError(error));
+  }
+}
+
+function* deleteById (action: any): Generator<any, any, any>{
+  console.log("Chamou deleteById")
+  const id:number = action.payload.id;
+  try {
+    const reponse = yield call(apiBearer.delete, `${PUBLISHERS_V1}/${id}`, getBearerHeader() );
 
     yield put(deleteByIdSuccess(reponse.data));
     yield put(notifierEnqueue({ message: "notifications.deleted" }));   
@@ -106,6 +124,7 @@ export default function* root() {
   yield all([takeEvery(types.FIND_BY_ID_REQUEST, findById)]);
   yield all([takeEvery(types.FIND_BY_NAME_REQUEST, findByName)]);
   yield all([takeEvery(types.DELETE_BY_ID_REQUEST, deleteById)]);
+  yield all([takeEvery(types.SAFE_DELETE_BY_ID_REQUEST, safeDeleteById)]);
   yield all([takeEvery(types.CREATE_REQUEST, create)]);
   yield all([takeEvery(types.UPDATE_REQUEST, update)]); 
 }
