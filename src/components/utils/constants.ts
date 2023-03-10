@@ -5,12 +5,20 @@ export interface CustomEnum {
 
 export const SexList: CustomEnum[] = [
   {
-    label: 'labels.masculine',
+    label: 'masculine',
     value: 'M'
   },
   {
-    label: 'labels.feminine',
+    label: 'feminine',
     value: 'F'
-  }
+  },
+  {
+    label: 'other',
+    value: 'O'
+  },
+  {
+    label: 'prefers_not_to_inform',
+    value: 'N'
+  },
 ]
 

@@ -16,6 +16,17 @@ export const en = {
     table_previous_page: "Previous page",
 
   },
+  enums: {
+    ALLEY: "Alley",
+    AVENUE: "Avenue",
+    feminine: "Feminine",
+    masculine: "Masculine",
+    other: "Other",
+    prefers_not_to_inform: "Prefers not to inform",
+    SQUARE: "Square",
+    STREET: "Street",
+    ROAD: "Road",
+  },
   errors: {
     at_least_one: "At least one!",
     name_required: "Name is required!",
@@ -176,6 +187,17 @@ export const pt = {
     submit: "Salvar",
     table_next_page: "Próxima página",
     table_previous_page: "Página anterior",
+  },
+  enums: {
+    ALLEY: "Beco",
+    AVENUE: "Avenida",
+    feminine: "Feminino",
+    masculine: "Masculino",
+    prefers_not_to_inform: "Prefere não informar",
+    other: "Outro",
+    SQUARE: "Praça",
+    STREET: "Rua",
+    ROAD: "Rodovia",
   },
   errors: {
     at_least_one: "Pelo menos um!",

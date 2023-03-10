@@ -66,7 +66,7 @@ export const CustomSelect = ({
 
   return (
     <Select
-      getOptionLabel={list => t(list.label)}
+      getOptionLabel={list => t("enums."+list.label)}
       className={className}
       name={field.name}
       value={getValue()}
