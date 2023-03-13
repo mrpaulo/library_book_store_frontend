@@ -63,7 +63,8 @@ const INITIAL_VALUES: Publisher = {
   name: '',
   cnpj: '', 
   description: "",      
-  address: undefined
+  address: undefined,
+  foundationDate: undefined
 };
 
 const EditPublisher: React.FC<Props> = (props) => {
@@ -130,6 +131,7 @@ const EditPublisher: React.FC<Props> = (props) => {
             errors,            
             handleChange,
             isSubmitting,
+            isValid
           } = props
 
           const handleAddress = (address: Address) => {
@@ -186,9 +188,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                             : false
                         }
                       />
-                    </Grid>
-                   
-
+                    </Grid>         
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.address")}</InputLabel>
                       <ModalAddress addressSrc={values.address} addressSetup={handleAddress} name={values.name} />
@@ -249,7 +249,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                     <Button
                       className={classes.submitButton}
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !isValid}
                       color="primary"
                       variant="outlined"
                       startIcon={<SaveIcon />}

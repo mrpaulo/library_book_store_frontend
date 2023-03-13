@@ -171,6 +171,7 @@ const EditBook: React.FC<Props> = (props) => {
             errors,
             handleChange,
             isSubmitting,
+            isValid
           } = props
 
           const getPublisherSelected = (publisher: PublisherDTO) => {
@@ -424,7 +425,7 @@ const EditBook: React.FC<Props> = (props) => {
                     <Button
                       className={classes.submitButton}
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !isValid}
                       color="primary"
                       variant="outlined"
                       startIcon={<SaveIcon />}

@@ -28,6 +28,7 @@ import { Book, BookRequestFilter as Filter, BookSubject } from '../../../store/d
 import CustomObjSelect from '../../utils/CustomObjSelect';
 //Third party
 import { Formik, Form, FormikProps, Field } from 'formik';
+import * as Yup from 'yup';
 //Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -68,6 +69,19 @@ const FilterBook: React.FC<Props> = (props) => {
   const { t } = useTranslation();  
   const { bookSubjectList, searchRequest, bookSubjectRequest,  updateRequestFilter, cleanRequestFilter } = props;
 
+  const validationSchema = Yup.object().shape({       
+    startDate: Yup.date().max(new Date(), t("errors.start_date_after")),
+    finalDate: Yup.date()
+    .when('startDate',
+    (startDate: Date | undefined, schema: Yup.DateSchema) => {
+        if (startDate) {
+        const dayAfter = new Date(startDate.getTime() + 86400000);
+            return schema.min(dayAfter, t("errors.end_date_before"));
+          }      
+          return schema;
+    })
+  });
+
   useEffect(() => {
     bookSubjectRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,14 +104,16 @@ const FilterBook: React.FC<Props> = (props) => {
         onSubmit={handleSubmit}
         initialValues={INITIAL_VALUES}
         className={classes.root}
-        
+        validationSchema={validationSchema}
       >
         {(props: FormikProps<Filter>) => {
           const {
             values,          
             handleChange,
             isSubmitting,
-            resetForm            
+            resetForm,
+            errors,
+            touched                    
           } = props
           return (
             <Card className={classes.root}>
@@ -180,6 +196,12 @@ const FilterBook: React.FC<Props> = (props) => {
                             shrink: true,
                           }}
                           variant="outlined"
+                          helperText={errors.startDate}
+                          error={
+                            errors.startDate && touched.startDate
+                              ? true
+                              : false
+                          }
                         />
                       </Grid>
                       <Grid item lg={6} md={6} sm={6} xs={6}>
@@ -197,6 +219,12 @@ const FilterBook: React.FC<Props> = (props) => {
                             shrink: true,
                           }}
                           variant="outlined"
+                          helperText={errors.finalDate}
+                          error={
+                            errors.finalDate && touched.finalDate
+                              ? true
+                              : false
+                          }
                         />
                       </Grid>
                     </Grid>

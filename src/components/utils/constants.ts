@@ -21,4 +21,3 @@ export const SexList: CustomEnum[] = [
     value: 'N'
   },
 ]
-

@@ -17,7 +17,7 @@
  */
 
 //React
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 //Actions and store
@@ -32,7 +32,7 @@ import { SexList } from '../../utils/constants';
 import ModalAddress from '../../address'
 import CustomObjSelect from '../../utils/CustomObjSelect';
 //Third party
-import { Formik, Form, FormikProps, Field } from 'formik';
+import { Formik, Form, FormikProps, Field, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 //Tranlation
 import { useTranslation } from "react-i18next";
@@ -93,30 +93,30 @@ const EditAuthor: React.FC<Props> = (props) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .max(100, t("errors.too_long"))
-      .required(t("errors.name_required")),   
+      .required(t("errors.name_required")),
     birthdate: Yup.date()
       .required(t("errors.birthdate_required")),
-      description: Yup.string()
+    description: Yup.string()
       .max(100, t("errors.too_long"))
   });
 
-  useEffect(() => {    
+  useEffect(() => {
     if (author) {
       setFlagEditing(true);
       setSubtitle(t("titles.edit_author"))
-      if(author.birthCountry){
+      if (author.birthCountry) {
         setCountrySelected(author.birthCountry);
         author.birthCountryName = author.birthCountry.name;
       }
-      if (author.birthCity) {        
+      if (author.birthCity) {
         setCitySelected(author.birthCity)
         author.birthCityName = author.birthCity.name;
 
         if (author.birthCity.state) {
           setStateSelected(author.birthCity.state);
-          author.birthStateName = author.birthCity.state.name;        
+          author.birthStateName = author.birthCity.state.name;
         }
-      } 
+      }
       setInitialValues(author);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,21 +133,24 @@ const EditAuthor: React.FC<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countrySelected, stateSelected]);
 
-  function handleSubmit(values: Author, actions: any) {
-    actions.setSubmitting(false);
-
-    if (countrySelected) {
-      values.birthCountry = countrySelected;
-    }
-    if (citySelected) {
-      values.birthCity = citySelected;
-    }
-    if (flagEditing) {
-      updateRequest(values);
-    } else {
-      createRequest(values);
-    }
-  }
+  const handleSubmit = useMemo<(values: Author, actions: FormikHelpers<Author>) => void>(
+    () => (values: Author, actions: FormikHelpers<Author>) => {
+      actions.setSubmitting(false);
+  
+      if (countrySelected) {
+        values.birthCountry = countrySelected;
+      }
+      if (citySelected) {
+        values.birthCity = citySelected;
+      }
+      if (flagEditing) {
+        updateRequest(values);
+      } else {
+        createRequest(values);
+      }
+    }, 
+    [countrySelected, citySelected, flagEditing, createRequest, updateRequest]
+  );
 
   function handleCancel() {
     changeFlagEditing();
@@ -166,9 +169,10 @@ const EditAuthor: React.FC<Props> = (props) => {
           const {
             values,
             touched,
-            errors,            
+            errors,
             handleChange,
             isSubmitting,
+            isValid
           } = props
 
           const handleAddress = (address: Address) => {
@@ -216,7 +220,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                             : false
                         }
                       />
-                    </Grid>                  
+                    </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.email")}</InputLabel>
                       <TextField
@@ -336,7 +340,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                             : false
                         }
                       />
-                    </Grid>  
+                    </Grid>
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10}>
@@ -355,7 +359,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                     <Button
                       className={classes.submitButton}
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !isValid}
                       color="primary"
                       variant="outlined"
                       startIcon={<SaveIcon />}
