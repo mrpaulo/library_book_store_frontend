@@ -62,6 +62,10 @@ const AboutPage: React.FC = () => {
       <p>
         Library Book Store Frontend is licensed under the MIT License. See <code>LICENSE</code> for more information.
       </p>
+      <h2>Note</h2>
+      <p>
+      This is an ongoing project, so bugs, improvements, and new features are coming soon.
+      </p>
     </div>
     </>)
 }
