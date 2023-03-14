@@ -1,4 +1,4 @@
-## Library Book Store Frontend
+# Library Book Store Frontend
 The Library Book Store Frontend is a web application for a fictional library that allows users to browse and catalog books, view book details, and check out books for borrowing. This frontend application works in conjunction with a backend API that handles book data and user authentication.
 
 ## Features
@@ -10,11 +10,15 @@ The Library Book Store Frontend is a web application for a fictional library tha
 ## Technologies
 Library Book Store Frontend is built using the following technologies:
 
-- React.js: A popular JavaScript library for building user interfaces
-- Redux: A predictable state container for managing application state
-- Typescript: An open-source programming language developed and maintained by Microsoft. It is a superset of JavaScript that adds optional static typing and other features to the language.
-- Axios: A promise-based HTTP client for making API requests
-- Bootstrap: A popular CSS framework for building responsive and mobile-first designs
+- **React.js**: A popular JavaScript library for building user interfaces
+- **Redux Saga**: A predictable state container for managing application state
+- **Typescript**: An open-source programming language developed and maintained by Microsoft. It is a superset of JavaScript that adds optional static typing and other features to the language.
+- **Axios**: A promise-based HTTP client for making API requests
+- **Bootstrap**: A popular CSS framework for building responsive and mobile-first designs
+- **i18next**: A JavaScript library used for internationalization and localization of web applications.
+- **Formik**: A form library for React that makes it easy to handle form state, validation, and submission.
+- **Material UI**: A set of React components that implement Google's Material Design guidelines for building responsive and beautiful web applications.
+- **Yup**: A JavaScript library used for schema validation of data, including forms, configurations, and more.
 
 ## Installation and Usage
 To install and use Library Book Store Frontend, follow these steps:
