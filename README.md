@@ -1,5 +1,5 @@
 # Library Book Store Frontend
-The Library Book Store Frontend is a web application for a fictional library that allows users to browse and catalog books, view book details, and check out books for borrowing. This frontend application works in conjunction with a backend API that handles book data and user authentication. Also, this is an ongoing project, so bugs, improvements, and new features are coming soon.
+The Library Book Store Frontend is a web application for a fictional library that allows users to browse and catalog books, view book details, and check out books for borrowing. This frontend application works in conjunction with a backend API that handles book data and user authentication. Also, this is an ongoing project, so fix bugs, improvements, and new features are coming soon.
 
 ## Features
 - Browse books by category or search for books by title or author

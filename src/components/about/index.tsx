@@ -64,7 +64,7 @@ const AboutPage: React.FC = () => {
       </p>
       <h2>Note</h2>
       <p>
-      This is an ongoing project, so bugs, improvements, and new features are coming soon.
+      This is an ongoing project, so fix bugs, improvements, and new features are coming soon.
       </p>
     </div>
     </>)
