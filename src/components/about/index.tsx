@@ -50,6 +50,10 @@ const AboutPage: React.FC = () => {
         <li>Push the changes to your fork: <code>git push origin my-feature-branch</code></li>
         <li>Submit a pull request</li>
       </ol>
+      <h2>Backend API</h2>
+      <p>
+        To check more about the backend API, also created by me, please read the README.md file on <a href="https://github.com/mrpaulo/library_book_store_backend" target="_blank" rel="noopener noreferrer" >github.com/mrpaulo/library_book_store_backend</a> 
+      </p>
       <h2>Credits</h2>
       <p>
         Library Book Store Frontend was created by Paulo Rodrigues, a software engineer passionate about creating user-friendly and scalable applications.
