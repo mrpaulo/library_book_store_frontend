@@ -34,7 +34,6 @@ import { CustomEnum } from '../../utils/constants';
 import { AuthorDTO } from '../../../store/ducks/authors/types';
 //Third party
 import { Formik, Form, FormikProps, Field } from 'formik';
-import * as Yup from 'yup';
 //Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -44,6 +43,8 @@ import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, Switch } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
+//Validation
+import { validationBookSchema } from '../../utils/validationUtil';
 
 interface StateProps {
   book?: Book,
@@ -97,21 +98,7 @@ const EditBook: React.FC<Props> = (props) => {
   const [publisher, setPublisher] = useState<PublisherDTO | null>(null);
   const [authors, setAuthors] = useState<AuthorDTO[]>([]);
 
-  const validationSchema = Yup.object().shape({
-    title: Yup.string()
-      .max(100, t("errors.too_long"))
-      .required(t("errors.title_required")),
-    authors: Yup.array()
-      .min(1, t("errors.too_long"))
-      .required(),
-    publisher: Yup.object().required(),
-    subtitle: Yup.string()
-      .max(100, t("errors.too_long")),
-    review: Yup.string()
-      .max(500, t("errors.too_long")),
-    link: Yup.string()
-      .max(100, t("errors.too_long"))
-  });
+  
 
   useEffect(() => {
     if (book) {
@@ -162,7 +149,7 @@ const EditBook: React.FC<Props> = (props) => {
         enableReinitialize
         onSubmit={handleSubmit}
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={validationBookSchema}
       >
         {(props: FormikProps<Book>) => {
           const {
@@ -206,7 +193,7 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.title}
+                        helperText={t(errors.title as unknown as string)}
                         error={
                           errors.title && touched.title
                             ? true
@@ -227,7 +214,7 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.subtitle}
+                        helperText={t(errors.subtitle as unknown as string)}
                         error={
                           errors.subtitle && touched.subtitle
                             ? true
@@ -244,7 +231,7 @@ const EditBook: React.FC<Props> = (props) => {
                         component={AutoCompleteAuthor}
                         onChange={handleChange}
                         authorsSelected={getAuthorsSelected}
-                        helperText={errors.authors}
+                        helperText={t(errors.authors as unknown as string)}
                         error={
                           errors.authors && touched.authors
                             ? true
@@ -261,7 +248,7 @@ const EditBook: React.FC<Props> = (props) => {
                         component={AutoCompletePublisher}
                         onChange={handleChange}
                         publisherSelected={getPublisherSelected}
-                        helperText={errors.publisher}
+                        helperText={t(errors.publisher as unknown as string)}
                         error={
                           errors.publisher && touched.publisher
                             ? true
@@ -282,7 +269,7 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.review}
+                        helperText={t(errors.review as unknown as string)}
                         error={
                           errors.review && touched.review
                             ? true
@@ -345,7 +332,7 @@ const EditBook: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.link}
+                        helperText={t(errors.link as unknown as string)}
                         error={
                           errors.link && touched.link
                             ? true

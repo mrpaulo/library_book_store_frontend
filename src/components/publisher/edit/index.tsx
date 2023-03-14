@@ -30,7 +30,6 @@ import { Address, Country } from '../../../store/ducks/addresses/types';
 import ModalAddress from '../../address'
 //Third party
 import { Formik, Form, FormikProps } from 'formik';
-import * as Yup from 'yup';
 //Tranlation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -40,6 +39,8 @@ import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
+//Validation
+import { validationPublisherSchema } from '../../utils/validationUtil';
 
 interface StateProps {
   publisher?: Publisher,
@@ -76,16 +77,7 @@ const EditPublisher: React.FC<Props> = (props) => {
   const [flagEditing, setFlagEditing] = useState(false);  
   const [subtitle, setSubtitle] = useState(t("titles.submit_publisher"));
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .max(100, t("errors.too_long"))
-      .required(t("errors.name_required")),
-    cnpj: Yup.string()
-      .max(100, t("errors.too_long"))
-      .required(t("errors.cnpj_required")),
-    description:  Yup.string()
-    .max(100, t("errors.too_long"))
-  });
+  
 
   useEffect(() => {
     if (publisher) {
@@ -122,7 +114,7 @@ const EditPublisher: React.FC<Props> = (props) => {
         enableReinitialize
         onSubmit={handleSubmit}
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={validationPublisherSchema}
       >
         {(props: FormikProps<Publisher>) => {
           const {
@@ -160,7 +152,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.name}
+                        helperText={t(errors.name as unknown as string)}
                         error={
                           errors.name && touched.name
                             ? true
@@ -181,7 +173,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.cnpj}
+                        helperText={t(errors.cnpj as unknown as string)}
                         error={
                           errors.cnpj && touched.cnpj
                             ? true
@@ -223,7 +215,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.description}
+                        helperText={t(errors.description as unknown as string)}
                         error={
                           errors.description && touched.description
                             ? true

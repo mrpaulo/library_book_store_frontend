@@ -37,6 +37,9 @@ import "../../../services/i18n/i18n";
 import { Button, Grid, InputLabel, IconButton, TextField, Card, CardContent, CardActions, CardHeader } from '@material-ui/core';
 import { useStyles } from '../../../styles/Styles';
 import CloseIcon from '@material-ui/icons/Close'
+import { AlertDialog } from '../../utils/AlertDialog';
+//Validation
+import { validationLoginSchema } from '../../utils/validationUtil';
 
 interface StateProps {  
   fromModalUser: boolean,
@@ -62,7 +65,7 @@ const LoginCreatePage: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { fromModalUser, createdSuccess, createRequest, submitToModalUser, handleClose, cleanUserEdit } = props;
-  
+  const [openPasswordAlert, setOpenPasswordAlert] = useState(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -86,8 +89,8 @@ const LoginCreatePage: React.FC<Props> = (props) => {
 
   function handleSubmit(values: NewLogin, actions: any) {
     if (values.password !== values.repeatPassword) {
-      //TODO: Create a alert modal
-      alert("Erro senhas dif");
+      setOpenPasswordAlert(true);
+      actions.setSubmitting(false);
       return
     }
      
@@ -115,11 +118,15 @@ const LoginCreatePage: React.FC<Props> = (props) => {
         onSubmit={handleSubmit}
         initialValues={INITIAL_VALUES}
         className={classes.root}
+        validationSchema={validationLoginSchema}
       >
         {(props: FormikProps<NewLogin>) => {
           const {           
             handleChange,
             isSubmitting,
+            isValid,
+            errors,
+            touched
           } = props
           return (
             <Card className={classes.root} >
@@ -151,8 +158,13 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        // helperText={state.helperText}
                         onChange={handleChange}
+                        helperText={t(errors.username as unknown as string)}
+                        error={
+                          errors.username && touched.username
+                            ? true
+                            : false
+                        }
                       />
                       <InputLabel className="form-label" >{t("labels.password")}</InputLabel>
                       <TextField
@@ -163,8 +175,13 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        // helperText={state.helperText}
                         onChange={handleChange}
+                        helperText={t(errors.password as unknown as string)}
+                        error={
+                          errors.password && touched.password
+                            ? true
+                            : false
+                        }
                       />
                       <InputLabel className="form-label" >{t("labels.repeat_password")}</InputLabel>
                       <TextField
@@ -175,8 +192,13 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        // helperText={state.helperText}
                         onChange={handleChange}
+                        helperText={t(errors.repeatPassword as unknown as string)}
+                        error={
+                          errors.repeatPassword && touched.repeatPassword
+                            ? true
+                            : false
+                        }
                       />
                     </Grid>
                   </Grid>
@@ -187,7 +209,6 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                       <Button
                         className={classes.resetButton}
                         type="reset"
-                        disabled={isSubmitting}
                         color="secondary"
                         variant="outlined"
                       >
@@ -196,7 +217,7 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                       <Button
                         className={classes.submitButton}
                         type="submit"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || !isValid}
                         color="primary"
                         variant="outlined"
                       >
@@ -210,6 +231,15 @@ const LoginCreatePage: React.FC<Props> = (props) => {
           )
         }}
       </Formik>
+      <AlertDialog
+        title={t("messages.alert")}
+        content={t("messages.passwords_match")}
+        agreeBtnLabel={t("buttons.ok")}
+        disagreeBtnLabel={t("buttons.cancel")}
+        isOpen={openPasswordAlert}
+        setAgreed={() => setOpenPasswordAlert(false)}
+        handleClose={() => setOpenPasswordAlert(false)}
+      />
     </>
   );
 }

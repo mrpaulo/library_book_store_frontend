@@ -27,7 +27,6 @@ import { ApplicationState } from '../../../store';
 import { Publisher, PublisherRequestFilter as Filter } from '../../../store/ducks/publishers/types';
 //Third party
 import { Formik, Form, FormikProps } from 'formik';
-import * as Yup from 'yup';
 //Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -37,6 +36,8 @@ import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } f
 import ClearIcon from '@material-ui/icons/Clear';
 import SearchIcon from '@material-ui/icons/Search';
 import '../../../styles/global.css';
+//Validation
+import { validationDateFilterSchema } from '../../utils/validationUtil';
 
 interface StateProps {
   publishers?: Publisher[]  
@@ -64,19 +65,6 @@ const PublisherFilter: React.FC<Props> = (props) => {
   const { t } = useTranslation();  
   const { searchRequest, updateRequestFilter, cleanRequestFilter } = props;
   
-  const validationSchema = Yup.object().shape({       
-    startDate: Yup.date().max(new Date(), t("errors.start_date_after")),
-    finalDate: Yup.date()
-    .when('startDate',
-    (startDate: Date | undefined, schema: Yup.DateSchema) => {
-        if (startDate) {
-        const dayAfter = new Date(startDate.getTime() + 86400000);
-            return schema.min(dayAfter, t("errors.end_date_before"));
-          }      
-          return schema;
-    })
-  });
-
   function handleSubmit(values: Filter, actions: any) {
     actions.setSubmitting(false);
     cleanRequestFilter();
@@ -94,7 +82,7 @@ const PublisherFilter: React.FC<Props> = (props) => {
         onSubmit={handleSubmit}
         initialValues={INITIAL_VALUES}
         className={classes.root}
-        validationSchema={validationSchema}
+        validationSchema={validationDateFilterSchema}
       >
         {(props: FormikProps<Filter>) => {
           const {
@@ -160,7 +148,7 @@ const PublisherFilter: React.FC<Props> = (props) => {
                             shrink: true,
                           }}
                           variant="outlined"
-                          helperText={errors.startDate}
+                          helperText={t(errors.startDate as string)}
                           error={
                             errors.startDate && touched.startDate
                               ? true
@@ -183,7 +171,7 @@ const PublisherFilter: React.FC<Props> = (props) => {
                             shrink: true,
                           }}
                           variant="outlined"
-                          helperText={errors.finalDate}
+                          helperText={t(errors.finalDate as string)}
                           error={
                             errors.finalDate && touched.finalDate
                               ? true

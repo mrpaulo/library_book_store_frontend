@@ -33,7 +33,6 @@ import ModalAddress from '../../address'
 import CustomObjSelect from '../../utils/CustomObjSelect';
 //Third party
 import { Formik, Form, FormikProps, Field, FormikHelpers } from 'formik';
-import * as Yup from 'yup';
 //Tranlation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -43,6 +42,8 @@ import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
+//Validation
+import { validationAuthorSchema } from '../../utils/validationUtil';
 
 interface StateProps {
   author?: Author,
@@ -89,16 +90,6 @@ const EditAuthor: React.FC<Props> = (props) => {
   const [stateSelected, setStateSelected] = useState<StateCountry | null>(null);
   const [citySelected, setCitySelected] = useState<City | null>(null);
   const [subtitle, setSubtitle] = useState(t("titles.submit_author"));
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .max(100, t("errors.too_long"))
-      .required(t("errors.name_required")),
-    birthdate: Yup.date()
-      .required(t("errors.birthdate_required")),
-    description: Yup.string()
-      .max(100, t("errors.too_long"))
-  });
 
   useEffect(() => {
     if (author) {
@@ -163,7 +154,7 @@ const EditAuthor: React.FC<Props> = (props) => {
         enableReinitialize
         onSubmit={handleSubmit}
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={validationAuthorSchema}
       >
         {(props: FormikProps<Author>) => {
           const {
@@ -213,7 +204,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.name}
+                        helperText={t(errors.name as unknown as string)}
                         error={
                           errors.name && touched.name
                             ? true
@@ -234,7 +225,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.email}
+                        helperText={t(errors.email as unknown as string)}
                         error={
                           errors.email && touched.email
                             ? true
@@ -271,7 +262,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                           shrink: true,
                         }}
                         variant="outlined"
-                        helperText={errors.birthdate}
+                        helperText={t(errors.birthdate as unknown as string)}
                         error={
                           errors.birthdate && touched.birthdate
                             ? true
@@ -333,7 +324,7 @@ const EditAuthor: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.description}
+                        helperText={t(errors.description as unknown as string)}
                         error={
                           errors.description && touched.description
                             ? true

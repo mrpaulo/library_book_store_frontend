@@ -68,8 +68,7 @@ const ModalUser: React.FC<Props> = (props) => {
   }
 
   return (
-    <>
-      
+    <>      
       <Modal
         open={openModal}
         onClose={handleClose}

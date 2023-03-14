@@ -30,7 +30,6 @@ import { CustomEnum } from '../../utils/constants';
 import CustomObjSelect from '../../utils/CustomObjSelect';
 //Third party
 import { Formik, Form, FormikProps, Field } from 'formik';
-import * as Yup from 'yup';
 //Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -40,6 +39,8 @@ import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
+//Validation
+import { validationAddressSchema } from '../../utils/validationUtil';
 
 interface StateProps {
   address?: Address,
@@ -89,20 +90,6 @@ const EditAddress: React.FC<Props> = (props) => {
   const [stateSelected, setStateSelected] = useState<StateCountry | null>(null);
   const [citySelected, setCitySelected] = useState<City | null>(null);
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .max(100, t("errors.too_long"))
-      .required(t("errors.name_required")),
-    neighborhood: Yup.string()
-      .max(100, t("errors.too_long")),
-    number: Yup.string()
-      .max(100, t("errors.too_long")),
-    referencialPoint: Yup.string()
-      .max(100, t("errors.too_long")),
-    cep: Yup.string()
-      .max(8, t("errors.too_long")),
-  });
-
   useEffect(() => {    
     if (address) {
       setInitialValues(address);      
@@ -147,9 +134,7 @@ const EditAddress: React.FC<Props> = (props) => {
     actions.setSubmitting(false);
     if (citySelected) {
       values.city = citySelected;
-    }
-    console.log("On submit values for address")
-    console.log(values);
+    }    
     setAddress(values as Address);
     
     if (flagEditing) {
@@ -174,7 +159,7 @@ const EditAddress: React.FC<Props> = (props) => {
         enableReinitialize
         onSubmit={handleSubmit}
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={validationAddressSchema}
       >
         {(props: FormikProps<Address>) => {
           const {
@@ -183,6 +168,7 @@ const EditAddress: React.FC<Props> = (props) => {
             errors,            
             handleChange,
             isSubmitting,
+            isValid
           } = props
 
           const getCountrySelected = (country: Country) => {
@@ -228,7 +214,7 @@ const EditAddress: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.name}
+                        helperText={t(errors.name as unknown as string)}
                         error={
                           errors.name && touched.name
                             ? true
@@ -249,7 +235,7 @@ const EditAddress: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.number}
+                        helperText={t(errors.number as unknown as string)}
                         error={
                           errors.number && touched.number
                             ? true
@@ -270,7 +256,7 @@ const EditAddress: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.cep}
+                        helperText={t(errors.cep as unknown as string)}
                         error={
                           errors.cep && touched.cep
                             ? true
@@ -291,7 +277,7 @@ const EditAddress: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.neighborhood}
+                        helperText={t(errors.neighborhood as unknown as string)}
                         error={
                           errors.neighborhood && touched.neighborhood
                             ? true
@@ -312,7 +298,7 @@ const EditAddress: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.referencialPoint}
+                        helperText={t(errors.referencialPoint as unknown as string)}
                         error={
                           errors.referencialPoint && touched.referencialPoint
                             ? true
@@ -379,7 +365,7 @@ const EditAddress: React.FC<Props> = (props) => {
                     <Button
                       className={classes.submitButton}
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !isValid}
                       color="primary"
                       variant="outlined"
                       startIcon={<SaveIcon />}

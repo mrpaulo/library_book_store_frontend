@@ -36,7 +36,6 @@ import CustomSelect from '../../utils/CustomSelect';
 import { SexList } from '../../utils/constants';
 //Third party
 import { Formik, Form, FormikProps, Field } from 'formik';
-import * as Yup from 'yup';
 //Translation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -46,6 +45,8 @@ import { useStyles } from '../../../styles/Styles';
 import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
+//Validation
+import { validationUserSchema } from '../../utils/validationUtil';
 
 
 interface StateProps {
@@ -86,14 +87,7 @@ const EditUser: React.FC<Props> = (props) => {
   const [roles, setRoles] = useState<Role[]>([]);
   const [subtitle, setSubtitle] = useState(t("titles.submit_user"));
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .max(100, t("errors.too_long")),
-    cpf: Yup.string()
-      .max(100, t("errors.too_long")),
-    email: Yup.string()
-      .max(100, t("errors.too_long"))
-  });
+  
 
   useEffect(() => {
     if (user) {
@@ -135,7 +129,7 @@ const EditUser: React.FC<Props> = (props) => {
         enableReinitialize
         onSubmit={handleSubmit}
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={validationUserSchema}
       >
         {(props: FormikProps<User>) => {
           const {
@@ -201,7 +195,7 @@ const EditUser: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.name}
+                        helperText={t(errors.name as unknown as string)}
                         error={
                           errors.name && touched.name
                             ? true
@@ -222,7 +216,7 @@ const EditUser: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.cpf}
+                        helperText={t(errors.cpf as unknown as string)}
                         error={
                           errors.cpf && touched.cpf
                             ? true
@@ -243,7 +237,7 @@ const EditUser: React.FC<Props> = (props) => {
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={errors.email}
+                        helperText={t(errors.email as unknown as string)}
                         error={
                           errors.email && touched.email
                             ? true
