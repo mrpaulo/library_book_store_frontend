@@ -1,4 +1,43 @@
-WIP -> isn't done 
+## Library Book Store Frontend
+The Library Book Store Frontend is a web application for a fictional library that allows users to browse and catalog books, view book details, and check out books for borrowing. This frontend application works in conjunction with a backend API that handles book data and user authentication.
+
+## Features
+- Browse books by category or search for books by title or author
+- View book details, including title, author, publisher, and description
+- Catalog Author and Publisher information
+- Using i18n, all app labels and information can be displayed in both English and Portuguese
+
+## Technologies
+Library Book Store Frontend is built using the following technologies:
+
+- React.js: A popular JavaScript library for building user interfaces
+- Redux: A predictable state container for managing application state
+- Typescript: An open-source programming language developed and maintained by Microsoft. It is a superset of JavaScript that adds optional static typing and other features to the language.
+- Axios: A promise-based HTTP client for making API requests
+- Bootstrap: A popular CSS framework for building responsive and mobile-first designs
+
+## Installation and Usage
+To install and use Library Book Store Frontend, follow these steps:
+
+1. Clone the repository: git clone https://github.com/mrpaulo/library_book_store_frontend.git
+2. Install dependencies: npm install
+3. Start the application: npm start
+4. Open the application in a web browser at http://localhost:3000
+
+### Contributing
+Contributions to Library Book Store Frontend are welcome! To contribute:
+
+1. Fork the repository
+2. Create a new branch: git checkout -b my-feature-branch
+3. Make changes and commit them: git commit -am 'Add some feature'
+4. Push the changes to your fork: git push origin my-feature-branch
+5. Submit a pull request
+
+## Credits
+Library Book Store Frontend was created by Paulo Rodrigues, a software engineer passionate about creating user-friendly and scalable applications.
+
+## License
+Library Book Store Frontend is licensed under the MIT License. See LICENSE for more information.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

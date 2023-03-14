@@ -17,12 +17,30 @@
  */
 
 import React from 'react';
+//Style
+import '../../styles/global.css';
 
 const HomePage: React.FC = () => {
   
   return (
     <>
-      <h1>Hello welcome to Library Book Store</h1>
+      <div className="home-page">
+      <h1>Welcome to Library Book Store</h1>
+      <p>
+        Our online bookstore offers a wide selection of books, including bestsellers, classics, and academic texts.
+      </p>
+      <ul>
+        <li>Easy search and filtering of books by author, title, or category</li>
+        <li>Book details page with summary, reviews, and related books</li>
+        <li>User authentication and account management</li>       
+      </ul>
+      <p>
+        Thank you for visiting my site. I hope you find the books you're looking for! 
+      </p>
+      <p>
+        If you have any questions or suggestions, please feel free to contact me using the information provided on our website footer. And also thank you for your interisting on my project.
+      </p>
+    </div>
     </>)
 }
 export default HomePage;
