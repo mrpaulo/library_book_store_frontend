@@ -55,7 +55,7 @@ export interface Address {
   zipCode?: String,
   neighborhood?: String,
   coordination?: String,
-  referencialPoint?: String,
+  referentialPoint?: String,
   fmtAddress?:String,
   cityName?: String,
   stateName?: String,
