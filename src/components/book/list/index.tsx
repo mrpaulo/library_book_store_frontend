@@ -63,7 +63,7 @@ const BookList: React.FC<Props> = (props) => {
   const [idToDelete, setIdToDelete] = useState(0);
 
   useEffect(() => {
-    updateRequestFilter({currentPage: 1, rowsPerPage: 10} as Filter);
+    updateRequestFilter({currentPage: 1, rowsPerPage: 10, adultsOnly: false as unknown} as Filter);
     searchRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

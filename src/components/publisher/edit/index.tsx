@@ -200,6 +200,12 @@ const EditPublisher: React.FC<Props> = (props) => {
                           shrink: true,
                         }}
                         variant="outlined"
+                        helperText={t(errors.foundationDate as unknown as string)}
+                        error={
+                          errors.foundationDate && touched.foundationDate
+                            ? true
+                            : false
+                        }
                       />
                     </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>

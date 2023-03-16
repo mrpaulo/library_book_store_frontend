@@ -62,7 +62,8 @@ const INITIAL_VALUES: Filter = {
   publisher: '',
   subject: undefined,
   startDate: undefined,
-  finalDate: undefined
+  finalDate: undefined,
+  adultsOnly: false
 };
 
 const FilterBook: React.FC<Props> = (props) => {

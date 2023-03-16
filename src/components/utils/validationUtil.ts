@@ -28,7 +28,7 @@ export const validationAddressSchema = Yup.object().shape({
     .max(MAX_SIZE_NAME, "errors.too_long"),
   number: Yup.string()
     .max(MAX_SIZE_ADDRESS_NUMBER, "errors.too_long"),
-  referencialPoint: Yup.string()
+  referentialPoint: Yup.string()
     .max(MAX_SIZE_SHORT_TEXT, "errors.too_long"),
   cep: Yup.string()
     .max(MAX_SIZE_ADDRESS_CEP, "errors.too_long"),
@@ -68,6 +68,8 @@ export const validationPublisherSchema = Yup.object().shape({
   name: Yup.string()
     .max(MAX_SIZE_NAME, "errors.too_long")
     .required("errors.name_required"),
+  foundationDate: Yup.date()
+    .max(new Date(), "errors.start_date_after"),
   cnpj: Yup.string()
     .max(MAX_SIZE_CNPJ, "errors.too_long")
     .required("errors.cnpj_required"),
@@ -78,6 +80,8 @@ export const validationPublisherSchema = Yup.object().shape({
 export const validationUserSchema = Yup.object().shape({
   name: Yup.string()
     .max(MAX_SIZE_NAME, "errors.too_long"),
+  birthdate: Yup.date()
+    .max(new Date(), "errors.start_date_after"),
   cpf: Yup.string()
     .max(MAX_SIZE_CPF, "errors.too_long"),
   email: Yup.string()

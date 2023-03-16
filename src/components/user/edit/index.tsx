@@ -274,6 +274,12 @@ const EditUser: React.FC<Props> = (props) => {
                           shrink: true,
                         }}
                         variant="outlined"
+                        helperText={t(errors.birthdate as unknown as string)}
+                        error={
+                          errors.birthdate && touched.birthdate
+                            ? true
+                            : false
+                        }
                       />
                     </Grid>
                     <ModalUser openModal={openModalUser} userSetup={handleUserPassword} handleCloseModal={setOpenModalUser} />

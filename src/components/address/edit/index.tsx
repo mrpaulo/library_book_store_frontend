@@ -75,7 +75,7 @@ const INITIAL_VALUES: Address = {
   city: undefined,
   zipCode: "",
   coordination: "",
-  referencialPoint: "",
+  referentialPoint: "",
   logradouro: undefined
 };
 
@@ -288,19 +288,19 @@ const EditAddress: React.FC<Props> = (props) => {
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.referencial_point")}</InputLabel>
                       <TextField
-                        name="referencialPoint"
+                        name="referentialPoint"
                         type="text"
                         placeholder=""
-                        value={values.referencialPoint || ""}
+                        value={values.referentialPoint || ""}
                         onChange={handleChange}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
                         }}
                         variant="outlined"
-                        helperText={t(errors.referencialPoint as unknown as string)}
+                        helperText={t(errors.referentialPoint as unknown as string)}
                         error={
-                          errors.referencialPoint && touched.referencialPoint
+                          errors.referentialPoint && touched.referentialPoint
                             ? true
                             : false
                         }
