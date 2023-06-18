@@ -17,7 +17,7 @@
  */
 
 //React
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 //Actions and store
@@ -32,22 +32,29 @@ import { CircularProgress } from '@material-ui/core';
 import '../../styles/global.css';
 
 interface StateProps {
-  authors?: AuthorDTO[]
-  valueSelected: AuthorDTO[],
-  helperText?: String,
-  error?: boolean
+  authorChoiceList?: AuthorDTO[];
+  valueSelected: AuthorDTO[];
+  helperText?: string;
+  error?: boolean;
 }
 
 interface DispatchProps {
-  findByNameRequest(name: string): void
-  authorsSelected(authors: AuthorDTO[]): void
+  findByNameRequest(name: string): void;
+  authorsSelected(authors: AuthorDTO[]): void;
+  cleanAuthorsAutoCompleteList(): void;
 }
 
-type Props = StateProps & DispatchProps
+type Props = StateProps & DispatchProps;
 
-const AutoCompleteAuthor: React.FC<Props> = (props) => {
-
-  const { authors, valueSelected, helperText, error, findByNameRequest, authorsSelected } = props;
+const AutoCompleteAuthor: React.FC<Props> = ({
+  authorChoiceList,
+  valueSelected,
+  helperText,
+  error,
+  findByNameRequest,
+  authorsSelected,
+  cleanAuthorsAutoCompleteList
+}) => {
   const [value, setValue] = useState<AuthorDTO[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState<AuthorDTO[]>([]);
@@ -56,7 +63,7 @@ const AutoCompleteAuthor: React.FC<Props> = (props) => {
 
   useEffect(() => {
     setValue(valueSelected);
-  }, [valueSelected])
+  }, [valueSelected]);
 
   useEffect(() => {
     let active = true;
@@ -64,12 +71,13 @@ const AutoCompleteAuthor: React.FC<Props> = (props) => {
     if (!loading) {
       return undefined;
     }
+
     if (inputValue && inputValue.length > 1 && active) {
       findByNameRequest(inputValue);
     }
 
     if (active) {
-      setOptions(authors as AuthorDTO[]);
+      setOptions(authorChoiceList as AuthorDTO[]);
     }
 
     return () => {
@@ -78,34 +86,50 @@ const AutoCompleteAuthor: React.FC<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, inputValue]);
 
+  useEffect(() => {
+    if (inputValue === '') {
+      cleanAuthorsAutoCompleteList();
+      setOptions([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputValue]);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleChange = (event: ChangeEvent<{}>, newValue: AuthorDTO[]) => {
+    setOptions(options);
+    setValue(newValue);
+    authorsSelected(newValue);
+  };
+
+  const handleInputChange = (event: ChangeEvent<{}>, newInputValue: string) => {
+    setInputValue(newInputValue);
+  };
+
   return (
     <Autocomplete
       multiple
       limitTags={2}
       id="auto-complete-author"
-      className={"form-select-field"}
+      className="form-select-field"
       open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      getOptionLabel={(option) => (option.name)}
+      onOpen={handleOpen}
+      onClose={handleClose}
+      getOptionLabel={(option) => option.name}
       filterOptions={(x) => x}
       options={options}
       autoComplete
       includeInputInList
       filterSelectedOptions
       value={value}
-      onChange={(event: any, newValue: AuthorDTO[]) => {
-        setOptions(options);
-        setValue(newValue);
-        authorsSelected(newValue)
-      }}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue);
-      }}
+      onChange={handleChange}
+      onInputChange={handleInputChange}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -114,7 +138,7 @@ const AutoCompleteAuthor: React.FC<Props> = (props) => {
             ...params.InputProps,
             endAdornment: (
               <React.Fragment>
-                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                {loading && <CircularProgress color="inherit" size={20} />}
                 {params.InputProps.endAdornment}
               </React.Fragment>
             ),
@@ -125,12 +149,12 @@ const AutoCompleteAuthor: React.FC<Props> = (props) => {
       )}
     />
   );
-}
+};
 
 AutoCompleteAuthor.displayName = 'AutoCompleteAuthor';
 
 const mapStateToProps = (state: ApplicationState) => ({
-  authors: state.authors.authorsAutoComplete
+  authorChoiceList: state.authors.authorsAutoComplete,
 });
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(authorsActions, dispatch);
 

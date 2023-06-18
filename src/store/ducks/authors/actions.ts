@@ -12,6 +12,7 @@ export const findByIdSuccess = (authorData: Author) => action(Types.FIND_BY_ID_S
 
 export const findByNameRequest = (name: string) => action(Types.FIND_BY_NAME_REQUEST,  { name });
 export const findByNameSuccess = (authorsData: AuthorDTO) => action(Types.FIND_BY_NAME_SUCCESS,  { authorsData});
+export const cleanAuthorsAutoCompleteList = () => action(Types.CLEAN_AUTORS_AUTOCOMPLET_LIST);
 
 export const updateRequest = (author: Author) => action(Types.UPDATE_REQUEST,  { author });
 export const updateSuccess = (authorData: Author) => action(Types.UPDATE_SUCCESS,  { authorData });
