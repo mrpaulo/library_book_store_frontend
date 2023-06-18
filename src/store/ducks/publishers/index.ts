@@ -34,6 +34,8 @@ const reducer: Reducer<PublishersState> = (state = INITIAL_STATE, action) => {
       return { ...state, loading: true };
     case Types.FIND_BY_NAME_SUCCESS:
       return { ...state, loading: false, error: false, publishersAutoComplete: action.payload.publishersData };    
+    case Types.CLEAN_PUBLISHERS_AUTOCOMPLET_LIST:
+      return { ...state, loading: false, error: false, publishersAutoComplete: [] };    
     case Types.UPDATE_REQUEST:
       return { ...state, loading: true };
     case Types.UPDATE_SUCCESS:

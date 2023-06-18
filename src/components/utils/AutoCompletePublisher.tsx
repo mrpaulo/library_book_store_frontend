@@ -41,13 +41,14 @@ interface StateProps {
 interface DispatchProps {
   findByNameRequest(name: string): void
   publisherSelected(publisher: PublisherDTO): void
+  cleanPublishersAutoCompleteList(): void
 }
 
 type Props = StateProps & DispatchProps
 
 const AutoCompletePublisher: React.FC<Props> = (props) => {
   
-  const { publishers, valueSelected, helperText, error, findByNameRequest, publisherSelected } = props;
+  const { publishers, valueSelected, helperText, error, findByNameRequest, publisherSelected, cleanPublishersAutoCompleteList } = props;
   const [value, setValue] = useState<PublisherDTO | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState<PublisherDTO[]>([]);  
@@ -76,6 +77,14 @@ useEffect(() => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, inputValue]);
+
+  useEffect(() => {
+    if (inputValue === '') {
+      cleanPublishersAutoCompleteList();
+      setOptions([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputValue]);
 
   return (
     <Autocomplete

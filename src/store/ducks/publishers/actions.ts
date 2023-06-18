@@ -12,6 +12,8 @@ export const findByIdSuccess = (publisherData: Publisher) => action(Types.FIND_B
 
 export const findByNameRequest = (name: string) => action(Types.FIND_BY_NAME_REQUEST,  { name });
 export const findByNameSuccess = (publishersData: PublisherDTO) => action(Types.FIND_BY_NAME_SUCCESS,  { publishersData});
+export const cleanPublishersAutoCompleteList = () => action(Types.CLEAN_PUBLISHERS_AUTOCOMPLET_LIST);
+
 
 export const updateRequest = (publisher: Publisher) => action(Types.UPDATE_REQUEST,  { publisher });
 export const updateSuccess = (publisherData: Publisher) => action(Types.UPDATE_SUCCESS,  { publisherData });
