@@ -30,6 +30,7 @@ import { Address, Country } from '../../../store/ducks/addresses/types';
 import ModalAddress from '../../address'
 //Third party
 import { Formik, Form, FormikProps } from 'formik';
+
 //Tranlation
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
@@ -41,6 +42,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
 //Validation
 import { validationPublisherSchema } from '../../utils/validationUtil';
+import { formattedDate } from '../../utils/formatUtil';
 
 interface StateProps {
   publisher?: Publisher,
@@ -62,8 +64,8 @@ type Props = StateProps & DispatchProps
 const INITIAL_VALUES: Publisher = {
   id: 0,
   name: '',
-  cnpj: '', 
-  description: "",      
+  cnpj: '',
+  description: "",
   address: undefined,
   foundationDate: undefined
 };
@@ -74,16 +76,18 @@ const EditPublisher: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const [initialValues, setInitialValues] = useState(INITIAL_VALUES);
   const { publisher, changeFlagEditing, cleanPublisherEdit, createRequest, updateRequest, countryRequest } = props;
-  const [flagEditing, setFlagEditing] = useState(false);  
+  const [flagEditing, setFlagEditing] = useState(false);
   const [subtitle, setSubtitle] = useState(t("titles.submit_publisher"));
-
-  
+  const [foundationDate, setFoundationDate] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     if (publisher) {
       setInitialValues(publisher);
       setFlagEditing(true);
       setSubtitle(t("titles.edit_publisher"))
+      if(publisher.foundationDate){
+        setFoundationDate(formattedDate(publisher.foundationDate))
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publisher]);
@@ -95,7 +99,11 @@ const EditPublisher: React.FC<Props> = (props) => {
 
   function handleSubmit(values: Publisher, actions: any) {
     actions.setSubmitting(false);
-    
+
+    if(foundationDate){
+      values.foundationDate = new Date(foundationDate);
+    }
+
     if (flagEditing) {
       updateRequest(values);
     } else {
@@ -107,6 +115,7 @@ const EditPublisher: React.FC<Props> = (props) => {
     changeFlagEditing();
     cleanPublisherEdit();
   }
+
 
   return (
     <div className="page-containner">
@@ -120,15 +129,19 @@ const EditPublisher: React.FC<Props> = (props) => {
           const {
             values,
             touched,
-            errors,            
+            errors,
             handleChange,
             isSubmitting,
             isValid
-          } = props
+          } = props          
 
           const handleAddress = (address: Address) => {
             values.address = address;
           }
+
+          const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+            setFoundationDate(formattedDate(new Date(e.target.value)));
+          };
 
           return (
             <Card className={classes.root}>
@@ -180,7 +193,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                             : false
                         }
                       />
-                    </Grid>         
+                    </Grid>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.address")}</InputLabel>
                       <ModalAddress addressSrc={values.address} addressSetup={handleAddress} name={values.name} />
@@ -190,8 +203,8 @@ const EditPublisher: React.FC<Props> = (props) => {
                       <TextField
                         name="foundationDate"
                         type="date"
-                        value={values.foundationDate || ""}
-                        onChange={handleChange}
+                        value={foundationDate || ""}
+                        onChange={handleChangeDate}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
@@ -222,7 +235,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                             : false
                         }
                       />
-                    </Grid>                    
+                    </Grid>
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10}>
