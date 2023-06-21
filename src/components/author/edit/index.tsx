@@ -44,6 +44,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
 //Validation
 import { validationAuthorSchema } from '../../utils/validationUtil';
+import { formattedDate } from '../../utils/formatUtil';
 
 interface StateProps {
   author?: Author,
@@ -90,11 +91,15 @@ const EditAuthor: React.FC<Props> = (props) => {
   const [stateSelected, setStateSelected] = useState<StateCountry | null>(null);
   const [citySelected, setCitySelected] = useState<City | null>(null);
   const [subtitle, setSubtitle] = useState(t("titles.submit_author"));
+  const [birthdate, setBirthdate] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     if (author) {
       setFlagEditing(true);
       setSubtitle(t("titles.edit_author"))
+      if(author.birthdate){        
+        setBirthdate(formattedDate(new Date(author.birthdate)))
+      }
       if (author.birthCountry) {
         setCountrySelected(author.birthCountry);
         author.birthCountryName = author.birthCountry.name;
@@ -128,6 +133,9 @@ const EditAuthor: React.FC<Props> = (props) => {
     () => (values: Author, actions: FormikHelpers<Author>) => {
       actions.setSubmitting(false);
   
+      if(birthdate){
+        values.birthdate = new Date(birthdate.replace(/-/g, '/'));
+      }
       if (countrySelected) {
         values.birthCountry = countrySelected;
       }
@@ -140,7 +148,7 @@ const EditAuthor: React.FC<Props> = (props) => {
         createRequest(values);
       }
     }, 
-    [countrySelected, citySelected, flagEditing, createRequest, updateRequest]
+    [countrySelected, citySelected, flagEditing, birthdate, createRequest, updateRequest]
   );
 
   function handleCancel() {
@@ -181,6 +189,11 @@ const EditAuthor: React.FC<Props> = (props) => {
           const getCitySelected = (city: City) => {
             setCitySelected(city);
           }
+
+          const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {            
+            let dateValue = new Date(e.target.value.replace(/-/g, '/')); 
+            setBirthdate(formattedDate(dateValue));
+          };
 
           return (
             <Card className={classes.root}>
@@ -252,8 +265,8 @@ const EditAuthor: React.FC<Props> = (props) => {
                       <TextField
                         name="birthdate"
                         type="date"
-                        value={values.birthdate || ""}
-                        onChange={handleChange}
+                        value={birthdate || ""}
+                        onChange={handleChangeDate}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,

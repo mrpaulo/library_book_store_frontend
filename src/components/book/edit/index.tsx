@@ -45,6 +45,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
 //Validation
 import { validationBookSchema } from '../../utils/validationUtil';
+import { formattedDate } from '../../utils/formatUtil';
 
 interface StateProps {
   book?: Book,
@@ -97,9 +98,8 @@ const EditBook: React.FC<Props> = (props) => {
   const [subtitle, setSubtitle] = useState(t("titles.submit_book"));
   const [publisher, setPublisher] = useState<PublisherDTO | null>(null);
   const [authors, setAuthors] = useState<AuthorDTO[]>([]);
-
+  const [publishDate, setPublishDate] = useState<string | undefined>(undefined);
   
-
   useEffect(() => {
     if (book) {
       book.subjectName = book.subject ? book.subject.name : "";
@@ -109,6 +109,9 @@ const EditBook: React.FC<Props> = (props) => {
       setInitialValues(book);
       setFlagEditing(true);
       setSubtitle(t("titles.edit_book"))
+      if(book.publishDate){        
+        setPublishDate(formattedDate(new Date(book.publishDate)))
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [book]);
@@ -125,6 +128,9 @@ const EditBook: React.FC<Props> = (props) => {
 
     actions.setSubmitting(false);
 
+    if(publishDate){
+      values.publishDate = new Date(publishDate.replace(/-/g, '/'));
+    }
     if (publisher) {
       values.publisher = publisher;
     }
@@ -170,6 +176,11 @@ const EditBook: React.FC<Props> = (props) => {
             values.authors = authors;
             setAuthors(authors);
           }
+
+          const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {            
+            let dateValue = new Date(e.target.value.replace(/-/g, '/')); 
+            setPublishDate(formattedDate(dateValue));
+          };
 
           return (
             <Card className={classes.root}>
@@ -374,8 +385,8 @@ const EditBook: React.FC<Props> = (props) => {
                       <TextField
                         name="publishDate"
                         type="date"
-                        value={values.publishDate || ""}
-                        onChange={handleChange}
+                        value={publishDate || ""}
+                        onChange={handleChangeDate}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,

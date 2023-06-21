@@ -38,6 +38,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import '../../../styles/global.css';
 //Validation
 import { validationDateFilterSchema } from '../../utils/validationUtil';
+import { maskCNPJValue } from '../../utils/formatUtil';
 
 interface StateProps {
   publishers?: Publisher[]  
@@ -91,8 +92,15 @@ const PublisherFilter: React.FC<Props> = (props) => {
             isSubmitting,
             errors,
             touched,
-            isValid
+            isValid,
+            setFieldValue
           } = props
+
+          const handleChangeMask = (e: React.ChangeEvent<HTMLInputElement>) => {            
+            const { name, value } = e.target;
+            setFieldValue(name, maskCNPJValue(value));
+          };
+
           return (
             <Card className={classes.root}>
               <Form>
@@ -124,7 +132,7 @@ const PublisherFilter: React.FC<Props> = (props) => {
                         type="text"
                         placeholder=""
                         value={values.cnpj || ""}
-                        onChange={handleChange}
+                        onChange={handleChangeMask}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,

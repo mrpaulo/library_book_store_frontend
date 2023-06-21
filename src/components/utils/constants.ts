@@ -32,5 +32,5 @@ export const MAX_SIZE_ADDRESS_CEP: number = 8;
 export const MAX_SIZE_ADDRESS_ZIPCODE: number = 12;
 export const MAX_SIZE_ADDRESS_COORDINATION: number = 20;
 
-export const MAX_SIZE_CNPJ: number = 14;
-export const MAX_SIZE_CPF: number = 11;
+export const MAX_SIZE_CNPJ: number = 18;
+export const MAX_SIZE_CPF: number = 14;

@@ -42,7 +42,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
 //Validation
 import { validationPublisherSchema } from '../../utils/validationUtil';
-import { formattedDate } from '../../utils/formatUtil';
+import { formattedDate, maskCNPJValue } from '../../utils/formatUtil';
 
 interface StateProps {
   publisher?: Publisher,
@@ -85,8 +85,11 @@ const EditPublisher: React.FC<Props> = (props) => {
       setInitialValues(publisher);
       setFlagEditing(true);
       setSubtitle(t("titles.edit_publisher"))
-      if(publisher.foundationDate){
-        setFoundationDate(formattedDate(publisher.foundationDate))
+      if(publisher.foundationDate){        
+        setFoundationDate(formattedDate(new Date(publisher.foundationDate)))
+      }
+      if(publisher.cnpj){
+        publisher.cnpj = maskCNPJValue(publisher.cnpj as string);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -101,7 +104,7 @@ const EditPublisher: React.FC<Props> = (props) => {
     actions.setSubmitting(false);
 
     if(foundationDate){
-      values.foundationDate = new Date(foundationDate);
+      values.foundationDate = new Date(foundationDate.replace(/-/g, '/'));
     }
 
     if (flagEditing) {
@@ -115,7 +118,6 @@ const EditPublisher: React.FC<Props> = (props) => {
     changeFlagEditing();
     cleanPublisherEdit();
   }
-
 
   return (
     <div className="page-containner">
@@ -132,15 +134,22 @@ const EditPublisher: React.FC<Props> = (props) => {
             errors,
             handleChange,
             isSubmitting,
-            isValid
+            isValid,
+            setFieldValue
           } = props          
 
           const handleAddress = (address: Address) => {
             values.address = address;
           }
 
-          const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-            setFoundationDate(formattedDate(new Date(e.target.value)));
+          const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {            
+            let dateValue = new Date(e.target.value.replace(/-/g, '/')); 
+            setFoundationDate(formattedDate(dateValue));
+          };
+
+          const handleChangeMask = (e: React.ChangeEvent<HTMLInputElement>) => {            
+            const { name, value } = e.target;
+            setFieldValue(name, maskCNPJValue(value));
           };
 
           return (
@@ -180,7 +189,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                         type="text"
                         placeholder=""
                         value={values.cnpj || ""}
-                        onChange={handleChange}
+                        onChange={handleChangeMask}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,

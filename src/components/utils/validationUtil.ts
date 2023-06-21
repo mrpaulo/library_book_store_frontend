@@ -71,7 +71,7 @@ export const validationPublisherSchema = Yup.object().shape({
   cnpj: Yup.string()
     .max(MAX_SIZE_CNPJ, "errors.too_long")
     .required("errors.cnpj_required"),
-  description:  Yup.string()
+  description: Yup.string()
   .max(MAX_SIZE_LONG_TEXT, "errors.too_long")
 });
 

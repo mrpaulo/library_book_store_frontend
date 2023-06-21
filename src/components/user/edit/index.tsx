@@ -47,6 +47,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
 //Validation
 import { validationUserSchema } from '../../utils/validationUtil';
+import { formattedDate, maskCPFValue } from '../../utils/formatUtil';
 
 
 interface StateProps {
@@ -86,11 +87,16 @@ const EditUser: React.FC<Props> = (props) => {
   const [openModalUser, setOpenModalUser] = useState(false);
   const [roles, setRoles] = useState<Role[]>([]);
   const [subtitle, setSubtitle] = useState(t("titles.submit_user"));
-
-  
+  const [birthdate, setBirthdate] = useState<string | undefined>(undefined);  
 
   useEffect(() => {
     if (user) {
+      if(user.birthdate){        
+        setBirthdate(formattedDate(new Date(user.birthdate)))
+      }
+      if(user.cpf){
+        user.cpf = maskCPFValue(user.cpf as string);
+      }
       setInitialValues(user);
       setFlagEditing(true);
       setRoles(user.roles as Role[])
@@ -107,6 +113,9 @@ const EditUser: React.FC<Props> = (props) => {
   function handleSubmit(values: User, actions: any) {
     actions.setSubmitting(false);
 
+    if(birthdate){
+      values.birthdate = new Date(birthdate.replace(/-/g, '/'));
+    }    
     if (flagEditing) {
       updateRequest(values);
     } else {
@@ -138,6 +147,7 @@ const EditUser: React.FC<Props> = (props) => {
             errors,
             handleChange,
             isSubmitting,
+            setFieldValue
           } = props
 
           const handleAddress = (address: Address) => {
@@ -157,6 +167,16 @@ const EditUser: React.FC<Props> = (props) => {
             }
             setRoles(values.roles);
           }
+
+          const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {            
+            let dateValue = new Date(e.target.value.replace(/-/g, '/')); 
+            setBirthdate(formattedDate(dateValue));
+          };
+
+          const handleChangeMask = (e: React.ChangeEvent<HTMLInputElement>) => {            
+            const { name, value } = e.target;
+            setFieldValue(name, maskCPFValue(value));
+          };
 
           return (
             <Card className={classes.root}>
@@ -210,7 +230,7 @@ const EditUser: React.FC<Props> = (props) => {
                         type="text"
                         placeholder=""
                         value={values.cpf || ""}
-                        onChange={handleChange}
+                        onChange={handleChangeMask}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
@@ -264,8 +284,8 @@ const EditUser: React.FC<Props> = (props) => {
                       <TextField
                         name="birthdate"
                         type="date"
-                        value={values.birthdate || ""}
-                        onChange={handleChange}
+                        value={birthdate || ""}
+                        onChange={handleChangeDate}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,

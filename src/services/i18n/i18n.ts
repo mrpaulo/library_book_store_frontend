@@ -26,7 +26,7 @@ const createI18n = (language: string): i18nInstance => {
       interpolation: {
         format: function (value, format, lng) {          
           if (value instanceof Date) {            
-            return moment(value.setDate(value.getDate() + 1)).format(format);  
+            return moment(value.setDate(value.getDate())).format(format);  
           }
           if (typeof value === "number") return new Intl.NumberFormat().format(value);
           return value;

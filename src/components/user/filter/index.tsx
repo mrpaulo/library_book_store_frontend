@@ -37,6 +37,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SearchIcon from '@material-ui/icons/Search';
 //Validation
 import { validationDateFilterSchema } from '../../utils/validationUtil';
+import { maskCPFValue } from '../../utils/formatUtil';
 
 interface StateProps {
   users?: User[]  
@@ -90,8 +91,15 @@ const UserFilter: React.FC<Props> = (props) => {
             isSubmitting,
             isValid,
             errors,
-            touched
+            touched,
+            setFieldValue
           } = props
+
+          const handleChangeMask = (e: React.ChangeEvent<HTMLInputElement>) => {            
+            const { name, value } = e.target;
+            setFieldValue(name, maskCPFValue(value));
+          };
+
           return (
             <Card className={classes.root}>
               <Form>
@@ -123,7 +131,7 @@ const UserFilter: React.FC<Props> = (props) => {
                         type="text"
                         placeholder=""
                         value={values.cpf || ""}
-                        onChange={handleChange}
+                        onChange={handleChangeMask}
                         className={classes.textField}
                         InputProps={{
                           className: classes.input,
