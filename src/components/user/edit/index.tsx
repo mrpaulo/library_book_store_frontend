@@ -113,9 +113,12 @@ const EditUser: React.FC<Props> = (props) => {
   function handleSubmit(values: User, actions: any) {
     actions.setSubmitting(false);
 
-    if(birthdate){
-      values.birthdate = new Date(birthdate.replace(/-/g, '/'));
-    }    
+    if(values.cpf === ''){
+      values.cpf = undefined;
+    }  
+    if(values.email === ''){
+      values.email = undefined;
+    }     
     if (flagEditing) {
       updateRequest(values);
     } else {
@@ -169,8 +172,10 @@ const EditUser: React.FC<Props> = (props) => {
           }
 
           const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {            
-            let dateValue = new Date(e.target.value.replace(/-/g, '/')); 
+            const {name, value} = e.target;
+            let dateValue = new Date(value.replace(/-/g, '/')); 
             setBirthdate(formattedDate(dateValue));
+            setFieldValue(name, value);
           };
 
           const handleChangeMask = (e: React.ChangeEvent<HTMLInputElement>) => {            

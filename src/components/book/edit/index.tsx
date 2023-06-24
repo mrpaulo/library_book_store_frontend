@@ -127,10 +127,6 @@ const EditBook: React.FC<Props> = (props) => {
   function handleSubmit(values: Book, actions: any) {
 
     actions.setSubmitting(false);
-
-    if(publishDate){
-      values.publishDate = new Date(publishDate.replace(/-/g, '/'));
-    }
     if (publisher) {
       values.publisher = publisher;
     }
@@ -164,7 +160,8 @@ const EditBook: React.FC<Props> = (props) => {
             errors,
             handleChange,
             isSubmitting,
-            isValid
+            isValid,
+            setFieldValue
           } = props
 
           const getPublisherSelected = (publisher: PublisherDTO) => {
@@ -177,9 +174,11 @@ const EditBook: React.FC<Props> = (props) => {
             setAuthors(authors);
           }
 
-          const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {            
-            let dateValue = new Date(e.target.value.replace(/-/g, '/')); 
+          const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const {name, value} = e.target;            
+            let dateValue = new Date(value.replace(/-/g, '/')); 
             setPublishDate(formattedDate(dateValue));
+            setFieldValue(name, value);
           };
 
           return (

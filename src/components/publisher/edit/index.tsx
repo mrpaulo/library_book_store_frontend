@@ -103,10 +103,6 @@ const EditPublisher: React.FC<Props> = (props) => {
   function handleSubmit(values: Publisher, actions: any) {
     actions.setSubmitting(false);
 
-    if(foundationDate){
-      values.foundationDate = new Date(foundationDate.replace(/-/g, '/'));
-    }
-
     if (flagEditing) {
       updateRequest(values);
     } else {
@@ -143,8 +139,10 @@ const EditPublisher: React.FC<Props> = (props) => {
           }
 
           const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {            
-            let dateValue = new Date(e.target.value.replace(/-/g, '/')); 
+            const { name, value } = e.target;
+            let dateValue = new Date(value.replace(/-/g, '/')); 
             setFoundationDate(formattedDate(dateValue));
+            setFieldValue(name, value);
           };
 
           const handleChangeMask = (e: React.ChangeEvent<HTMLInputElement>) => {            

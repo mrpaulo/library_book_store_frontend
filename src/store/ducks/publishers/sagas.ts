@@ -81,7 +81,6 @@ function* safeDeleteById (action: any): Generator<any, any, any>{
 }
 
 function* deleteById (action: any): Generator<any, any, any>{
-  console.log("Chamou deleteById")
   const id:number = action.payload.id;
   try {
     const reponse = yield call(apiBearer.delete, `${PUBLISHERS_V1}/${id}`, getBearerHeader() );

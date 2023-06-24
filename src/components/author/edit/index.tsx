@@ -132,10 +132,7 @@ const EditAuthor: React.FC<Props> = (props) => {
   const handleSubmit = useMemo<(values: Author, actions: FormikHelpers<Author>) => void>(
     () => (values: Author, actions: FormikHelpers<Author>) => {
       actions.setSubmitting(false);
-  
-      if(birthdate){
-        values.birthdate = new Date(birthdate.replace(/-/g, '/'));
-      }
+        
       if (countrySelected) {
         values.birthCountry = countrySelected;
       }
@@ -148,7 +145,7 @@ const EditAuthor: React.FC<Props> = (props) => {
         createRequest(values);
       }
     }, 
-    [countrySelected, citySelected, flagEditing, birthdate, createRequest, updateRequest]
+    [countrySelected, citySelected, flagEditing, createRequest, updateRequest]
   );
 
   function handleCancel() {
@@ -171,7 +168,8 @@ const EditAuthor: React.FC<Props> = (props) => {
             errors,
             handleChange,
             isSubmitting,
-            isValid
+            isValid,
+            setFieldValue
           } = props
 
           const handleAddress = (address: Address) => {
@@ -191,8 +189,10 @@ const EditAuthor: React.FC<Props> = (props) => {
           }
 
           const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {            
-            let dateValue = new Date(e.target.value.replace(/-/g, '/')); 
+            const {name, value} = e.target;
+            let dateValue = new Date(value.replace(/-/g, '/')); 
             setBirthdate(formattedDate(dateValue));
+            setFieldValue(name, value);
           };
 
           return (
