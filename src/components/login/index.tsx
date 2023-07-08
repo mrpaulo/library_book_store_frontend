@@ -19,7 +19,7 @@
 //React
 import React, { useEffect, useState } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
 //Actions and store
 import * as authenticationsActions from '../../store/ducks/authentications/actions';
@@ -60,12 +60,12 @@ const LoginPage: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const { token, failure, path, loginRequest, logoutRequest } = props;
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const history = useHistory();
+  const history = useNavigate();
 
   useEffect(() => {
     if (token && submitted) {
       if (path) {        
-        history.push(path as string);
+        history(path as string);
       } else {
         window.location.href = "/";
       }

@@ -18,7 +18,7 @@
 
 //React
 import React from "react";
-import Select, { OptionsType, ValueType } from "react-select";
+import Select, { Options, OnChangeValue } from "react-select";
 //Third party
 import { FieldProps } from "formik";
 
@@ -28,7 +28,7 @@ interface Option {
 }
 
 interface CustomObjSelectProps extends FieldProps {
-  options: OptionsType<Option>;
+  options: Options<Option>;
   isMulti?: boolean;
   isObject?: boolean;
   className?: string;
@@ -48,7 +48,7 @@ export const CustomObjSelect = ({
   setValueSelected
 }: CustomObjSelectProps) => {
 
-  const onChange = (option: ValueType<Option | Option[],  boolean>) => {
+  const onChange = (option: OnChangeValue<Option | Option[],  boolean>) => {
     form.setFieldValue(
       field.name,
       isMulti
@@ -64,10 +64,10 @@ export const CustomObjSelect = ({
     if (options) {            
       return isMulti
       //mudei de  field.value.indexOf(option.name)
-        ? (field.value ? options.filter(option => field.value.find((valueItem: { name: string; }) => {
+        ? (field.value ? options.filter((option: { name: string; }) => field.value.find((valueItem: { name: string; }) => {
           return valueItem.name === option.name;
         })) : [])
-        : options.find(option => option.name === field.value);
+        : options.find((option: { name: any; }) => option.name === field.value);
     } else {
       return isMulti ? [] : ("" as any);
     }
@@ -84,7 +84,7 @@ export const CustomObjSelect = ({
       placeholder={placeholder}
       options={options}
       isMulti={isMulti}
-      getOptionLabel ={(option)=>option.name}      
+      getOptionLabel ={(option: Option)=>option.name}      
     />
     </>
   );

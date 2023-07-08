@@ -20,7 +20,7 @@
 import React, {  useEffect } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from 'redux';
-import { Route, Redirect } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 //Actions and store
 import * as authenticationsActions from '../../store/ducks/authentications/actions';
 import { ApplicationState } from "../../store";
@@ -53,10 +53,10 @@ const PrivateRoute: React.FC<Props> = (props) => {
  }
 
   return props.isAuthenticated ?
-    (<Route path={props.path} exact={props.exact} component={props.component} />) :
+    (<Route path={props.path} element={props.component as any} />) :
     (<>
     {savePath(props.path)}
-    <Redirect to={LOGIN_URL}/>
+    <Navigate to={LOGIN_URL}/>
     </>);
 };
 

@@ -7,18 +7,17 @@ import { MAX_SIZE_ADDRESS_CEP,
    MAX_SIZE_NAME, 
    MAX_SIZE_SHORT_TEXT } from './constants';
 
-export const validationDateFilterSchema = Yup.object().shape({       
-  startDate: Yup.date().max(new Date(), "errors.start_date_after"),
-  finalDate: Yup.date()
-  .when('startDate',
-  (startDate: Date | undefined, schema: Yup.DateSchema) => {
-      if (startDate) {
-      const dayAfter = new Date(startDate.getTime() + 86400000);
-          return schema.min(dayAfter, "errors.end_date_before");
-        }      
-        return schema;
-  })
-});
+   export const validationDateFilterSchema = Yup.object().shape({
+    startDate: Yup.date().max(new Date(), "errors.start_date_after"),
+    finalDate: Yup.date().test('finalDate', 'errors.end_date_before', function (value) {
+      const startDate = this.resolve(Yup.ref('startDate')) as Date | undefined;
+      if (startDate && value) {
+        const dayAfter = new Date(startDate.getTime() + 86400000);
+        return value >= dayAfter;
+      }
+      return true;
+    }),
+  });  
 
 export const validationAddressSchema = Yup.object().shape({
   name: Yup.string()

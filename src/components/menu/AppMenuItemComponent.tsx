@@ -17,7 +17,7 @@
  */
 
 //React
-import React, { forwardRef } from 'react'
+import React, { ReactNode, forwardRef } from 'react'
 import { NavLink, NavLinkProps } from 'react-router-dom'
 //Style
 import ListItem from '@material-ui/core/ListItem'
@@ -26,6 +26,7 @@ export interface AppMenuItemComponentProps {
   className?: string
   link?: string | null // because the InferProps props allows alows null value
   onClick?: (event: React.MouseEvent<HTMLElement>) => void
+  children?: ReactNode;
 }
 
 const AppMenuItemComponent: React.FC<AppMenuItemComponentProps> = props => {
@@ -47,7 +48,7 @@ const AppMenuItemComponent: React.FC<AppMenuItemComponentProps> = props => {
       button
       className={className}
       children={children}
-      component={forwardRef((props: NavLinkProps, ref: any) => <NavLink exact {...props} innerRef={ref} />)}
+      component={forwardRef((props: NavLinkProps, ref: any) => <NavLink {...props} ref={ref} />)}
       to={link}
     />
   )

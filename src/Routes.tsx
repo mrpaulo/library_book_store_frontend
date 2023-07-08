@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom'
+import { Routes as MyRoutes, Route, BrowserRouter } from 'react-router-dom'
 
 import {
   BOOKS_URL,
@@ -10,7 +10,7 @@ import {
   ADD_AUTHOR_URL,
   LOGIN_URL,
   ABOUT_URL,
-  USERS_URL,  
+  USERS_URL,
   ADD_USER_URL,
   CREATE_LOGIN_URL,
   UPDATE_PASSWORD_URL
@@ -39,45 +39,48 @@ import PrivateRoute from './services/security/privateRoute';
 import HomePage from './components/home';
 import AboutPage from './components/about';
 import './styles/global.css';
+import ErrorBoundary from './components/utils/ErrorBoundary';
 
 const Routes: React.FC = () => {
   const classes = pageMenuStyles()
 
   return (
-    <BrowserRouter>
-      <div className={clsx('App', classes.root)}>
-        <CssBaseline />
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: 'drawerPaper-5'//classes.drawerPaper
-          }}
-        >
-          <AppMenu />
-        </Drawer>
-        <main className={classes.content}>
-          <Container maxWidth="lg" className={classes.container}>            
-              <Switch>
-                <Route path="/" exact component={HomePage} />
-                <Route path={BOOKS_URL} exact component={PageBook} />
-                <PrivateRoute path={ADD_BOOK_URL} exact component={EditBook} />
-                <Route path={PUBLISHERS_URL} exact component={PageCompany} />
-                <PrivateRoute path={ADD_PUBLISHER_URL} exact component={EditCompany} />
-                <Route path={AUTHORS_URL} exact component={PagePerson} />
-                <PrivateRoute path={ADD_AUTHOR_URL} exact component={EditPerson} />
+    <ErrorBoundary fallback={<p>Something went wrong</p>}>
+      <BrowserRouter>
+        <div className={clsx('App', classes.root)}>
+          <CssBaseline />
+          <Drawer
+            variant="permanent"
+            classes={{
+              paper: 'drawerPaper-5'//classes.drawerPaper
+            }}
+          >
+            <AppMenu />
+          </Drawer>
+          <main className={classes.content}>
+            <Container maxWidth="lg" className={classes.container}>
+              <MyRoutes>
+                <Route path="/" element={<HomePage />} />
+                <Route path={BOOKS_URL} element={<PageBook />} />
+                {/* <PrivateRoute path={ADD_BOOK_URL} exact component={EditBook} /> */}
+                <Route path={PUBLISHERS_URL} element={<PageCompany />} />
+                {/* <PrivateRoute path={ADD_PUBLISHER_URL} exact component={EditCompany} /> */}
+                <Route path={AUTHORS_URL} element={<PagePerson />} />
+                {/* <PrivateRoute path={ADD_AUTHOR_URL} exact component={EditPerson} />
                 <PrivateRoute path={USERS_URL} exact component={PageUser} />
-                <PrivateRoute path={ADD_USER_URL} exact component={EditUser} />
-                <Route path={LOGIN_URL} component={LoginPage} />
-                <Route path={CREATE_LOGIN_URL} component={LoginCreatePage} />
-                <Route path={UPDATE_PASSWORD_URL} component={UpdatePasswordPage} />
-                <Route path={ABOUT_URL} component={AboutPage} />
-              </Switch>
-              <Notifier />            
-          </Container>
-        </main>
-      </div>
-    </BrowserRouter>
-    )
+                <PrivateRoute path={ADD_USER_URL} exact component={EditUser} /> */}
+                <Route path={LOGIN_URL} element={<LoginPage />} />
+                <Route path={CREATE_LOGIN_URL} element={LoginCreatePage as any} />
+                <Route path={UPDATE_PASSWORD_URL} element={<UpdatePasswordPage />} />
+                <Route path={ABOUT_URL} element={<AboutPage />} />
+              </MyRoutes>
+              <Notifier />
+            </Container>
+          </main>
+        </div>
+      </BrowserRouter>
+    </ErrorBoundary>
+  )
 };
 
 export default Routes;

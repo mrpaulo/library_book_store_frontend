@@ -20,7 +20,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { useHistory } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 //Types, constants and local components
 import { LOGIN_URL } from './services/api/constants';
 import { Token } from './store/ducks/authentications/types';
@@ -38,6 +38,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LanguageIcon from '@material-ui/icons/Language';
 import { pageMenuStyles } from './styles/Styles';
+import ErrorBoundary from './components/utils/ErrorBoundary';
 
 interface StateProps {
   token?: Token,
@@ -54,7 +55,7 @@ type Props = StateProps & DispatchProps
 const TopBar: React.FC<Props> = (props) => {
   const classes = pageMenuStyles()
   const { t } = useTranslation();
-  const history = useHistory();
+  //const history = useNavigate();
   const { token, isAuthenticated, logoutRequest, isTokenValidRequest } = props;
   const [languageSelected, setLanguageSelect] = useState(languages.en);
   const [showMenuUser, setShowMenuUser] = useState(false);
@@ -81,11 +82,12 @@ const TopBar: React.FC<Props> = (props) => {
   };
 
   const handleUpdatePassword = () => {
-    if (history) {
-      history.push(UPDATE_PASSWORD_URL as string);
-    } else {
-      window.location.href = UPDATE_PASSWORD_URL;
-    }
+    // if (history) {
+    //   history(UPDATE_PASSWORD_URL as string);
+    // } else {
+    //   window.location.href = UPDATE_PASSWORD_URL;
+    // }
+    // history(UPDATE_PASSWORD_URL as string);
   };
 
   const handleLogin = () => {
@@ -100,50 +102,51 @@ const TopBar: React.FC<Props> = (props) => {
     setShowMenuUser(!showMenuUser)
   }
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <IconButton
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="open drawer"
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography className={classes.title} variant="h6" noWrap>
-          <a href='/' style={{ color: 'inherit', textDecoration: 'inherit' }}>
-            Library Book Store
-          </a>
-        </Typography>
-        <div className={classes.grow} />
-        <div className={classes.sectionDesktop}>
+    <ErrorBoundary fallback={<p>Something went wrong</p>}>
+      <AppBar position="static">
+        <Toolbar>
           <IconButton
-            edge="end"
-            aria-label="account of current user"
-            aria-controls='ds'
-            aria-haspopup="true"
-            onClick={changeLaguage}
+            edge="start"
+            className={classes.menuButton}
             color="inherit"
+            aria-label="open drawer"
           >
-            <LanguageIcon />
-            {languageSelected}
+            <MenuIcon />
           </IconButton>
-          <IconButton
-            edge="end"
-            aria-label="account of current user"
-            aria-controls='ds'
-            aria-haspopup="true"
-            onClick={openMenuUser}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-          {showMenuUser
-            ? (
-              <nav ref={dropdownRef} className={`menu ${showMenuUser ? 'active' : 'inactive'}`}>
-                <ul>
-                  {isAuthenticated ?
-                    (<>
+          <Typography className={classes.title} variant="h6" noWrap>
+            <a href='/' style={{ color: 'inherit', textDecoration: 'inherit' }}>
+              Library Book Store
+            </a>
+          </Typography>
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls='ds'
+              aria-haspopup="true"
+              onClick={changeLaguage}
+              color="inherit"
+            >
+              <LanguageIcon />
+              {languageSelected}
+            </IconButton>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls='ds'
+              aria-haspopup="true"
+              onClick={openMenuUser}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            {showMenuUser
+              ? (
+                <nav ref={dropdownRef} className={`menu ${showMenuUser ? 'active' : 'inactive'}`}>
+                  <ul>
+                    {isAuthenticated ?
+                      (<>
                         <li>
                           <p>
                             <AccountCircle />
@@ -173,27 +176,28 @@ const TopBar: React.FC<Props> = (props) => {
                           </Button>
                         </li>
                       </>
-                    ) : (
-                      <li>
-                        <Button
-                          className={classes.menuBarButton}
-                          type="submit"
-                          color="primary"
-                          variant="outlined"
-                          onClick={handleLogin}
-                        >
-                          {t("menu.login")}
-                        </Button>
-                      </li>
-                    )}
-                </ul>
-              </nav>
-            )
-            : (null)
-          }
-        </div>
-      </Toolbar>
-    </AppBar>
+                      ) : (
+                        <li>
+                          <Button
+                            className={classes.menuBarButton}
+                            type="submit"
+                            color="primary"
+                            variant="outlined"
+                            onClick={handleLogin}
+                          >
+                            {t("menu.login")}
+                          </Button>
+                        </li>
+                      )}
+                  </ul>
+                </nav>
+              )
+              : (null)
+            }
+          </div>
+        </Toolbar>
+      </AppBar>
+    </ErrorBoundary>
   )
 };
 

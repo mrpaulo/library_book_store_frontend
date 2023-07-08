@@ -18,7 +18,7 @@
 
 //React
 import React from "react";
-import Select, { OptionsType, ValueType } from "react-select";
+import Select,  { Options, OnChangeValue } from "react-select";
 //Constants
 import { CustomEnum } from "./constants";
 //Tranlation
@@ -28,7 +28,7 @@ import "../../services/i18n/i18n";
 import { FieldProps } from "formik";
 
 interface CustomSelectProps extends FieldProps {
-  options: OptionsType<CustomEnum>;
+  options: Options<CustomEnum>;
   isMulti?: boolean;
   className?: string;
   placeholder?: string;
@@ -45,7 +45,7 @@ export const CustomSelect = ({
 
   const { t } = useTranslation();
 
-  const onChange = (option: ValueType<CustomEnum | CustomEnum[], boolean>) => {
+  const onChange = (option: OnChangeValue<CustomEnum | CustomEnum[], boolean>) => {
     form.setFieldValue(
       field.name,
       isMulti
@@ -57,8 +57,8 @@ export const CustomSelect = ({
   const getValue = () => {
     if (options) {
       return isMulti
-        ? options.filter(option => field.value.indexOf(option.value) >= 0)
-        : options.find(option => option.value === field.value);
+        ? options.filter((option: { value: any; }) => field.value.indexOf(option.value) >= 0)
+        : options.find((option: { value: any; }) => option.value === field.value);
     } else {
       return isMulti ? [] : ("" as any);
     }
@@ -66,7 +66,7 @@ export const CustomSelect = ({
 
   return (
     <Select
-      getOptionLabel={list => t("enums."+list.value)}
+      getOptionLabel={(list: CustomEnum) => t("enums." + list.value)}
       className={className}
       name={field.name}
       value={getValue()}

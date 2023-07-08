@@ -155,7 +155,7 @@ const BookList: React.FC<Props> = (props) => {
                           {t("formats.date_format", { date: book.publishDate ? new Date(book.publishDate as Date) : "" })}
                         </TableCell>
                         <TableCell style={{ width: 100 }} align="right">
-                          {book.length}
+                          {book.length?.toString()}
                         </TableCell>
                         <TableCell style={{ width: 80 }} align="right">
                           <IconButton onClick={() => editBook(book.id)} aria-label={t("buttons.edit")}>
@@ -177,7 +177,7 @@ const BookList: React.FC<Props> = (props) => {
                   </TableBody>
                   <TableFooter>
                     <TableRow>
-                      <TablePagination
+                      <TablePagination                      
                         rowsPerPageOptions={[5, 10, 25, { label: t("messages.table_all_itens"), value: -1 }]}
                         colSpan={6}
                         count={+responseTotalRows}
@@ -191,9 +191,9 @@ const BookList: React.FC<Props> = (props) => {
                         SelectProps={{
                           inputProps: { 'aria-label': t("messages.table_rows_per_page") },
                           native: true,
-                        }}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                        }}                        
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
                       />
                     </TableRow>
                   </TableFooter>

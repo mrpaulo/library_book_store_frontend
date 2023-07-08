@@ -188,8 +188,8 @@ const AuthorsList: React.FC<Props> = (props) => {
                           inputProps: { 'aria-label': t("messages.table_rows_per_page") },
                           native: true,
                         }}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
                       />
                     </TableRow>
                   </TableFooter>
