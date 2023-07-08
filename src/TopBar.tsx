@@ -20,7 +20,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 //Types, constants and local components
 import { LOGIN_URL } from './services/api/constants';
 import { Token } from './store/ducks/authentications/types';
@@ -87,7 +87,10 @@ const TopBar: React.FC<Props> = (props) => {
     // } else {
     //   window.location.href = UPDATE_PASSWORD_URL;
     // }
-    // history(UPDATE_PASSWORD_URL as string);
+    // Usando o navigate está dando:
+    //useNavigate() may be used only in the context of a <Router> component.
+    //TODO: Preciso encontrar uma forma de usar o navigate aqui. Porque assim o back booton dá erro
+    window.location.href = UPDATE_PASSWORD_URL
   };
 
   const handleLogin = () => {

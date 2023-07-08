@@ -20,7 +20,7 @@
 import React, {  useEffect } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from 'redux';
-import { Route, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 //Actions and store
 import * as authenticationsActions from '../../store/ducks/authentications/actions';
 import { ApplicationState } from "../../store";
@@ -28,10 +28,9 @@ import { ApplicationState } from "../../store";
 import { LOGIN_URL } from "../api/constants";
 
 interface StateProps {
-  component: React.FC;
   path: string;
-  exact: boolean;
   isAuthenticated: boolean;
+  children: React.ReactNode;
 }
 
 interface DispatchProps {    
@@ -41,7 +40,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-const PrivateRoute: React.FC<Props> = (props) => {
+const RequireAuth: React.FC<Props> = (props) => {
 
   useEffect(() => {
     props.isTokenValidRequest()
@@ -53,7 +52,7 @@ const PrivateRoute: React.FC<Props> = (props) => {
  }
 
   return props.isAuthenticated ?
-    (<Route path={props.path} element={props.component as any} />) :
+    (props.children) :
     (<>
     {savePath(props.path)}
     <Navigate to={LOGIN_URL}/>
@@ -66,5 +65,4 @@ const mapStateToProps = (state: ApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(authenticationsActions, dispatch);
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(RequireAuth);

@@ -35,11 +35,12 @@ import Container from '@material-ui/core/Container'
 import { pageMenuStyles } from './styles/Styles';
 
 import Notifier from './components/utils/Notifier';
-import PrivateRoute from './services/security/privateRoute';
 import HomePage from './components/home';
 import AboutPage from './components/about';
+import NotFoundPage from './components/not-found';
 import './styles/global.css';
 import ErrorBoundary from './components/utils/ErrorBoundary';
+import RequireAuth from './services/security/requireAuth';
 
 const Routes: React.FC = () => {
   const classes = pageMenuStyles()
@@ -62,17 +63,29 @@ const Routes: React.FC = () => {
               <MyRoutes>
                 <Route path="/" element={<HomePage />} />
                 <Route path={BOOKS_URL} element={<PageBook />} />
-                {/* <PrivateRoute path={ADD_BOOK_URL} exact component={EditBook} /> */}
+                <Route path={ADD_BOOK_URL} element={
+                  <RequireAuth path={ADD_BOOK_URL} children={<EditBook />} />                    
+                } />
                 <Route path={PUBLISHERS_URL} element={<PageCompany />} />
-                {/* <PrivateRoute path={ADD_PUBLISHER_URL} exact component={EditCompany} /> */}
+                <Route path={ADD_PUBLISHER_URL} element={
+                  <RequireAuth path={ADD_PUBLISHER_URL} children={<EditCompany />} />                    
+                } />
                 <Route path={AUTHORS_URL} element={<PagePerson />} />
-                {/* <PrivateRoute path={ADD_AUTHOR_URL} exact component={EditPerson} />
-                <PrivateRoute path={USERS_URL} exact component={PageUser} />
-                <PrivateRoute path={ADD_USER_URL} exact component={EditUser} /> */}
+                
+                <Route path={ADD_AUTHOR_URL} element={
+                  <RequireAuth path={ADD_AUTHOR_URL} children={<EditPerson />} />                    
+                } />
+                <Route path={USERS_URL} element={
+                  <RequireAuth path={USERS_URL} children={<PageUser />} />                    
+                } />
+                <Route path={ADD_USER_URL} element={
+                  <RequireAuth path={ADD_USER_URL} children={<EditUser />} />                    
+                } />
                 <Route path={LOGIN_URL} element={<LoginPage />} />
                 <Route path={CREATE_LOGIN_URL} element={LoginCreatePage as any} />
                 <Route path={UPDATE_PASSWORD_URL} element={<UpdatePasswordPage />} />
                 <Route path={ABOUT_URL} element={<AboutPage />} />
+                <Route path={"*"} element={<NotFoundPage />} />
               </MyRoutes>
               <Notifier />
             </Container>
