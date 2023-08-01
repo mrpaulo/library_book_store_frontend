@@ -34,9 +34,9 @@ import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 //Style
 import { useStyles } from '../../../styles/Styles';
-import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
-import ClearIcon from '@material-ui/icons/Clear';
-import SearchIcon from '@material-ui/icons/Search';
+import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import SearchIcon from '@mui/icons-material/Search';
 import '../../../styles/global.css';
 //Validation
 import { validationDateFilterSchema } from '../../utils/validationUtil';
@@ -102,7 +102,7 @@ const AuthorFilter: React.FC<Props> = (props) => {
                   subheader=""
                 />
                 <CardContent>
-                  <Grid container justify="space-around" direction="row">
+                  <Grid container >
                     <Grid item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.name")}</InputLabel>
                       <TextField
@@ -179,7 +179,7 @@ const AuthorFilter: React.FC<Props> = (props) => {
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>
-                  <Grid container justify="flex-end" alignItems="flex-end" >
+                  <Grid container  >
                     <Button
                       className={classes.resetButton}
                       type="reset"

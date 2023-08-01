@@ -33,10 +33,10 @@ import { i18n } from './services/i18n/i18n';
 import { languages } from './services/i18n/constants';
 import { useTranslation } from "react-i18next";
 //Style
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import LanguageIcon from '@material-ui/icons/Language';
+import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import LanguageIcon from '@mui/icons-material/Language';
 import { pageMenuStyles } from './styles/Styles';
 import ErrorBoundary from './components/utils/ErrorBoundary';
 
@@ -113,7 +113,7 @@ const TopBar: React.FC<Props> = (props) => {
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
-          >
+            size="large">
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
@@ -130,7 +130,7 @@ const TopBar: React.FC<Props> = (props) => {
               aria-haspopup="true"
               onClick={changeLaguage}
               color="inherit"
-            >
+              size="large">
               <LanguageIcon />
               {languageSelected}
             </IconButton>
@@ -141,7 +141,7 @@ const TopBar: React.FC<Props> = (props) => {
               aria-haspopup="true"
               onClick={openMenuUser}
               color="inherit"
-            >
+              size="large">
               <AccountCircle />
             </IconButton>
             {showMenuUser
@@ -201,7 +201,7 @@ const TopBar: React.FC<Props> = (props) => {
         </Toolbar>
       </AppBar>
     </ErrorBoundary>
-  )
+  );
 };
 
 const mapStateToProps = (state: ApplicationState) => ({

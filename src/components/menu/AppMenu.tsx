@@ -28,7 +28,7 @@ import { ValidToken } from '../../store/ducks/authentications/types'
 import AppMenuItem from './AppMenuItem'
 import { menuItems } from './MenuItems'
 //Styles
-import { List } from '@material-ui/core'
+import { List } from '@mui/material'
 import { menuStyles } from '../../styles/Styles'
 import { checkRoles } from '../../services/security/visibleRoles';
 

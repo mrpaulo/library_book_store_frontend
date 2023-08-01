@@ -37,9 +37,9 @@ import "../../../services/i18n/i18n";
 //Style
 import '../../../styles/global.css';
 import { useStyles } from '../../../styles/Styles';
-import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader } from '@material-ui/core';
-import ClearIcon from '@material-ui/icons/Clear';
-import SaveIcon from '@material-ui/icons/Save';
+import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import SaveIcon from '@mui/icons-material/Save';
 //Validation
 import { validationPublisherSchema } from '../../utils/validationUtil';
 import { formattedDate, maskCNPJValue } from '../../utils/formatUtil';
@@ -158,7 +158,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                   subheader=""
                 />
                 <CardContent>
-                  <Grid className="form-containner" container justify="space-around" direction="row">
+                  <Grid className="form-containner" container>
                     <Grid className="form-grid" item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.name")}</InputLabel>
                       <TextField
@@ -246,7 +246,7 @@ const EditPublisher: React.FC<Props> = (props) => {
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10}>
-                  <Grid container justify="flex-end" alignItems="flex-end" >
+                  <Grid container  >
                     <Button
                       className={classes.resetButton}
                       type="reset"

@@ -31,7 +31,7 @@ import "../../../services/i18n/i18n";
 //Style
 import '../../../styles/global.css';
 import { modalStyles } from '../../../styles/Styles';
-import Modal from '@material-ui/core/Modal';
+import Modal from '@mui/material/Modal';
 
 function getModalStyle() {
   return {

@@ -25,10 +25,10 @@ import * as authorsActions from '../../store/ducks/authors/actions';
 import { ApplicationState } from '../../store';
 //Types and local components
 import { AuthorDTO } from '../../store/ducks/authors/types';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@mui/lab/Autocomplete';
 //Styles
-import TextField from '@material-ui/core/TextField';
-import { CircularProgress } from '@material-ui/core';
+import TextField from '@mui/material/TextField';
+import { CircularProgress } from '@mui/material';
 import '../../styles/global.css';
 
 interface StateProps {

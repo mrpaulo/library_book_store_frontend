@@ -26,9 +26,9 @@ import * as publishersActions from '../../store/ducks/publishers/actions';
 //Types and local components
 import { PublisherDTO } from '../../store/ducks/publishers/types';
 //Style
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import { CircularProgress } from '@material-ui/core';
+import Autocomplete from '@mui/lab/Autocomplete';
+import TextField from '@mui/material/TextField';
+import { CircularProgress } from '@mui/material';
 import '../../styles/global.css';
 
 interface StateProps {

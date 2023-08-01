@@ -1,8 +1,16 @@
-export const BASE_URL = 'http://localhost:4080';
-//export const BASE_URL = 'https://library-book-store-b.herokuapp.com';
-//export const BASE_URL = 'http://backend:4080';
-//export const BASE_URL = ${REACT_APP_BACKEND_URL};
-//export const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://library-book-store-b.herokuapp.com' : 'http://localhost:4080';
+const LOCALHOST_URL = 'http://localhost:4080'
+//const DOCKER_URL = process.env.DOCKER_URL || '';
+//const DOCKER_URL = 'http://localhost:4088';
+//nao func const DOCKER_URL = ${REACT_APP_BACKEND_URL};
+//nao func const DOCKER_URL = 'http://backend:4080';
+//const HEROKU_URL = 'https://library-book-store-b.herokuapp.com';
+//export const BASE_URL = process.env.NODE_ENV === 'production' ? HEROKU_URL : LOCALHOST_URL;
+// export const BASE_URL = DOCKER_URL !== '' ?
+//                       DOCKER_URL : 
+//                           process.env.NODE_ENV === 'production' ?
+//                                 HEROKU_URL :
+//                                 LOCALHOST_URL;
+export const BASE_URL = LOCALHOST_URL;                               
 export const BASE_API_URL = BASE_URL + '/api';
 export const BOOKS_URL = '/books';
 export const ADD_BOOK_URL = '/add-book';

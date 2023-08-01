@@ -31,10 +31,10 @@ import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 //Style
 import { StyledTableCell, useStyles } from '../../../styles/Styles';
-import { Card, CardContent, CardHeader, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography, Tooltip } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import { Card, CardContent, CardHeader, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography, Tooltip } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 interface StateProps {
   authors: AuthorDTO[],
@@ -114,109 +114,116 @@ const AuthorsList: React.FC<Props> = (props) => {
     searchRequest();
   };
 
-  return (
-    <>
-      <Card className={classes.root}>
-        <CardHeader
-          title={t("titles.search_result")}
-          subheader=""
-        />
-        <CardContent>
-          {(authors.length > 0 ? (
-            <Grid container justify="space-around" direction="row">
-              <TableContainer >
-                <Table className={classes.table} aria-label="custom pagination table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell>{t("labels.name")}</StyledTableCell>
-                      <StyledTableCell align="right">{t("labels.birthdate")}</StyledTableCell>
-                      <StyledTableCell align="right">{t("labels.email")}</StyledTableCell>
-                      <StyledTableCell align="right"></StyledTableCell>
-                      <StyledTableCell align="right">
-                        <Tooltip title={tooltipTitle}>
-                          <IconButton aria-label={t("buttons.add")} onClick={addAuthor}>
-                            <AddIcon color="primary" />
-                          </IconButton>
-                        </Tooltip>
-                      </StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {authors.map((author) => (
-                      <TableRow key={author.id}>
-                        <TableCell style={{ width: 300 }} component="th" scope="row">
-                          {author.name}
-                        </TableCell>
-                        <TableCell style={{ width: 160 }} align="right">
-                          {t("formats.date_format", { date: author.birthdate ? new Date(author.birthdate as Date) : "" })}
-                        </TableCell>
-                        <TableCell style={{ width: 100 }} align="right">
-                          {author.email}
-                        </TableCell>
-                        <TableCell style={{ width: 80 }} align="right">
-                          <IconButton onClick={() => editAuthor(author.id)} aria-label={t("buttons.edit")}>
-                            <EditIcon />
-                          </IconButton>
-                        </TableCell>
-                        <TableCell style={{ width: 80 }} align="right">
-                          <IconButton className="btn btn-warning" onClick={() => confirmEraseAuthor(author.id, author.name)} aria-label={t("buttons.delete")}>
-                            <DeleteIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
-                  </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TablePagination
-                        rowsPerPageOptions={[5, 10, 25, { label: t("messages.table_all_itens"), value: -1 }]}
-                        colSpan={6}
-                        count={+responseTotalRows}
-                        rowsPerPage={rowsPerPage}
-                        labelRowsPerPage={t("messages.table_rows_per_page")}
-                        // labelDisplayedRows={({ from, to, count }) => `Displaying pages ${from}-${to} of total ${count} pages`}
-                        labelDisplayedRows={({ from, to, count }) => t("messages.table_displaying_pagers", { from, to, count })}
-                        page={currentPage}
-                        nextIconButtonText={t("buttons.table_next_page")}
-                        backIconButtonText={t("buttons.table_previous_page")}
-                        SelectProps={{
-                          inputProps: { 'aria-label': t("messages.table_rows_per_page") },
-                          native: true,
-                        }}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                      />
-                    </TableRow>
-                  </TableFooter>
-                </Table>
-              </TableContainer>
-            </Grid>
-          ) : (
-            <Grid container justify="space-around" direction="row">
-              <Typography>{t("messages.table_no_results")}</Typography>
-            </Grid>
-          ))}
-        </CardContent>
-      </Card>
-      <AlertDialog
-        title={t("messages.action_confirmation")}
-        content={msgConfirmDelete}
-        agreeBtnLabel={t("buttons.delete")}
-        disagreeBtnLabel={t("buttons.cancel")}
-        isOpen={openDeleteConfirm}
-        setAgreed={() => {
-          deleteByIdRequest(idToDelete)
-          setOpenDeleteConfirm(false)
-        }
-        }
-        handleClose={() => setOpenDeleteConfirm(false)}
+  return <>
+    <Card className={classes.root}>
+      <CardHeader
+        title={t("titles.search_result")}
+        subheader=""
       />
-    </>)
+      <CardContent>
+        {(authors.length > 0 ? (
+          <Grid container >
+            <TableContainer >
+              <Table className={classes.table} aria-label="custom pagination table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>{t("labels.name")}</StyledTableCell>
+                    <StyledTableCell align="right">{t("labels.birthdate")}</StyledTableCell>
+                    <StyledTableCell align="right">{t("labels.email")}</StyledTableCell>
+                    <StyledTableCell align="right"></StyledTableCell>
+                    <StyledTableCell align="right">
+                      <Tooltip title={tooltipTitle}>
+                        <IconButton aria-label={t("buttons.add")} onClick={addAuthor} size="large">
+                          <AddIcon color="primary" />
+                        </IconButton>
+                      </Tooltip>
+                    </StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {authors.map((author) => (
+                    <TableRow key={author.id}>
+                      <TableCell style={{ width: 300 }} component="th" scope="row">
+                        {author.name}
+                      </TableCell>
+                      <TableCell style={{ width: 160 }} align="right">
+                        {t("formats.date_format", { date: author.birthdate ? new Date(author.birthdate as Date) : "" })}
+                      </TableCell>
+                      <TableCell style={{ width: 100 }} align="right">
+                        {author.email}
+                      </TableCell>
+                      <TableCell style={{ width: 80 }} align="right">
+                        <IconButton
+                          onClick={() => editAuthor(author.id)}
+                          aria-label={t("buttons.edit")}
+                          size="large">
+                          <EditIcon />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell style={{ width: 80 }} align="right">
+                        <IconButton
+                          className="btn btn-warning"
+                          onClick={() => confirmEraseAuthor(author.id, author.name)}
+                          aria-label={t("buttons.delete")}
+                          size="large">
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 25, { label: t("messages.table_all_itens"), value: -1 }]}
+                      colSpan={6}
+                      count={+responseTotalRows}
+                      rowsPerPage={rowsPerPage}
+                      labelRowsPerPage={t("messages.table_rows_per_page")}
+                      // labelDisplayedRows={({ from, to, count }) => `Displaying pages ${from}-${to} of total ${count} pages`}
+                      labelDisplayedRows={({ from, to, count }) => t("messages.table_displaying_pagers", { from, to, count })}
+                      page={currentPage}
+                      //nextIconButtonText={t("buttons.table_next_page")}
+                      //backIconButtonText={t("buttons.table_previous_page")}
+                      //getItemAriaLabel={ ({back, next}) => {  }}
+                      SelectProps={{
+                        inputProps: { 'aria-label': t("messages.table_rows_per_page") },
+                        native: true,
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                  </TableRow>
+                </TableFooter>
+              </Table>
+            </TableContainer>
+          </Grid>
+        ) : (
+          <Grid container >
+            <Typography>{t("messages.table_no_results")}</Typography>
+          </Grid>
+        ))}
+      </CardContent>
+    </Card>
+    <AlertDialog
+      title={t("messages.action_confirmation")}
+      content={msgConfirmDelete}
+      agreeBtnLabel={t("buttons.delete")}
+      disagreeBtnLabel={t("buttons.cancel")}
+      isOpen={openDeleteConfirm}
+      setAgreed={() => {
+        deleteByIdRequest(idToDelete)
+        setOpenDeleteConfirm(false)
+      }
+      }
+      handleClose={() => setOpenDeleteConfirm(false)}
+    />
+  </>;
 };
 
 const mapStateToProps = (state: ApplicationState) => ({

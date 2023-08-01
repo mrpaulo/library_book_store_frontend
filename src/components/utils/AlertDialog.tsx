@@ -19,7 +19,7 @@
 //React
 import * as React from 'react';
 //Style
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 interface AlertDialogProps {  
   title: string,

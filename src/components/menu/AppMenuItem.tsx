@@ -19,16 +19,24 @@
 //React
 import React from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles, createStyles } from '@material-ui/core/styles'
+import { ThemeProvider, Theme, StyledEngineProvider, createMuiTheme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 //Local components
 import AppMenuItemComponent from './AppMenuItemComponent'
 //Translation
 import { useTranslation } from "react-i18next";
 import "../../services/i18n/i18n";
 //Style
-import { List, ListItemIcon, ListItemText, Divider, Collapse } from '@material-ui/core'
-import IconExpandLess from '@material-ui/icons/ExpandLess'
-import IconExpandMore from '@material-ui/icons/ExpandMore'
+import { List, ListItemIcon, ListItemText, Divider, Collapse } from '@mui/material'
+import IconExpandLess from '@mui/icons-material/ExpandLess'
+import IconExpandMore from '@mui/icons-material/ExpandMore'
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 
 // React runtime PropTypes
 export const AppMenuItemPropTypes = {
@@ -51,6 +59,7 @@ export type AppMenuItemProps = AppMenuItemPropsWithoutItems & {
 const AppMenuItem: React.FC<AppMenuItemProps> = props => {
   const { name, link, Icon, items = [] } = props
   const classes = useStyles()
+  const theme = createMuiTheme();
   const isExpandable = items && items.length > 0
   const [open, setOpen] = React.useState(false)
   const { t } = useTranslation();
@@ -60,18 +69,22 @@ const AppMenuItem: React.FC<AppMenuItemProps> = props => {
   }
 
   const MenuItemRoot = (
-    <AppMenuItemComponent className={classes.menuItem} link={link} onClick={handleClick}>
-      {/* Display an icon if any */}
-      {!!Icon && (
-        <ListItemIcon className={classes.menuItemIcon}>
-          <Icon />
-        </ListItemIcon>
-      )}
-      <ListItemText primary={t(name)} inset={!Icon} />
-      {/* Display the expand menu if the item has children */}
-      {isExpandable && !open && <IconExpandMore />}
-      {isExpandable && open && <IconExpandLess />}
-    </AppMenuItemComponent>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <AppMenuItemComponent className={classes.menuItem} link={link} onClick={handleClick}>
+          {/* Display an icon if any */}
+          {!!Icon && (
+            <ListItemIcon className={classes.menuItemIcon}>
+              <Icon />
+            </ListItemIcon>
+          )}
+          <ListItemText primary={t(name)} inset={!Icon} />
+          {/* Display the expand menu if the item has children */}
+          {isExpandable && !open && <IconExpandMore />}
+          {isExpandable && open && <IconExpandLess />}
+        </AppMenuItemComponent>
+      </ThemeProvider>
+    </StyledEngineProvider>
   )
 
   const MenuItemChildren = isExpandable ? (
@@ -93,8 +106,7 @@ const AppMenuItem: React.FC<AppMenuItemProps> = props => {
   )
 }
 
-const useStyles = makeStyles(theme =>
-  createStyles({
+const useStyles = makeStyles(() => ({  
     menuItem: {
       '&.active': {
         background: 'rgba(0, 0, 0, 0.08)',
@@ -106,7 +118,6 @@ const useStyles = makeStyles(theme =>
     menuItemIcon: {
       color: '#97c05c',
     },
-  }),
-)
+ }));
 
 export default AppMenuItem

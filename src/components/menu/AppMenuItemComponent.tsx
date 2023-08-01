@@ -20,7 +20,7 @@
 import React, { ReactNode, forwardRef } from 'react'
 import { NavLink, NavLinkProps } from 'react-router-dom'
 //Style
-import ListItem from '@material-ui/core/ListItem'
+import ListItem from '@mui/material/ListItem'
 
 export interface AppMenuItemComponentProps {
   className?: string

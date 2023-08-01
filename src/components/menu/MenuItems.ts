@@ -13,14 +13,14 @@ import {
   ADD_USER_URL
 } from '../../services/api/constants';
 
-import MenuBookIcon from '@material-ui/icons/MenuBook';
-import SearchIcon from '@material-ui/icons/Search';
-import AddIcon from '@material-ui/icons/Add';
-import InfoIcon from '@material-ui/icons/Info';
-import BusinessIcon from '@material-ui/icons/Business';
-import PersonIcon from '@material-ui/icons/Person';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
+import InfoIcon from '@mui/icons-material/Info';
+import BusinessIcon from '@mui/icons-material/Business';
+import PersonIcon from '@mui/icons-material/Person';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 export const menuItems = [
   

@@ -34,7 +34,7 @@ import { useTranslation } from "react-i18next";
 import "../../services/i18n/i18n";
 //Style
 import { useStyles } from '../../styles/Styles';
-import { Button, Grid, InputLabel, TextField, Card, CardContent, CardActions, CardHeader } from '@material-ui/core';
+import { Button, Grid, InputLabel, TextField, Card, CardContent, CardActions, CardHeader } from '@mui/material';
 
 interface StateProps {
   login?: Login,
@@ -108,7 +108,7 @@ const LoginPage: React.FC<Props> = (props) => {
                   style={{ textAlign: 'center' }}
                 />
                 <CardContent>
-                  <Grid container justify="center" alignItems="center">
+                  <Grid container >
                     <Grid item lg={6} md={6} sm={6} xs={6}>
                       <InputLabel className="form-label" >{t("labels.user_name")}</InputLabel>
                       <TextField
@@ -143,7 +143,7 @@ const LoginPage: React.FC<Props> = (props) => {
                 </CardContent>
                 <CardActions>
                   <Grid item lg={6} md={6} sm={6} xs={6} style={{ paddingBottom: '80px' }}>
-                    <Grid container justify="flex-end" alignItems="flex-end" >
+                    <Grid container  >
                       <Button
                         className={classes.resetButton}
                         type="reset"
@@ -164,7 +164,7 @@ const LoginPage: React.FC<Props> = (props) => {
                       >
                         {t("buttons.login")}
                       </Button>
-                      <Grid container justify="flex-end" alignItems="flex-end" >
+                      <Grid container  >
                         <a href={CREATE_LOGIN_URL}><h3>{t("links.sing_up")}</h3></a>
                       </Grid>
                     </Grid>

@@ -33,7 +33,7 @@ import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 //Style
-import { Button, Grid, InputLabel, TextField, Card, CardContent, CardActions, CardHeader } from '@material-ui/core';
+import { Button, Grid, InputLabel, TextField, Card, CardContent, CardActions, CardHeader } from '@mui/material';
 import { useStyles } from '../../../styles/Styles';
 
 interface StateProps {
@@ -116,7 +116,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
                   style={{ textAlign: 'center' }}
                 />
                 <CardContent>
-                  <Grid container justify="center" alignItems="center">
+                  <Grid container >
                     <Grid item lg={6} md={6} sm={6} xs={6}>
                       <InputLabel className="form-label" >{t("labels.user_name")}</InputLabel>
                       <TextField
@@ -173,7 +173,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
                 </CardContent>
                 <CardActions>
                   <Grid item lg={6} md={6} sm={6} xs={6} style={{ paddingBottom: '80px' }}>
-                    <Grid container justify="flex-end" alignItems="flex-end" >
+                    <Grid container  >
                       <Button
                         className={classes.resetButton}
                         type="reset"

@@ -32,9 +32,9 @@ import { Formik, Form, FormikProps, Field } from 'formik';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 //Style
-import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, Switch, } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import ClearIcon from '@material-ui/icons/Clear';
+import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, Switch, } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 import { useStyles } from '../../../styles/Styles';
 import '../../../styles/global.css';
 //Validation
@@ -111,7 +111,7 @@ const FilterBook: React.FC<Props> = (props) => {
                   subheader=""
                 />
                 <CardContent>
-                  <Grid container justify="space-around" direction="row">
+                  <Grid container >
                     <Grid item lg={10} md={10} sm={10} xs={10}>
                       <InputLabel className="form-label" >{t("labels.title")}</InputLabel>
                       <TextField
@@ -227,7 +227,7 @@ const FilterBook: React.FC<Props> = (props) => {
                   </Grid>
                 </CardContent>
                 <Grid item lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>
-                  <Grid container justify="flex-end" alignItems="flex-end" >
+                  <Grid container  >
                     <Button
                       className={classes.resetButton}
                       type="reset"

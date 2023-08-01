@@ -32,19 +32,38 @@ import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 //Style
 import { useStyles } from '../../../styles/Styles';
-import { Grid, TextField, Button, InputLabel, CardContent, Card, CardHeader, } from '@material-ui/core';
-import ClearIcon from '@material-ui/icons/Clear';
-import SearchIcon from '@material-ui/icons/Search';
+import {
+  TextField,
+  Button,
+  InputLabel,
+  CardContent,
+  Card,
+  CardHeader,
+  ThemeProvider,
+  Theme,
+  StyledEngineProvider,
+  createMuiTheme,
+} from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2'
+import ClearIcon from '@mui/icons-material/Clear';
+import SearchIcon from '@mui/icons-material/Search';
 //Validation
 import { validationDateFilterSchema } from '../../utils/validationUtil';
 import { maskCPFValue } from '../../utils/formatUtil';
 
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
 interface StateProps {
-  users?: User[]  
+  users?: User[]
 }
 
 interface DispatchProps {
-  searchRequest(): void,  
+  searchRequest(): void,
   updateRequestFilter(requestFilter: Filter): void
   cleanRequestFilter(): void
 }
@@ -55,14 +74,16 @@ const INITIAL_VALUES: Filter = {
   rowsPerPage: 10,
   currentPage: 1,
   name: '',
-  cpf: '',  
+  cpf: '',
   startDate: undefined,
   finalDate: undefined
 };
 
 const UserFilter: React.FC<Props> = (props) => {
+  const theme = createMuiTheme();
   const classes = useStyles();
-  const { t } = useTranslation();  
+
+  const { t } = useTranslation();
   const { searchRequest, updateRequestFilter, cleanRequestFilter } = props;
 
   function handleSubmit(values: Filter, actions: any) {
@@ -71,163 +92,164 @@ const UserFilter: React.FC<Props> = (props) => {
     updateRequestFilter(values);
     searchRequest();
   }
-  
+
   function handleClear() {
     console.log('clear button');
   }
-  
-  return (
-    <>
-      <Formik
-        onSubmit={handleSubmit}
-        initialValues={INITIAL_VALUES}
-        className={classes.root}
-        validationSchema={validationDateFilterSchema}
-      >
-        {(props: FormikProps<Filter>) => {
-          const {
-            values,            
-            handleChange,
-            isSubmitting,
-            isValid,
-            errors,
-            touched,
-            setFieldValue
-          } = props
 
-          const handleChangeMask = (e: React.ChangeEvent<HTMLInputElement>) => {            
-            const { name, value } = e.target;
-            setFieldValue(name, maskCPFValue(value));
-          };
+  return <>
+    <Formik
+      onSubmit={handleSubmit}
+      initialValues={INITIAL_VALUES}
+      className={classes.root}
+      validationSchema={validationDateFilterSchema}
+    >
+      {(props: FormikProps<Filter>) => {
+        const {
+          values,
+          handleChange,
+          isSubmitting,
+          isValid,
+          errors,
+          touched,
+          setFieldValue
+        } = props
 
-          return (
-            <Card className={classes.root}>
-              <Form>
-                <CardHeader
-                  title={t("titles.search_users")}
-                  subheader=""
-                />
-                <CardContent>
-                  <Grid container justify="space-around" direction="row">
-                    <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.name")}</InputLabel>
-                      <TextField
-                        name="name"
-                        type="text"
-                        placeholder=""
-                        value={values.name || ""}
-                        onChange={handleChange}
-                        className={classes.textField}
-                        InputProps={{
-                          className: classes.input,
-                        }}
-                        variant="outlined"
-                      />
+        const handleChangeMask = (e: React.ChangeEvent<HTMLInputElement>) => {
+          const { name, value } = e.target;
+          setFieldValue(name, maskCPFValue(value));
+        };
+
+        return (
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+              <Card className={classes.root}>
+                <Form>
+                  <CardHeader
+                    title={t("titles.search_users")}
+                    subheader=""
+                  />
+                  <CardContent>
+                    <Grid container>
+                      <Grid lg={10} md={10} sm={10} xs={10}>
+                        <InputLabel className="form-label" >{t("labels.name")}</InputLabel>
+                        <TextField
+                          name="name"
+                          type="text"
+                          placeholder=""
+                          value={values.name || ""}
+                          onChange={handleChange}
+                          className={classes.textField}
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid lg={10} md={10} sm={10} xs={10}>
+                        <InputLabel className="form-label" >{t("labels.cpf")}</InputLabel>
+                        <TextField
+                          name="cpf"
+                          type="text"
+                          placeholder=""
+                          value={values.cpf || ""}
+                          onChange={handleChangeMask}
+                          className={classes.textField}
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid className="form-grid" container lg={10} md={10} sm={10} xs={10}>
+                        <Grid lg={6} md={6} sm={6} xs={6}>
+                          <InputLabel className="form-label" >{t("labels.start_date_birth")}</InputLabel>
+                          <TextField
+                            name="startDate"
+                            type="date"
+                            value={values.startDate || ""}
+                            onChange={handleChange}
+                            className={classes.textFieldDate}
+                            InputProps={{
+                              className: classes.input,
+                            }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            variant="outlined"
+                            helperText={t(errors.startDate as string)}
+                            error={
+                              errors.startDate && touched.startDate
+                                ? true
+                                : false
+                            }
+                          />
+                        </Grid>
+                        <Grid lg={6} md={6} sm={6} xs={6}>
+                          <InputLabel className="form-label" >{t("labels.final_date")}</InputLabel>
+                          <TextField
+                            name="finalDate"
+                            type="date"
+                            value={values.finalDate || ""}
+                            onChange={handleChange}
+                            className={classes.textFieldDate}
+                            InputProps={{
+                              className: classes.input,
+                            }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            variant="outlined"
+                            helperText={t(errors.finalDate as string)}
+                            error={
+                              errors.finalDate && touched.finalDate
+                                ? true
+                                : false
+                            }
+                          />
+                        </Grid>
+                      </Grid>
                     </Grid>
-                    <Grid item lg={10} md={10} sm={10} xs={10}>
-                      <InputLabel className="form-label" >{t("labels.cpf")}</InputLabel>
-                      <TextField
-                        name="cpf"
-                        type="text"
-                        placeholder=""
-                        value={values.cpf || ""}
-                        onChange={handleChangeMask}
-                        className={classes.textField}
-                        InputProps={{
-                          className: classes.input,
-                        }}
+                  </CardContent>
+                  <Grid lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>
+                    <Grid container >
+                      <Button
+                        className={classes.resetButton}
+                        type="reset"
+                        onClick={handleClear}
+                        disabled={isSubmitting}
+                        color="secondary"
                         variant="outlined"
-                      />
-                    </Grid>   
-                    <Grid item className="form-grid" container lg={10} md={10} sm={10} xs={10}>                    
-                      <Grid item lg={6} md={6} sm={6} xs={6}>
-                        <InputLabel className="form-label" >{t("labels.start_date_birth")}</InputLabel>
-                        <TextField
-                          name="startDate"
-                          type="date"
-                          value={values.startDate || ""}
-                          onChange={handleChange}
-                          className={classes.textFieldDate}
-                          InputProps={{
-                            className: classes.input,
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          variant="outlined"
-                          helperText={t(errors.startDate as string)}
-                          error={
-                            errors.startDate && touched.startDate
-                              ? true
-                              : false
-                          }
-                        />
-                      </Grid>
-                      <Grid item lg={6} md={6} sm={6} xs={6}>
-                        <InputLabel className="form-label" >{t("labels.final_date")}</InputLabel>
-                        <TextField
-                          name="finalDate"
-                          type="date"
-                          value={values.finalDate || ""}
-                          onChange={handleChange}
-                          className={classes.textFieldDate}
-                          InputProps={{
-                            className: classes.input,
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          variant="outlined"
-                          helperText={t(errors.finalDate as string)}
-                          error={
-                            errors.finalDate && touched.finalDate
-                              ? true
-                              : false
-                          }
-                        />
-                      </Grid>
-                    </Grid>                         
+                        startIcon={<ClearIcon />}
+                      >
+                        {t("buttons.clear")}
+                      </Button>
+                      <Button
+                        className={classes.submitButton}
+                        type="submit"
+                        disabled={isSubmitting || !isValid}
+                        color="primary"
+                        variant="outlined"
+                        startIcon={<SearchIcon />}
+                      >
+                        {t("buttons.search")}
+                      </Button>
+                    </Grid>
                   </Grid>
-                </CardContent>
-                <Grid item lg={10} md={10} sm={10} xs={10} style={{ paddingBottom: '80px' }}>
-                  <Grid container justify="flex-end" alignItems="flex-end" >
-                    <Button
-                      className={classes.resetButton}
-                      type="reset"
-                      onClick={handleClear}
-                      disabled={isSubmitting}
-                      color="secondary"
-                      variant="outlined"
-                      startIcon={<ClearIcon />}
-                    >
-                      {t("buttons.clear")}
-                    </Button>
-                    <Button
-                      className={classes.submitButton}
-                      type="submit"
-                      disabled={isSubmitting || !isValid}
-                      color="primary"
-                      variant="outlined"
-                      startIcon={<SearchIcon />}
-                    >
-                      {t("buttons.search")}
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Form>
-            </Card>
-          )
-        }}
-      </Formik>
-    </>
-
-  );
+                </Form>
+              </Card>
+            </ThemeProvider>
+          </StyledEngineProvider>
+        );
+      }}
+    </Formik>
+  </>;
 }
 
 UserFilter.displayName = 'UserFilter';
 
 const mapStateToProps = (state: ApplicationState) => ({
-  
+
 });
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(usersActions, dispatch);
 

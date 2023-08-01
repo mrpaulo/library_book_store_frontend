@@ -32,10 +32,10 @@ import "../../services/i18n/i18n";
 //Style
 import '../../styles/global.css';
 import { modalStyles, useStyles } from '../../styles/Styles';
-import { TextField, InputAdornment, IconButton, Modal } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { TextField, InputAdornment, IconButton, Modal } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function getModalStyle() {
   return {
@@ -134,56 +134,48 @@ const ModalAddress: React.FC<Props> = (props) => {
     setOpen(false);
   };
 
-  return (
-    <>
-      <TextField
-        name="fmtAddress"
-        type="text"
-        placeholder={t("placeholder.click_add_address")}
-        value={fmtAddress}
-        className={defaulStyle.textField}
-        disabled
-        InputProps={{
-          className: defaulStyle.input,
-          endAdornment:
-            <InputAdornment position="end">
-              {edit ?
-                (<>
-                  <IconButton
-                    aria-label={t("buttons.edit")}
-                    onClick={handleOpen}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    aria-label={t("buttons.delete")}
-                    onClick={confirmEraseAddress}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </>) :
-                (<IconButton
-                  aria-label={t("buttons.add")}
-                  onClick={handleOpen}
-                >
-                  <AddIcon />
-                </IconButton>)}
-            </InputAdornment>
-        }}
-        variant="outlined"
-      />
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <div style={modalStyle} className={classes.paper}>
-          <EditAddress name={name} closeModal={handleClose} setAddress={handleAddress} addressSrc={addressSrc} flagEditing={flagEditing} />
-        </div>
-      </Modal>
-    </>
-  );
+  return <>
+    <TextField
+      name="fmtAddress"
+      type="text"
+      placeholder={t("placeholder.click_add_address")}
+      value={fmtAddress}
+      className={defaulStyle.textField}
+      disabled
+      InputProps={{
+        className: defaulStyle.input,
+        endAdornment:
+          <InputAdornment position="end">
+            {edit ?
+              (<>
+                <IconButton aria-label={t("buttons.edit")} onClick={handleOpen} size="large">
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  aria-label={t("buttons.delete")}
+                  onClick={confirmEraseAddress}
+                  size="large">
+                  <DeleteIcon />
+                </IconButton>
+              </>) :
+              (<IconButton aria-label={t("buttons.add")} onClick={handleOpen} size="large">
+                <AddIcon />
+              </IconButton>)}
+          </InputAdornment>
+      }}
+      variant="outlined"
+    />
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+    >
+      <div style={modalStyle} className={classes.paper}>
+        <EditAddress name={name} closeModal={handleClose} setAddress={handleAddress} addressSrc={addressSrc} flagEditing={flagEditing} />
+      </div>
+    </Modal>
+  </>;
 }
 
 ModalAddress.displayName = 'ModalAddress';

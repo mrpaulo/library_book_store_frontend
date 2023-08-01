@@ -1,32 +1,33 @@
-import { createStyles, makeStyles, TableCell, Theme, withStyles } from '@material-ui/core';
+import { TableCell, Theme } from '@mui/material';
+import { withStyles, makeStyles, createStyles } from '@mui/styles';
 
 const drawerWidth = 240
 
-export const pageMenuStyles = makeStyles(theme => ({
+export const pageMenuStyles = makeStyles((theme: { spacing: (arg0: number) => any; breakpoints: { up: (arg0: string) => any; }; }) => ({
   root: {
     display: 'flex',
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: '2px',
   },
   menuBarButton: {
-    marginRight: theme.spacing(2),
+    marginRight: '2px',
     border: 'none',
     width: '100%'
   },
   title: {
     display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
+    // [theme.breakpoints.up('sm')]: {
+    //   display: 'block',
+    // },
   },
   //isn't working on prod, doenst load
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    paddingTop: '4px',
+    paddingBottom: '4px',
     background: '#535454',
     color: '#fff',
   },
@@ -36,22 +37,22 @@ export const pageMenuStyles = makeStyles(theme => ({
     overflow: 'auto',
   },
   container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    paddingTop: '4px',
+    paddingBottom: '4px',
   },
   sectionDesktop: {
     display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
+    // [theme.breakpoints.up('md')]: {
+    //   display: 'flex',
+    // },
   },
   grow: {
     flexGrow: 1,
   },
 }))
 
-export const menuStyles = makeStyles(theme =>
-  createStyles({
+export const menuStyles = makeStyles(() =>
+({
     appMenu: {
       width: '100%',
     },
@@ -64,8 +65,7 @@ export const menuStyles = makeStyles(theme =>
     menuItemIcon: {
       color: '#97c05c',
     },
-  }),
-)
+  }));
 
 export const useStyles = makeStyles({
   root: {
@@ -124,10 +124,10 @@ export const useStyles = makeStyles({
 
 export const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
+    // head: {
+    //   backgroundColor: theme.palette.common.black,
+    //   color: theme.palette.common.white,
+    // },
     body: {
       fontSize: 14,
     },
@@ -135,30 +135,30 @@ export const StyledTableCell = withStyles((theme: Theme) =>
 )(TableCell);
 
 export const useStylesPagination = makeStyles((theme: Theme) =>
-  createStyles({
+  ({
     root: {
       flexShrink: 0,
-      marginLeft: theme.spacing(2.5),
+      marginLeft: '2px',
     },
   }),
 );
 
 export const modalStyles = makeStyles((theme: Theme) =>
-  createStyles({
+  ({
     paper: {
       position: 'absolute',
       width: 1000,
       height: 800,
-      backgroundColor: theme.palette.background.paper,     
+      // backgroundColor: theme.palette.background.paper,     
       borderRadius: '10px',
-      boxShadow: theme.shadows[5],
+      // boxShadow: theme.shadows[5],
       
     },
   }),
 );
 
-export const footerStyles = makeStyles(theme =>
-  createStyles({
+export const footerStyles = makeStyles(() =>
+  ({
     box: {
       display: 'block',
       position: 'absolute',

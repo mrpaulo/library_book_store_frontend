@@ -29,9 +29,9 @@ import { Notification, NotificationTypesEnums } from '../../store/ducks/notifica
 import { useTranslation } from "react-i18next";
 import "../../services/i18n/i18n";
 //Style
-import { SnackbarOrigin, Snackbar, IconButton } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import { Alert,  AlertTitle, Color } from '@material-ui/lab';
+import { SnackbarOrigin, Snackbar, IconButton, AlertColor } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { Alert, AlertTitle } from '@mui/material';
 
 interface StateProps {
   notifications: Notification[]
@@ -52,7 +52,7 @@ const Notifier: React.FC<Props> = (props) => {
   const { notifications, remove } = props;
   const [alertTitle, setAlertTitle] = useState<String>("");
   const [alertMessage, setAlertMessage] = useState<string>("");
-  const [alertSeverity, setAlertSeverity] = useState<Color>('success');
+  const [alertSeverity, setAlertSeverity] = useState<AlertColor>();
   const [duration, setDuration] = useState<number>(5000);
 
   const [state, setState] = useState<StateSnack>({
@@ -101,32 +101,27 @@ const Notifier: React.FC<Props> = (props) => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications, remove]);
 
-  return (
-    <>
-      <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
-        open={open}
-        onClose={handleClose}
-        key={vertical + 'right'}
-        autoHideDuration={duration}
-        action={
-          <React.Fragment>
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              onClick={handleClose}
-            >
-              <CloseIcon />
-            </IconButton>
-          </React.Fragment>
-        }
-      >
-        <Alert variant="filled" onClose={handleClose} severity={alertSeverity}>
-          <AlertTitle>{alertTitle}</AlertTitle>
-          {alertMessage.startsWith('notifications') ? t(alertMessage) : alertMessage}
-        </Alert>
-      </Snackbar>
-    </>);
+  return <>
+    <Snackbar
+      anchorOrigin={{ vertical, horizontal }}
+      open={open}
+      onClose={handleClose}
+      key={vertical + 'right'}
+      autoHideDuration={duration}
+      action={
+        <React.Fragment>
+          <IconButton aria-label="close" color="inherit" onClick={handleClose} size="large">
+            <CloseIcon />
+          </IconButton>
+        </React.Fragment>
+      }
+    >
+      <Alert variant="filled" onClose={handleClose} severity={alertSeverity}>
+        <AlertTitle>{alertTitle}</AlertTitle>
+        {alertMessage.startsWith('notifications') ? t(alertMessage) : alertMessage}
+      </Alert>
+    </Snackbar>
+  </>;
 };
 
 Notifier.displayName = 'Notifier';

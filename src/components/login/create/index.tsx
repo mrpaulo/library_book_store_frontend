@@ -34,9 +34,9 @@ import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from "react-i18next";
 import "../../../services/i18n/i18n";
 //Style
-import { Button, Grid, InputLabel, IconButton, TextField, Card, CardContent, CardActions, CardHeader } from '@material-ui/core';
+import { Button, Grid, InputLabel, IconButton, TextField, Card, CardContent, CardActions, CardHeader } from '@mui/material';
 import { useStyles } from '../../../styles/Styles';
-import CloseIcon from '@material-ui/icons/Close'
+import CloseIcon from '@mui/icons-material/Close'
 import { AlertDialog } from '../../utils/AlertDialog';
 //Validation
 import { validationLoginSchema } from '../../utils/validationUtil';
@@ -112,136 +112,135 @@ const LoginCreatePage: React.FC<Props> = (props) => {
     setSubmitted(true);
   }
 
-  return (
-    <>
-      <Formik
-        onSubmit={handleSubmit}
-        initialValues={INITIAL_VALUES}
-        className={classes.root}
-        validationSchema={validationLoginSchema}
-      >
-        {(props: FormikProps<NewLogin>) => {
-          const {           
-            handleChange,
-            isSubmitting,
-            isValid,
-            errors,
-            touched
-          } = props
-          return (
-            <Card className={classes.root} >
-              <Form>
-                <CardHeader
-                  title={t("titles.create_login")}
-                  subheader={fromModalUser ?
-                    (<>
-                      <IconButton
-                        aria-label={t("buttons.close")}
-                        className={classes.closeModalButton}
-                        onClick={handleModalClose}>
-                        <CloseIcon />
-                      </IconButton>
-                    </>) :
-                    <></>
-                  }
-                  style={{ textAlign: 'center' }}
-                />
-                <CardContent>
-                  <Grid container justify="center" alignItems="center">
-                    <Grid item lg={6} md={6} sm={6} xs={6}>
-                      <InputLabel className="form-label" >{t("labels.user_name")}</InputLabel>
-                      <TextField
-                        name="username"
-                        type="text"
-                        className={classes.textField}
-                        InputProps={{
-                          className: classes.input,
-                        }}
-                        variant="outlined"
-                        onChange={handleChange}
-                        helperText={t(errors.username as unknown as string)}
-                        error={
-                          errors.username && touched.username
-                            ? true
-                            : false
-                        }
-                      />
-                      <InputLabel className="form-label" >{t("labels.password")}</InputLabel>
-                      <TextField
-                        name="password"
-                        type="password"
-                        className={classes.textField}
-                        InputProps={{
-                          className: classes.input,
-                        }}
-                        variant="outlined"
-                        onChange={handleChange}
-                        helperText={t(errors.password as unknown as string)}
-                        error={
-                          errors.password && touched.password
-                            ? true
-                            : false
-                        }
-                      />
-                      <InputLabel className="form-label" >{t("labels.repeat_password")}</InputLabel>
-                      <TextField
-                        name="repeatPassword"
-                        type="password"
-                        className={classes.textField}
-                        InputProps={{
-                          className: classes.input,
-                        }}
-                        variant="outlined"
-                        onChange={handleChange}
-                        helperText={t(errors.repeatPassword as unknown as string)}
-                        error={
-                          errors.repeatPassword && touched.repeatPassword
-                            ? true
-                            : false
-                        }
-                      />
-                    </Grid>
+  return <>
+    <Formik
+      onSubmit={handleSubmit}
+      initialValues={INITIAL_VALUES}
+      className={classes.root}
+      validationSchema={validationLoginSchema}
+    >
+      {(props: FormikProps<NewLogin>) => {
+        const {           
+          handleChange,
+          isSubmitting,
+          isValid,
+          errors,
+          touched
+        } = props
+        return (
+          <Card className={classes.root} >
+            <Form>
+              <CardHeader
+                title={t("titles.create_login")}
+                subheader={fromModalUser ?
+                  (<>
+                    <IconButton
+                      aria-label={t("buttons.close")}
+                      className={classes.closeModalButton}
+                      onClick={handleModalClose}
+                      size="large">
+                      <CloseIcon />
+                    </IconButton>
+                  </>) :
+                  <></>
+                }
+                style={{ textAlign: 'center' }}
+              />
+              <CardContent>
+                <Grid container >
+                  <Grid item lg={6} md={6} sm={6} xs={6}>
+                    <InputLabel className="form-label" >{t("labels.user_name")}</InputLabel>
+                    <TextField
+                      name="username"
+                      type="text"
+                      className={classes.textField}
+                      InputProps={{
+                        className: classes.input,
+                      }}
+                      variant="outlined"
+                      onChange={handleChange}
+                      helperText={t(errors.username as unknown as string)}
+                      error={
+                        errors.username && touched.username
+                          ? true
+                          : false
+                      }
+                    />
+                    <InputLabel className="form-label" >{t("labels.password")}</InputLabel>
+                    <TextField
+                      name="password"
+                      type="password"
+                      className={classes.textField}
+                      InputProps={{
+                        className: classes.input,
+                      }}
+                      variant="outlined"
+                      onChange={handleChange}
+                      helperText={t(errors.password as unknown as string)}
+                      error={
+                        errors.password && touched.password
+                          ? true
+                          : false
+                      }
+                    />
+                    <InputLabel className="form-label" >{t("labels.repeat_password")}</InputLabel>
+                    <TextField
+                      name="repeatPassword"
+                      type="password"
+                      className={classes.textField}
+                      InputProps={{
+                        className: classes.input,
+                      }}
+                      variant="outlined"
+                      onChange={handleChange}
+                      helperText={t(errors.repeatPassword as unknown as string)}
+                      error={
+                        errors.repeatPassword && touched.repeatPassword
+                          ? true
+                          : false
+                      }
+                    />
                   </Grid>
-                </CardContent>
-                <CardActions>
-                  <Grid item lg={6} md={6} sm={6} xs={6} style={{ paddingBottom: '80px' }}>
-                    <Grid container justify="flex-end" alignItems="flex-end" >
-                      <Button
-                        className={classes.resetButton}
-                        type="reset"
-                        color="secondary"
-                        variant="outlined"
-                      >
-                        {t("buttons.clear")}
-                      </Button>
-                      <Button
-                        className={classes.submitButton}
-                        type="submit"
-                        disabled={isSubmitting || !isValid}
-                        color="primary"
-                        variant="outlined"
-                      >
-                        {t("buttons.submit")}
-                      </Button>
-                    </Grid>
+                </Grid>
+              </CardContent>
+              <CardActions>
+                <Grid item lg={6} md={6} sm={6} xs={6} style={{ paddingBottom: '80px' }}>
+                  <Grid container  >
+                    <Button
+                      className={classes.resetButton}
+                      type="reset"
+                      color="secondary"
+                      variant="outlined"
+                    >
+                      {t("buttons.clear")}
+                    </Button>
+                    <Button
+                      className={classes.submitButton}
+                      type="submit"
+                      disabled={isSubmitting || !isValid}
+                      color="primary"
+                      variant="outlined"
+                    >
+                      {t("buttons.submit")}
+                    </Button>
                   </Grid>
-                </CardActions>
-              </Form>
-            </Card>
-          )
-        }}
-      </Formik>
-      <AlertDialog
-        title={t("messages.alert")}
-        content={t("messages.passwords_match")}
-        agreeBtnLabel={t("buttons.ok")}
-        disagreeBtnLabel={t("buttons.cancel")}
-        isOpen={openPasswordAlert}
-        setAgreed={() => setOpenPasswordAlert(false)}
-        handleClose={() => setOpenPasswordAlert(false)}
-      />
-    </>
-  );
+                </Grid>
+              </CardActions>
+            </Form>
+          </Card>
+        );
+      }}
+    </Formik>
+    <AlertDialog
+      title={t("messages.alert")}
+      content={t("messages.passwords_match")}
+      agreeBtnLabel={t("buttons.ok")}
+      disagreeBtnLabel={t("buttons.cancel")}
+      isOpen={openPasswordAlert}
+      setAgreed={() => setOpenPasswordAlert(false)}
+      handleClose={() => setOpenPasswordAlert(false)}
+    />
+  </>;
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
