@@ -20,7 +20,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { useNavigate } from "react-router-dom";
 //Types, constants and local components
 import { LOGIN_URL } from './services/api/constants';
 import { Token } from './store/ducks/authentications/types';
@@ -33,7 +32,7 @@ import { i18n } from './services/i18n/i18n';
 import { languages } from './services/i18n/constants';
 import { useTranslation } from "react-i18next";
 //Style
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, IconButton, Toolbar, Typography, StyledEngineProvider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -105,7 +104,9 @@ const TopBar: React.FC<Props> = (props) => {
     setShowMenuUser(!showMenuUser)
   }
   return (
+
     <ErrorBoundary fallback={<p>Something went wrong</p>}>
+      <StyledEngineProvider injectFirst>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -200,6 +201,7 @@ const TopBar: React.FC<Props> = (props) => {
           </div>
         </Toolbar>
       </AppBar>
+      </StyledEngineProvider>
     </ErrorBoundary>
   );
 };

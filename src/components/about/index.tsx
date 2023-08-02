@@ -27,7 +27,7 @@ const AboutPage: React.FC = () => {
         <li>Redux: A predictable state container for managing application state</li>
         <li>Typescript: An open-source programming language developed and maintained by Microsoft. It is a superset of JavaScript that adds optional static typing and other features to the language.</li>
         <li>Axios: A promise-based HTTP client for making API requests</li>
-        <li>Bootstrap: A popular CSS framework for building responsive and mobile-first designs</li>
+        <li>MaterialUI: A component library designs that offers a comprehensive suite of free UI tools.</li>
       </ul>
       <h2>Installation and Usage</h2>
       <p>

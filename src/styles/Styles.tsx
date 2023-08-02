@@ -16,7 +16,7 @@ export const pageMenuStyles = makeStyles((theme: { spacing: (arg0: number) => an
     width: '100%'
   },
   title: {
-    display: 'none',
+    display: 'block',    
     // [theme.breakpoints.up('sm')]: {
     //   display: 'block',
     // },
@@ -41,7 +41,7 @@ export const pageMenuStyles = makeStyles((theme: { spacing: (arg0: number) => an
     paddingBottom: '4px',
   },
   sectionDesktop: {
-    display: 'none',
+    display: 'flex',
     // [theme.breakpoints.up('md')]: {
     //   display: 'flex',
     // },

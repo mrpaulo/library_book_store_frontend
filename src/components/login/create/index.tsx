@@ -41,7 +41,7 @@ import { AlertDialog } from '../../utils/AlertDialog';
 //Validation
 import { validationLoginSchema } from '../../utils/validationUtil';
 
-interface StateProps {  
+interface StateProps {
   fromModalUser: boolean,
   createdSuccess: boolean
 }
@@ -75,11 +75,11 @@ const LoginCreatePage: React.FC<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fromModalUser]);
 
-  useEffect(() => {    
+  useEffect(() => {
     if (createdSuccess && submitted) {
       window.location.href = LOGIN_URL;
       setSubmitted(false)
-    } 
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [createdSuccess, submitted]);
 
@@ -93,7 +93,7 @@ const LoginCreatePage: React.FC<Props> = (props) => {
       actions.setSubmitting(false);
       return
     }
-     
+
     if (fromModalUser) {
       let newUser: Login = {
         username: values.username,
@@ -120,7 +120,7 @@ const LoginCreatePage: React.FC<Props> = (props) => {
       validationSchema={validationLoginSchema}
     >
       {(props: FormikProps<NewLogin>) => {
-        const {           
+        const {
           handleChange,
           isSubmitting,
           isValid,
@@ -147,7 +147,7 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                 style={{ textAlign: 'center' }}
               />
               <CardContent>
-                <Grid container >
+                <Grid container justifyContent="center" alignItems="center">
                   <Grid item lg={6} md={6} sm={6} xs={6}>
                     <InputLabel className="form-label" >{t("labels.user_name")}</InputLabel>
                     <TextField
@@ -204,8 +204,8 @@ const LoginCreatePage: React.FC<Props> = (props) => {
                 </Grid>
               </CardContent>
               <CardActions>
-                <Grid item lg={6} md={6} sm={6} xs={6} style={{ paddingBottom: '80px' }}>
-                  <Grid container  >
+                <Grid container justifyContent="center" alignItems="center">
+                  <Grid item>
                     <Button
                       className={classes.resetButton}
                       type="reset"

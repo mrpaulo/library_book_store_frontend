@@ -67,7 +67,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
       currentPassword: '',
       newPassword: '',
       repeatPassword: ''
-    };  
+    };
     setInitialValues(newValue)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
@@ -87,7 +87,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
       setSubmitted(false);
       return
     }
-    
+
     changeUserPasswordRequest(values as UpdatePassword)
 
     actions.setSubmitting(false);
@@ -106,7 +106,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
           const {
             handleChange,
             isSubmitting,
-            values            
+            values
           } = props
           return (
             <Card className={classes.root} >
@@ -116,7 +116,7 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
                   style={{ textAlign: 'center' }}
                 />
                 <CardContent>
-                  <Grid container >
+                  <Grid container justifyContent="center" alignItems="center">
                     <Grid item lg={6} md={6} sm={6} xs={6}>
                       <InputLabel className="form-label" >{t("labels.user_name")}</InputLabel>
                       <TextField
@@ -172,14 +172,14 @@ const UpdatePasswordPage: React.FC<Props> = (props) => {
                   </Grid>
                 </CardContent>
                 <CardActions>
-                  <Grid item lg={6} md={6} sm={6} xs={6} style={{ paddingBottom: '80px' }}>
-                    <Grid container  >
+                  <Grid container justifyContent="center" alignItems="center">
+                    <Grid item>
                       <Button
                         className={classes.resetButton}
                         type="reset"
                         disabled={isSubmitting}
                         color="secondary"
-                        variant="outlined"                        
+                        variant="outlined"
                       >
                         {t("buttons.clear")}
                       </Button>

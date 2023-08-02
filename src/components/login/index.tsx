@@ -64,7 +64,7 @@ const LoginPage: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (token && submitted) {
-      if (path) {        
+      if (path) {
         history(path as string);
       } else {
         window.location.href = "/";
@@ -81,7 +81,7 @@ const LoginPage: React.FC<Props> = (props) => {
 
   };
 
-  function handleSubmit(values: Login, actions: any) {    
+  function handleSubmit(values: Login, actions: any) {
     loginRequest(values as Login)
     actions.setSubmitting(false);
     setSubmitted(true);
@@ -108,7 +108,7 @@ const LoginPage: React.FC<Props> = (props) => {
                   style={{ textAlign: 'center' }}
                 />
                 <CardContent>
-                  <Grid container >
+                  <Grid container justifyContent="center" alignItems="center" >
                     <Grid item lg={6} md={6} sm={6} xs={6}>
                       <InputLabel className="form-label" >{t("labels.user_name")}</InputLabel>
                       <TextField
@@ -142,8 +142,8 @@ const LoginPage: React.FC<Props> = (props) => {
                   </Grid>
                 </CardContent>
                 <CardActions>
-                  <Grid item lg={6} md={6} sm={6} xs={6} style={{ paddingBottom: '80px' }}>
-                    <Grid container  >
+                  <Grid container justifyContent="center" alignItems="center">
+                    <Grid item>
                       <Button
                         className={classes.resetButton}
                         type="reset"
@@ -164,14 +164,13 @@ const LoginPage: React.FC<Props> = (props) => {
                       >
                         {t("buttons.login")}
                       </Button>
-                      <Grid container  >
+                      <Grid container justifyContent="center" alignItems="center">
                         <a href={CREATE_LOGIN_URL}><h3>{t("links.sing_up")}</h3></a>
                       </Grid>
                     </Grid>
                   </Grid>
                 </CardActions>
               </Form>
-
             </Card>
           )
         }}

@@ -48,8 +48,8 @@ export const AppMenuItemPropTypes = {
 
 // TypeScript compile-time props type, infered from propTypes
 // https://dev.to/busypeoples/notes-on-typescript-inferring-react-proptypes-1g88
-type AppMenuItemPropTypes = PropTypes.InferProps<typeof AppMenuItemPropTypes>
-type AppMenuItemPropsWithoutItems = Omit<AppMenuItemPropTypes, 'items'>
+type AppMenuItemPropTypesImpl = PropTypes.InferProps<typeof AppMenuItemPropTypes>
+type AppMenuItemPropsWithoutItems = Omit<AppMenuItemPropTypesImpl, 'items'>
 
 // Improve child items declaration
 export type AppMenuItemProps = AppMenuItemPropsWithoutItems & {
